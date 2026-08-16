@@ -25,13 +25,13 @@ function gouter_theme_enqueue_styles()
  * 管理画面「お問い合わせ」のショートコード [contact-form-7 id="◯◯"] の数値を入れる
  */
 if (!defined('GOUTER_CF7_ID')) {
-	define('GOUTER_CF7_ID', 0);
+	define('GOUTER_CF7_ID', 'cd451e2');
 }
 
 function gouter_contact_form()
 {
 	if (GOUTER_CF7_ID && shortcode_exists('contact-form-7')) {
-		echo do_shortcode('[contact-form-7 id="' . intval(GOUTER_CF7_ID) . '"]');
+		echo do_shortcode('[contact-form-7 id="' . esc_attr(GOUTER_CF7_ID) . '"]');
 		return;
 	}
 	echo '<p style="font-size:13px;line-height:1.9">functions.php の GOUTER_CF7_ID に Contact Form 7 のフォームIDを設定してください。</p>';
