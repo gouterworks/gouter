@@ -147,16 +147,6 @@ Text Domain: gouter
 .gt-tri__n { font-family: var(--mincho); font-size: 10px; letter-spacing: .28em; color: var(--mute); }
 .gt-tri h3 { margin-top: 16px; font-size: clamp(17px,1.7vw,20px); line-height: 1.9; }
 
-/* ===== 仕事の内容（業種別） ===== */
-.gt-worklist { margin-top: clamp(40px,5vw,72px); display: flex; flex-direction: column; }
-.gt-work { padding: clamp(28px,3vw,40px) 0; border-bottom: 1px solid var(--line2); }
-.gt-work:first-child { border-top: 1px solid var(--line2); }
-.gt-work__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px clamp(16px,2.4vw,32px); }
-.gt-work__en { flex: 0 0 auto; font-family: var(--mincho); font-size: 10px; letter-spacing: .24em; color: var(--faint); }
-.gt-work h3 { font-size: clamp(19px,2vw,24px); line-height: 1.6; }
-.gt-tags { margin-top: clamp(18px,2vw,24px); display: flex; flex-wrap: wrap; gap: 10px; }
-.gt-tags li { font-size: 13px; line-height: 1.7; letter-spacing: .04em; color: var(--sub); border: 1px solid var(--line2); padding: 7px 14px; }
-
 /* ===== works / knowledge cards ===== */
 .gt-cards3 { margin-top: clamp(40px,5vw,72px); display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: clamp(24px,3vw,40px); }
 .gt-case__label { margin-top: 20px; font-family: var(--mincho); font-size: 10px; letter-spacing: .24em; color: var(--mute); }
@@ -168,6 +158,7 @@ Text Domain: gouter
 .gt-post__cat { font-family: var(--mincho); font-size: 10px; letter-spacing: .22em; color: var(--navy); }
 .gt-post h3 { margin-top: 12px; font-size: 18px; line-height: 1.75; }
 .gt-post p { margin-top: 12px; font-size: 13px; line-height: 2; color: #6B7382; }
+.gt-more { margin-top: clamp(32px,4vw,48px); }
 
 /* ===== service ===== */
 .gt-cards2 { margin-top: clamp(40px,5vw,72px); display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: clamp(32px,4vw,56px); }

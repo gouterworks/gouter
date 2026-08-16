@@ -33,7 +33,6 @@
         <ul>
           <li><a href="#problem">困りごと</a></li>
           <li><a href="#comdesign">考え方</a></li>
-          <li><a href="#works">仕事</a></li>
           <li><a href="#service">できること</a></li>
           <li><a href="#knowledge">読みもの</a></li>
           <li><a href="#about">事務所について</a></li>
@@ -184,75 +183,11 @@
       </div>
     </section>
 
-    <section id="works" aria-labelledby="works-h">
-      <div class="gt__wrap">
-        <div class="gt-head gt-head--rule">
-          <span class="gt-num">04</span>
-          <div class="gt-head__body">
-            <p class="gt-en">WORKS</p>
-            <h2 id="works-h" class="gt-h2">こんな仕事を<br />してきました。</h2>
-          </div>
-          <p class="gt-lead">ご相談の入口は「ホームページ」や「SNS」のことがほとんどです。でも実際に携わるようになると、事業のいろいろなところを一緒にやることになります。</p>
-        </div>
-
-        <figure class="gt-band">
-          <?php gouter_image( 'works.jpg', '机に写真や付箋を広げて考えている手元', 'gt-ratio-1610' ); ?>
-        </figure>
-
-        <ul class="gt-worklist">
-          <li class="gt-work">
-            <div class="gt-work__head">
-              <p class="gt-work__en">CLINIC</p>
-              <h3>新しく開院するクリニック</h3>
-            </div>
-            <ul class="gt-tags">
-              <li>ロゴ</li><li>ホームページ</li><li>駐車場看板</li><li>院内デザイン</li>
-              <li>マットレスのラッピング</li><li>自動販売機のラッピング</li><li>餅まきイベント</li>
-              <li>内覧会の企画</li><li>診察券</li><li>LINE活用</li><li>開院後のイベント企画</li>
-              <li>ネット広告</li><li>コラム記事の執筆</li>
-            </ul>
-          </li>
-          <li class="gt-work">
-            <div class="gt-work__head">
-              <p class="gt-work__en">FARM</p>
-              <h3>農家</h3>
-            </div>
-            <ul class="gt-tags">
-              <li>3年後を見据えた事業計画</li><li>販売方法の設計</li><li>単価設定</li>
-              <li>安心・安全な野菜づくりに注力できる体制づくり</li>
-            </ul>
-          </li>
-          <li class="gt-work">
-            <div class="gt-work__head">
-              <p class="gt-work__en">REAL ESTATE</p>
-              <h3>不動産</h3>
-            </div>
-            <ul class="gt-tags">
-              <li>SNS運用</li><li>動画の撮影</li><li>物件管理システムの構築</li>
-              <li>システムと連動したホームページ</li><li>大家さん用の閲覧画面</li>
-            </ul>
-          </li>
-          <li class="gt-work">
-            <div class="gt-work__head">
-              <p class="gt-work__en">CONSTRUCTION</p>
-              <h3>土木系の企業</h3>
-            </div>
-            <ul class="gt-tags">
-              <li>新卒採用の支援</li><li>今年のスローガン策定</li><li>特設サイト</li>
-              <li>リクナビの活用</li><li>座談会の企画</li><li>インタビュー・司会進行</li>
-              <li>インターンシップの設計</li>
-            </ul>
-          </li>
-        </ul>
-
-        <p class="gt-pull">店名や商品名を変えた方がいいと思ったら、変更を提案します。<br />商品規格も、値段も、同じです。</p>
-      </div>
-    </section>
 
     <section id="service" class="gt-pale" aria-labelledby="service-h">
       <div class="gt__wrap">
         <div class="gt-head gt-head--rule">
-          <span class="gt-num">05</span>
+          <span class="gt-num">04</span>
           <div class="gt-head__body">
             <p class="gt-en">SERVICE</p>
             <h2 id="service-h" class="gt-h2">できること</h2>
@@ -295,7 +230,7 @@
     <section id="knowledge" aria-labelledby="knowledge-h" style="border-top:1px solid #E3E7EB">
       <div class="gt__wrap">
         <div class="gt-head gt-head--rule">
-          <span class="gt-num">06</span>
+          <span class="gt-num">05</span>
           <div class="gt-head__body">
             <p class="gt-en">KNOWLEDGE</p>
             <h2 id="knowledge-h" class="gt-h2">仕事の中で考えたこと、<br />試したこと。</h2>
@@ -306,7 +241,8 @@
           <?php
           $gt_posts = new WP_Query( array(
               'post_type'           => 'post',
-              'posts_per_page'      => 3,
+              'cat'                 => 110, // column（コラム一覧 /column）
+              'posts_per_page'      => 6,
               'ignore_sticky_posts' => true,
           ) );
           if ( $gt_posts->have_posts() ) :
@@ -334,6 +270,9 @@
           endif;
           ?>
         </div>
+        <div class="gt-more">
+          <a class="gt-btn--ghost" href="<?php echo esc_url( get_category_link( 110 ) ); ?>">読みものを全部見る（<?php echo esc_html( get_category( 110 )->count ); ?>記事）</a>
+        </div>
       </div>
     </section>
 
@@ -341,7 +280,7 @@
       <div class="gt__wrap gt-about">
         <div>
           <div class="gt-head">
-            <span class="gt-num">07</span>
+            <span class="gt-num">06</span>
             <div>
               <p class="gt-en">ABOUT</p>
               <h2 id="about-h" class="gt-h2">Goûterは、<br />「おやつ」という意味です。</h2>
@@ -369,7 +308,7 @@
     <section id="contact" class="gt-navy" aria-labelledby="contact-h">
       <div class="gt__wrap">
         <div class="gt-head gt-head--rule">
-          <span class="gt-num">08</span>
+          <span class="gt-num">07</span>
           <p class="gt-en" style="margin-bottom:0">CONTACT</p>
         </div>
         <div class="gt-contact">
@@ -399,7 +338,6 @@
           <li><a href="#problem">困りごと</a></li>
           <li><a href="#comdesign">考え方</a></li>
           <li><a href="#philosophy">或るべき姿</a></li>
-          <li><a href="#works">仕事</a></li>
           <li><a href="#service">できること</a></li>
           <li><a href="#knowledge">読みもの</a></li>
           <li><a href="#about">事務所について</a></li>
