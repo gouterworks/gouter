@@ -1,22 +1,18 @@
 name: Deploy theme
-
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Upload via SCP
-        uses: appleboy/scp-action@v0.1.7
+      - uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           port: 22
           source: "front-page.php,functions.php,style.css,assets/**"
-      target: "/home/liberarch/www/gouter/wp-content/themes/gouter"
+          target: "/home/liberarch/www/gouter/wp-content/themes/gouter"
