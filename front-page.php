@@ -324,7 +324,6 @@
           </div>
           <dl class="gt-dl">
             <div><dt>屋号</dt><dd>Goûter（グーテ）</dd></div>
-            <div><dt>代表</dt><dd>飴（Satoko Kimura）</dd></div>
             <div><dt>形態</dt><dd>個人事業</dd></div>
             <div><dt>事務所</dt><dd>宗像事務所（福岡県宗像市）</dd></div>
             <div><dt>対応地域</dt><dd>福岡市・宗像市・北九州市を中心に、福岡県全域</dd></div>
@@ -362,7 +361,7 @@
     <div class="gt-footer__inner">
       <div>
         <p class="gt-footer__logo">Goûter</p>
-        <p class="gt-footer__meta">コミュニケーションデザイン事務所<br />宗像事務所 ／ Satoko Kimura</p>
+        <p class="gt-footer__meta">コミュニケーションデザイン事務所<br />宗像事務所</p>
       </div>
       <nav aria-label="フッターナビゲーション">
         <ul>
