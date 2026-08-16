@@ -66,9 +66,10 @@ Text Domain: gouter
 
 /* ===== hero ===== */
 .gt-hero { max-width: var(--wrap); margin: 0 auto; padding: clamp(56px,8vw,112px) var(--pad) clamp(48px,7vw,96px); display: grid; grid-template-columns: repeat(auto-fit, minmax(320px,1fr)); gap: clamp(36px,5vw,72px); align-items: center; animation: gt-fade .9s ease both; }
+@media (min-width: 1000px) { .gt-hero { grid-template-columns: 1.3fr .7fr; } }
 @keyframes gt-fade { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 .gt-eyebrow { font-family: var(--mincho); font-size: 11px; letter-spacing: .34em; color: var(--mute); margin-bottom: 28px; }
-.gt-h1 { font-size: clamp(28px,3.2vw,42px); line-height: 1.55; letter-spacing: .02em; }
+.gt-h1 { font-size: clamp(26px,3.2vw,42px); line-height: 1.55; letter-spacing: .02em; }
 .gt-hero__sub { margin-top: 32px; font-size: clamp(14px,1.2vw,16px); line-height: 2.1; color: var(--body); max-width: 34em; }
 .gt-hero__note { margin-top: 20px; font-size: 14px; line-height: 2.1; color: #6B7382; max-width: 34em; }
 .gt-cta { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 40px; }
@@ -94,8 +95,8 @@ Text Domain: gouter
 .gt-pull { margin-top: clamp(28px,3vw,40px); font-family: var(--mincho); font-size: clamp(17px,1.8vw,22px); line-height: 1.9; }
 
 /* ===== think first ===== */
-.gt-two { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: clamp(36px,5vw,80px); }
-.gt-prose { display: flex; flex-direction: column; gap: 26px; max-width: 36em; }
+.gt-two { display: grid; grid-template-columns: 1fr; gap: clamp(24px,3vw,44px); }
+.gt-prose { display: flex; flex-direction: column; gap: 26px; max-width: 44em; }
 .gt-prose p { font-size: 15px; line-height: 2.15; color: var(--body); }
 .gt-prose .gt-mincho { font-family: var(--mincho); font-size: 18px; line-height: 2; color: var(--ink); }
 
@@ -114,9 +115,9 @@ Text Domain: gouter
 .gt-navy .gt-num, .gt-navy .gt-en { color: rgba(255,255,255,.6); }
 .gt-navy .gt-head--rule { border-top-color: rgba(255,255,255,.28); }
 .gt-navy p { color: rgba(255,255,255,.8); }
-.gt-phil { margin-top: clamp(40px,5vw,64px); display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: clamp(28px,4vw,64px); align-items: end; }
-.gt-phil h2 { font-size: clamp(26px,3.2vw,42px); line-height: 1.6; font-weight: 600; }
-.gt-phil p { font-size: 15px; line-height: 2.2; max-width: 26em; }
+.gt-phil { margin-top: clamp(40px,5vw,64px); display: grid; grid-template-columns: 1fr; gap: clamp(24px,3vw,40px); align-items: start; }
+.gt-phil h2 { font-size: clamp(26px,3.4vw,46px); line-height: 1.6; font-weight: 600; }
+.gt-phil p { font-size: 15px; line-height: 2.2; max-width: 44em; }
 .gt-cols3 { margin-top: clamp(44px,5vw,80px); display: grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); gap: clamp(28px,3vw,48px); }
 .gt-cols3 > div { border-top: 1px solid rgba(255,255,255,.28); padding-top: 24px; }
 .gt-cols3 h3 { font-size: 18px; line-height: 1.8; }
@@ -147,7 +148,8 @@ Text Domain: gouter
 
 /* ===== about ===== */
 .gt-about { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: clamp(36px,5vw,80px); align-items: start; }
-.gt-about h2 { line-height: 1.7; font-size: clamp(20px,2.2vw,28px); }
+@media (min-width: 1000px) { .gt-about { grid-template-columns: 1.35fr .65fr; } }
+.gt-about h2 { line-height: 1.7; font-size: clamp(22px,2.4vw,32px); }
 .gt-dl { margin-top: clamp(32px,4vw,48px); display: flex; flex-direction: column; }
 .gt-dl > div { display: flex; gap: 24px; padding: 16px 0; border-top: 1px solid var(--line); }
 .gt-dl > div:last-child { border-bottom: 1px solid var(--line); }
