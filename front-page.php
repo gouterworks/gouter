@@ -202,17 +202,6 @@
           </li>
           <li class="gt-work">
             <div class="gt-work__head">
-              <p class="gt-work__en">RESTAURANT &amp; CAFE</p>
-              <h3>カフェ・レストラン</h3>
-            </div>
-            <ul class="gt-tags">
-              <li>新メニューの開発</li><li>店舗とECサイトの運用</li><li>在庫管理</li>
-              <li>購入者への同梱物の開発</li><li>サンプル商品の開発</li>
-              <li>ホールでのサーヴィス</li><li>電話対応</li>
-            </ul>
-          </li>
-          <li class="gt-work">
-            <div class="gt-work__head">
               <p class="gt-work__en">FARM</p>
               <h3>農家</h3>
             </div>
