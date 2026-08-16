@@ -28,6 +28,10 @@ Text Domain: gouter
 }
 .gt { font-family: var(--gothic); color: var(--ink); background: #fff; text-wrap: pretty; }
 .gt *, .gt *::before, .gt *::after { box-sizing: border-box; }
+/* 日本語の折り返し。親テーマの word-break:break-word を打ち消し、禁則を厳格化 */
+.gt, .gt * { word-break: normal; line-break: strict; overflow-wrap: break-word; }
+/* 対応ブラウザでは文節単位で折り返す（非対応ブラウザはこの宣言ごと無視され上段が残る） */
+.gt, .gt * { word-break: auto-phrase; }
 .gt h1, .gt h2, .gt h3 { margin: 0; font-weight: 500; font-family: var(--mincho); color: var(--ink); }
 .gt p { margin: 0; }
 .gt ul, .gt ol, .gt dl { margin: 0; padding: 0; list-style: none; }
@@ -45,24 +49,27 @@ Text Domain: gouter
 .gt-nav ul { display: flex; flex-wrap: wrap; gap: 6px clamp(14px,2.4vw,28px); font-size: 13px; letter-spacing: .08em; }
 .gt-nav a { color: var(--body); }
 .gt-btn, .gt-btn--ghost, .gt-btn--light { display: inline-block; font-size: 14px; letter-spacing: .1em; padding: 16px 34px; }
-.gt-btn { background: var(--navy); color: #fff; }
-.gt-btn:hover { background: var(--ink); color: #fff; }
-.gt-btn--ghost { border: 1px solid #CFD6DD; color: var(--navy); }
-.gt-btn--ghost:hover { border-color: var(--navy); }
-.gt-btn--sm { font-size: 13px; padding: 10px 20px; border: 1px solid var(--navy); color: var(--navy); white-space: nowrap; }
-.gt-btn--sm:hover { background: var(--navy); color: #fff; }
+/* .gt a (0,1,1) が .gt-btn (0,1,0) に勝って文字が背景と同色になるため .gt で包む */
+.gt .gt-btn { background: var(--navy); color: #fff; }
+.gt .gt-btn:hover { background: var(--ink); color: #fff; }
+.gt .gt-btn--ghost { border: 1px solid #CFD6DD; color: var(--navy); }
+.gt .gt-btn--ghost:hover { border-color: var(--navy); }
+.gt .gt-btn--sm { font-size: 13px; padding: 10px 20px; border: 1px solid var(--navy); color: var(--navy); white-space: nowrap; }
+.gt .gt-btn--sm:hover { background: var(--navy); color: #fff; }
 .gt-link { display: inline-block; border-bottom: 1px solid var(--navy); font-size: 14px; letter-spacing: .08em; padding-bottom: 6px; }
 
 /* ===== section head ===== */
-.gt-head { display: flex; gap: clamp(20px,4vw,56px); align-items: baseline; flex-wrap: wrap; }
+/* 番号とENラベルを1行目に、見出しと導入文は罫線と同じ左端から始める */
+.gt-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 clamp(20px,4vw,56px); }
+.gt-head > div { display: contents; }
+.gt-head h1, .gt-head h2 { flex: 1 1 100%; margin-top: 18px; }
 .gt-head--rule { border-top: 1px solid var(--line2); padding-top: 22px; }
 .gt-head--rule-light { border-top: 1px solid var(--line); padding-top: 22px; }
 .gt-num { font-family: var(--mincho); font-size: 13px; letter-spacing: .2em; color: var(--faint); }
-.gt-en { font-family: var(--mincho); font-size: 11px; letter-spacing: .3em; color: var(--faint); margin-bottom: 14px; }
-.gt-head__body { flex: 1 1 240px; }
+.gt-en { font-family: var(--mincho); font-size: 11px; letter-spacing: .3em; color: var(--faint); margin-bottom: 0; }
 .gt-h2 { font-size: clamp(22px,2.6vw,34px); line-height: 1.6; }
 .gt-h2--lg { font-size: clamp(24px,3vw,40px); line-height: 1.6; }
-.gt-lead { flex: 1 1 260px; font-size: 13px; line-height: 2; color: var(--mute); max-width: 26em; }
+.gt-lead { flex: 1 1 100%; margin-top: 20px; font-size: 13px; line-height: 2; color: var(--mute); max-width: 40em; }
 
 /* ===== hero ===== */
 .gt-hero { max-width: var(--wrap); margin: 0 auto; padding: clamp(56px,8vw,112px) var(--pad) clamp(48px,7vw,96px); display: grid; grid-template-columns: repeat(auto-fit, minmax(320px,1fr)); gap: clamp(36px,5vw,72px); align-items: center; animation: gt-fade .9s ease both; }
@@ -115,6 +122,8 @@ Text Domain: gouter
 .gt-navy .gt-num, .gt-navy .gt-en { color: rgba(255,255,255,.6); }
 .gt-navy .gt-head--rule { border-top-color: rgba(255,255,255,.28); }
 .gt-navy p { color: rgba(255,255,255,.8); }
+/* ネイビー面のリンク（reCAPTCHAの規約リンク等）が背景と同色になるのを防ぐ */
+.gt-navy a { color: #fff; }
 .gt-phil { margin-top: clamp(40px,5vw,64px); display: grid; grid-template-columns: 1fr; gap: clamp(24px,3vw,40px); align-items: start; }
 .gt-phil h2 { font-size: clamp(26px,3.4vw,46px); line-height: 1.6; font-weight: 600; }
 .gt-phil p { font-size: 15px; line-height: 2.2; max-width: 44em; }
