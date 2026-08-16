@@ -3,8 +3,25 @@
  * Front Page — コミュニケーションデザイン事務所 Goûter
  * 「設定 → 表示設定 → ホームページの表示」を固定ページにしている場合もこのテンプレートが使われます。
  */
-get_header();
-?>
+?><!DOCTYPE html>
+<html <?php language_attributes(); ?>>
+<head>
+<meta charset="<?php bloginfo( 'charset' ); ?>" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<?php wp_head(); ?>
+<style>
+  /* 親テーマ（JIN:R）のレイアウト制約を打ち消す */
+  #wrapper, #contents, #main, .main-inner, .content-inner {
+    max-width: none;
+    width: auto;
+    margin: 0;
+    padding: 0;
+    float: none;
+  }
+  body { padding-top: 0 !important; }
+</style>
+</head>
+<body <?php body_class(); ?>>
 <div class="gt">
 
   <header class="gt-header">
@@ -364,4 +381,6 @@ get_header();
   </footer>
 
 </div>
-<?php get_footer();
+<?php wp_footer(); ?>
+</body>
+</html>
