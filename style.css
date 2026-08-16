@@ -68,7 +68,7 @@ Text Domain: gouter
 .gt-hero { max-width: var(--wrap); margin: 0 auto; padding: clamp(56px,8vw,112px) var(--pad) clamp(48px,7vw,96px); display: grid; grid-template-columns: repeat(auto-fit, minmax(320px,1fr)); gap: clamp(36px,5vw,72px); align-items: center; animation: gt-fade .9s ease both; }
 @keyframes gt-fade { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 .gt-eyebrow { font-family: var(--mincho); font-size: 11px; letter-spacing: .34em; color: var(--mute); margin-bottom: 28px; }
-.gt-h1 { font-size: clamp(30px,4.4vw,54px); line-height: 1.5; letter-spacing: .02em; }
+.gt-h1 { font-size: clamp(28px,3.2vw,42px); line-height: 1.55; letter-spacing: .02em; }
 .gt-hero__sub { margin-top: 32px; font-size: clamp(14px,1.2vw,16px); line-height: 2.1; color: var(--body); max-width: 34em; }
 .gt-hero__note { margin-top: 20px; font-size: 14px; line-height: 2.1; color: #6B7382; max-width: 34em; }
 .gt-cta { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 40px; }
@@ -85,7 +85,8 @@ Text Domain: gouter
 
 /* ===== problem ===== */
 .gt-pale { background: var(--pale); }
-.gt-grid6 { margin-top: clamp(40px,5vw,72px); display: grid; grid-template-columns: repeat(auto-fit, minmax(270px,1fr)); gap: 1px; background: var(--line2); }
+.gt-grid6 { margin-top: clamp(40px,5vw,72px); display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: 1px; background: var(--line2); }
+@media (min-width: 900px) { .gt-grid6 { grid-template-columns: repeat(3, 1fr); } }
 .gt-cell { background: var(--pale); padding: clamp(28px,3vw,40px); }
 .gt-cell__num { font-family: var(--mincho); font-size: 12px; letter-spacing: .16em; color: var(--faint); }
 .gt-cell h3 { margin-top: 16px; font-size: 18px; line-height: 1.7; }
@@ -100,6 +101,7 @@ Text Domain: gouter
 
 /* ===== what we do ===== */
 .gt-cards4 { margin-top: clamp(40px,5vw,72px); display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: clamp(28px,3vw,44px); }
+@media (min-width: 900px) { .gt-cards4 { grid-template-columns: repeat(4, 1fr); } }
 .gt-card { border-top: 1px solid var(--navy); padding-top: 26px; }
 .gt-card__en { font-family: var(--mincho); font-size: 10px; letter-spacing: .28em; color: var(--mute); }
 .gt-card h3 { margin-top: 14px; font-size: 21px; }
@@ -113,7 +115,7 @@ Text Domain: gouter
 .gt-navy .gt-head--rule { border-top-color: rgba(255,255,255,.28); }
 .gt-navy p { color: rgba(255,255,255,.8); }
 .gt-phil { margin-top: clamp(40px,5vw,64px); display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: clamp(28px,4vw,64px); align-items: end; }
-.gt-phil h2 { font-size: clamp(28px,4vw,52px); line-height: 1.6; font-weight: 600; }
+.gt-phil h2 { font-size: clamp(26px,3.2vw,42px); line-height: 1.6; font-weight: 600; }
 .gt-phil p { font-size: 15px; line-height: 2.2; max-width: 26em; }
 .gt-cols3 { margin-top: clamp(44px,5vw,80px); display: grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); gap: clamp(28px,3vw,48px); }
 .gt-cols3 > div { border-top: 1px solid rgba(255,255,255,.28); padding-top: 24px; }
@@ -145,7 +147,7 @@ Text Domain: gouter
 
 /* ===== about ===== */
 .gt-about { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: clamp(36px,5vw,80px); align-items: start; }
-.gt-about h2 { line-height: 1.7; }
+.gt-about h2 { line-height: 1.7; font-size: clamp(20px,2.2vw,28px); }
 .gt-dl { margin-top: clamp(32px,4vw,48px); display: flex; flex-direction: column; }
 .gt-dl > div { display: flex; gap: 24px; padding: 16px 0; border-top: 1px solid var(--line); }
 .gt-dl > div:last-child { border-bottom: 1px solid var(--line); }
@@ -154,7 +156,7 @@ Text Domain: gouter
 
 /* ===== contact ===== */
 .gt-contact { margin-top: clamp(40px,5vw,64px); display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: clamp(36px,5vw,80px); }
-.gt-contact h2 { font-size: clamp(24px,3.2vw,42px); line-height: 1.6; }
+.gt-contact h2 { font-size: clamp(24px,2.8vw,38px); line-height: 1.6; }
 .gt-contact__lead { margin-top: 28px; font-size: 15px; line-height: 2.15; max-width: 30em; }
 .gt-contact__pull { margin-top: 20px; font-family: var(--mincho); font-size: 17px; line-height: 2; color: #fff !important; }
 .gt-form .wpcf7 { color: #fff; }
