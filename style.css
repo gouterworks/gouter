@@ -26,7 +26,10 @@ Text Domain: gouter
   --sec: clamp(88px, 11vw, 176px);
   --wrap: 1200px;
 }
-.gt { font-family: var(--gothic); color: var(--ink); background: #FCFCFC; text-wrap: pretty; }
+/* overflow-x:clip は hidden と違いスクロールコンテナを作らないので、
+   .gt-band--bleed の 100vw がスクロールバー分はみ出しても
+   sticky ヘッダーを壊さずに切り取れる */
+.gt { font-family: var(--gothic); color: var(--ink); background: #FCFCFC; text-wrap: pretty; overflow-x: clip; }
 .gt *, .gt *::before, .gt *::after { box-sizing: border-box; }
 /* 日本語の折り返し。親テーマの word-break:break-word を打ち消し、禁則を厳格化 */
 .gt, .gt * { word-break: normal; line-break: strict; overflow-wrap: break-word; }
