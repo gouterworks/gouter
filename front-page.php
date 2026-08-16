@@ -2,6 +2,8 @@
 /**
  * Front Page — コミュニケーションデザイン事務所 Goûter
  * 「設定 → 表示設定 → ホームページの表示」を固定ページにしている場合もこのテンプレートが使われます。
+ * 本文は /service（固定ページID 38）および /service/business-design（同 7121）の
+ * 実コンテンツをもとに構成しています。
  */
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -30,9 +32,9 @@
       <nav class="gt-nav" aria-label="グローバルナビゲーション">
         <ul>
           <li><a href="#problem">困りごと</a></li>
-          <li><a href="#what-we-do">できること</a></li>
-          <li><a href="#philosophy">考え方</a></li>
+          <li><a href="#comdesign">考え方</a></li>
           <li><a href="#works">仕事</a></li>
+          <li><a href="#service">できること</a></li>
           <li><a href="#knowledge">読みもの</a></li>
           <li><a href="#about">事務所について</a></li>
         </ul>
@@ -46,9 +48,9 @@
     <section class="gt-hero">
       <div>
         <p class="gt-eyebrow">COMMUNICATION DESIGN OFFICE</p>
-        <h1 class="gt-h1">事業の「どうしよう？」を、<br />一緒に考えて、カタチにします。</h1>
-        <p class="gt-hero__sub">ホームページ、SNS、広報、広告、商品、仕組みづくり。<br />必要なものを、必要なだけ。</p>
-        <p class="gt-hero__note">Goûterは、事業のそばで考え、整え、つくる仕事をしています。</p>
+        <h1 class="gt-h1">「困ってあることは<br />何ですか？」</h1>
+        <p class="gt-hero__sub">何でもお手伝いできますよ。<br />毎回、相談に来られた方にそうお伝えしています。</p>
+        <p class="gt-hero__note">ITコンサル、Webディレクター、プランナー。肩書は3つ並べてもうまく説明できませんが、やっていることはひとつです。或るべき姿を考えて、それをカタチにする。</p>
         <div class="gt-cta">
           <a class="gt-btn" href="#contact">まず相談してみる</a>
           <a class="gt-btn--ghost" href="#service">できること</a>
@@ -104,61 +106,46 @@
             <p>大丈夫です。「こんなことを相談していいのかな？」くらいからでも。</p>
           </li>
         </ul>
+        <p class="gt-pull">「困ってあることは何ですか？」から、一緒に考えます。</p>
         <a class="gt-link" href="#contact">相談してみる →</a>
-        <p class="gt-pull">「何から手をつければいい？」から一緒に考えます。</p>
       </div>
     </section>
 
-    <section id="think-first" aria-labelledby="think-h">
-      <div class="gt__wrap gt-two">
-        <div>
-          <div class="gt-head gt-head--rule-light">
-            <span class="gt-num">02</span>
-            <div>
-              <p class="gt-en">THINK FIRST</p>
-              <h2 id="think-h" class="gt-h2--lg">「何をつくるか」より、<br />「どうなればいいか」から。</h2>
-            </div>
-          </div>
-        </div>
-        <div class="gt-prose">
-          <p>ホームページが必要だから、ホームページをつくる。SNSをやりたいから、SNSを始める。広告を出したいから、広告を出す。</p>
-          <p>もちろん、それもひとつの方法です。でも、その前に。</p>
-          <p class="gt-mincho">本当に必要なのは何なのか。<br />どうなれば、その事業にとっていい状態なのか。</p>
-          <p>そこを一緒に考えます。今あるものを整理して、足りないものを見つけて、必要ならつくる。Goûterは、そんなふうに仕事をしています。</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="what-we-do" aria-labelledby="wwd-h" style="border-top:1px solid #E3E7EB">
+    <section id="comdesign" aria-labelledby="comdesign-h" style="border-top:1px solid #E3E7EB">
       <div class="gt__wrap">
         <div class="gt-head">
-          <span class="gt-num">03</span>
+          <span class="gt-num">02</span>
           <div class="gt-head__body">
-            <p class="gt-en">WHAT WE DO</p>
-            <h2 id="wwd-h" class="gt-h2">考える。つくる。整える。</h2>
+            <p class="gt-en">COMMUNICATION DESIGN</p>
+            <h2 id="comdesign-h" class="gt-h2--lg">コミュニケーションデザイン<br />という考え方をしています。</h2>
           </div>
+          <p class="gt-lead">人と人の間に存在するあらゆる「モノ」「コト」をコミュニケーションと捉え、それを隅々まで全てデザインする。Goûterが大切にしている考え方です。</p>
         </div>
-        <div class="gt-cards4">
-          <div class="gt-card">
-            <p class="gt-card__en">THINK</p>
-            <h3>考える</h3>
-            <p>事業や経営について考える。新しいことを始めるときも、今あるものを見直すときも、まずは話を聞いて、整理するところから。</p>
-          </div>
-          <div class="gt-card">
-            <p class="gt-card__en">DESIGN</p>
-            <h3>設計する</h3>
-            <p>誰に、何を、どこで、どう伝えるのか。Web、ブランド、広告、SNS、販促物を事業全体の中でつながるように設計します。</p>
-          </div>
-          <div class="gt-card">
-            <p class="gt-card__en">MAKE</p>
-            <h3>つくる</h3>
-            <p>Webサイト、EC、システム、ロゴ、広告、販促物、コンテンツなど。必要なところは自分たちで手を動かします。</p>
-          </div>
-          <div class="gt-card">
-            <p class="gt-card__en">OPERATE</p>
-            <h3>整える</h3>
-            <p>Web、EC、SNS、LINE、Googleビジネス、コンテンツなど。つくって終わりではなく、使いながら改善します。</p>
-          </div>
+
+        <div class="gt-prose" style="margin-top:clamp(32px,4vw,56px)">
+          <p class="gt-mincho">コミュニケーションデザインは、<br />よく、ラブレターに例えられます。</p>
+        </div>
+
+        <ul class="gt-tri">
+          <li>
+            <p class="gt-tri__n">Q 01</p>
+            <h3>どんなラブレターを<br />作るのか？</h3>
+          </li>
+          <li>
+            <p class="gt-tri__n">Q 02</p>
+            <h3>どのような環境で<br />渡すのがベストなのか？</h3>
+          </li>
+          <li>
+            <p class="gt-tri__n">Q 03</p>
+            <h3>そもそもラブレターが、<br />手段として最適なのか？</h3>
+          </li>
+        </ul>
+
+        <p class="gt-pull">これらを俯瞰して考え、最良の環境を設定し、設計していく。<br />それがコミュニケーションデザインです。</p>
+
+        <div class="gt-prose" style="margin-top:clamp(28px,3vw,44px)">
+          <p>人々の趣味趣向は多様化し、目にする情報、耳に入る情報の量は急激に増えました。メディアも多様化しました。そして、人々は広告にすっかり慣れて、賢くなっています。</p>
+          <p>昔は成り立っていた成功例が、残念ながら現代では通用しない、効果がないという場合がたくさんあります。だからこそ、それぞれに合ったコミュニケーションのデザインが必要になります。</p>
         </div>
       </div>
     </section>
@@ -166,24 +153,24 @@
     <section id="philosophy" class="gt-navy" aria-labelledby="phil-h">
       <div class="gt__wrap">
         <div class="gt-head gt-head--rule">
-          <span class="gt-num">04</span>
+          <span class="gt-num">03</span>
           <p class="gt-en" style="margin-bottom:0">PHILOSOPHY</p>
           <p style="font-family:var(--mincho);font-size:13px;letter-spacing:.1em">Goûterの考え方</p>
         </div>
         <div class="gt-phil">
           <h2 id="phil-h">或るべき姿を考えて、<br />それをカタチにする。</h2>
-          <p>「とりあえずホームページをつくる。」「とりあえずSNSを始める。」「とりあえず広告を出す。」そんなふうに、手段から始めることがあります。</p>
+          <p>本人が気づかないほど自然に、いい結果につながる。そんな状態をつくることができたなら、それは最良の戦略です。素敵なコミュニケーションデザインです。そういうものを、わたしたちは「或るべき姿」と呼んでいます。</p>
         </div>
         <div class="gt-cols3">
           <div>
-            <h3>本当に大切なのは、<br />その事業が、どうなればいいのか。</h3>
+            <h3>絶対にこう或るべきだという姿を見出した時、それをカタチにするまで、必要なことはすべて行います。</h3>
           </div>
           <div>
-            <p>誰に届けたいのか。<br />何を伝えたいのか。<br />何ができれば、仕事はもっとよくなるのか。</p>
+            <p>一切の妥協もありません。</p>
+            <p style="margin-top:14px">わたしたちが見出す「或るべき姿」は、自身では思いもしない魅力や切り口の発見に繋がります。</p>
           </div>
           <div>
-            <p>Goûterは、そこから考えます。</p>
-            <a class="gt-link" href="#service" style="margin-top:18px">Goûterの考え方を読む</a>
+            <p>片足を突っ込むのではなく、がっつり両足を突っ込んで、クライアントの皆さんと一緒に取り組みます。必要と思えば、契約からしばらくは毎日朝礼に出たり、経営会議や部門長会議に出たりもします。</p>
           </div>
         </div>
       </div>
@@ -191,67 +178,102 @@
 
     <section id="works" aria-labelledby="works-h">
       <div class="gt__wrap">
-        <div class="gt-head">
-          <span class="gt-num">05</span>
+        <div class="gt-head gt-head--rule">
+          <span class="gt-num">04</span>
           <div class="gt-head__body">
             <p class="gt-en">WORKS</p>
-            <h2 id="works-h" class="gt-h2">仕事の事例</h2>
+            <h2 id="works-h" class="gt-h2">こんな仕事を<br />してきました。</h2>
           </div>
-          <p class="gt-lead">「何をつくったか」だけではなく、どんな相談から始まり、どう考えて、何を変えたのか。</p>
+          <p class="gt-lead">ご相談の入口は「ホームページ」や「SNS」のことがほとんどです。でも実際に携わるようになると、事業のいろいろなところを一緒にやることになります。</p>
         </div>
-        <div class="gt-cards3">
-          <article class="gt-case">
-            <?php gouter_image( 'work-1.jpg', '事例画像 01', 'gt-ratio-1610' ); ?>
-            <p class="gt-case__label">CASE 01 — 事業整理 / Web / 集客</p>
-            <h3>「ホームページを変えたい」から始まった仕事</h3>
-            <p>本当に見直すべきだったのは、Webサイトそのものではありませんでした。</p>
-          </article>
-          <article class="gt-case">
-            <?php gouter_image( 'work-2.jpg', '事例画像 02', 'gt-ratio-1610' ); ?>
-            <p class="gt-case__label">CASE 02 — SNS / 商品 / 販促</p>
-            <h3>「SNSを伸ばしたい」を事業全体から考える</h3>
-            <p>発信だけではなく、商品と導線まで見直しました。</p>
-          </article>
-          <article class="gt-case">
-            <?php gouter_image( 'work-3.jpg', '事例画像 03', 'gt-ratio-1610' ); ?>
-            <p class="gt-case__label">CASE 03 — 開業 / 事業企画 / Web</p>
-            <h3>「新しい事業を始めたい」から、一緒に整理する</h3>
-            <p>アイデアを、事業として動かしていくために。</p>
-          </article>
-        </div>
+
+        <ul class="gt-worklist">
+          <li class="gt-work">
+            <div class="gt-work__head">
+              <p class="gt-work__en">CLINIC</p>
+              <h3>新しく開院するクリニック</h3>
+            </div>
+            <ul class="gt-tags">
+              <li>ロゴ</li><li>ホームページ</li><li>駐車場看板</li><li>院内デザイン</li>
+              <li>マットレスのラッピング</li><li>自動販売機のラッピング</li><li>餅まきイベント</li>
+              <li>内覧会の企画</li><li>診察券</li><li>LINE活用</li><li>開院後のイベント企画</li>
+              <li>ネット広告</li><li>コラム記事の執筆</li>
+            </ul>
+          </li>
+          <li class="gt-work">
+            <div class="gt-work__head">
+              <p class="gt-work__en">RESTAURANT &amp; CAFE</p>
+              <h3>カフェ・レストラン</h3>
+            </div>
+            <ul class="gt-tags">
+              <li>新メニューの開発</li><li>店舗とECサイトの運用</li><li>在庫管理</li>
+              <li>購入者への同梱物の開発</li><li>サンプル商品の開発</li>
+              <li>ホールでのサーヴィス</li><li>電話対応</li>
+            </ul>
+          </li>
+          <li class="gt-work">
+            <div class="gt-work__head">
+              <p class="gt-work__en">FARM</p>
+              <h3>農家</h3>
+            </div>
+            <ul class="gt-tags">
+              <li>3年後を見据えた事業計画</li><li>販売方法の設計</li><li>単価設定</li>
+              <li>安心・安全な野菜づくりに注力できる体制づくり</li>
+            </ul>
+          </li>
+          <li class="gt-work">
+            <div class="gt-work__head">
+              <p class="gt-work__en">REAL ESTATE</p>
+              <h3>不動産</h3>
+            </div>
+            <ul class="gt-tags">
+              <li>SNS運用</li><li>動画の撮影</li><li>物件管理システムの構築</li>
+              <li>システムと連動したホームページ</li><li>大家さん用の閲覧画面</li>
+            </ul>
+          </li>
+          <li class="gt-work">
+            <div class="gt-work__head">
+              <p class="gt-work__en">CONSTRUCTION</p>
+              <h3>土木系の企業</h3>
+            </div>
+            <ul class="gt-tags">
+              <li>新卒採用の支援</li><li>今年のスローガン策定</li><li>特設サイト</li>
+              <li>リクナビの活用</li><li>座談会の企画</li><li>インタビュー・司会進行</li>
+              <li>インターンシップの設計</li>
+            </ul>
+          </li>
+        </ul>
+
+        <p class="gt-pull">店名や商品名を変えた方がいいと思ったら、変更を提案します。<br />商品規格も、値段も、同じです。</p>
       </div>
     </section>
 
     <section id="service" class="gt-pale" aria-labelledby="service-h">
       <div class="gt__wrap">
         <div class="gt-head gt-head--rule">
-          <span class="gt-num">06</span>
+          <span class="gt-num">05</span>
           <div class="gt-head__body">
             <p class="gt-en">SERVICE</p>
             <h2 id="service-h" class="gt-h2">できること</h2>
           </div>
-          <p class="gt-lead">商品作り、HP、SNS、イベント企画など、売上や集客に繋がるお手伝い。</p>
+          <p class="gt-lead">コミュニケーションデザイン事業と、WEBソリューション事業。この2つを軸にしています。</p>
         </div>
         <ol class="gt-service">
           <li>
-            <div class="gt-service__title"><span>01</span><h3>相談・伴走</h3></div>
-            <p>事業相談 / 経営相談 / 開業支援 / 事業企画 / 商品開発 / 集客・売上改善 など</p>
+            <div class="gt-service__title"><span>01</span><h3>コンサルティング</h3></div>
+            <p>開業支援 / 事業経営（企画立案）/ IT活用（集客アップ・売上アップ）</p>
           </li>
           <li>
-            <div class="gt-service__title"><span>02</span><h3>Web・EC</h3></div>
-            <p>Webサイト / ECサイト / WordPress / サイト改善 / Web運用 など</p>
+            <div class="gt-service__title"><span>02</span><h3>クライアント案件制作</h3></div>
+            <p>ロゴ / WEB / 広告（看板、チラシ、WEB）/ システム / 販促物 / イベント企画・運営</p>
           </li>
           <li>
-            <div class="gt-service__title"><span>03</span><h3>広報・マーケティング</h3></div>
-            <p>広報 / 広告 / SNS / SEO / コンテンツ制作 / LINE / Googleビジネス など</p>
+            <div class="gt-service__title"><span>03</span><h3>運営サポート・運営代行</h3></div>
+            <p>WEB / EC / SNS活用（Instagram、Twitter、LINE、Googleビジネス 他）/ 記事執筆代行（SEO対策、キーワード選定、記事構成、ディレクション 他）</p>
           </li>
           <li>
-            <div class="gt-service__title"><span>04</span><h3>デザイン・制作</h3></div>
-            <p>ロゴ / 販促物 / 広告クリエイティブ / 記事 / コンテンツ / イベント など</p>
-          </li>
-          <li>
-            <div class="gt-service__title"><span>05</span><h3>システム・仕組みづくり</h3></div>
-            <p>Webシステム / ECカスタマイズ / 業務改善 / オーダーメイド開発 など</p>
+            <div class="gt-service__title"><span>04</span><h3>WEBソリューション</h3></div>
+            <p>ポータルサイト運営 / オーダーメイドシステムの構築 / ECサイトの構築（フルスクラッチ・既存サービスのカスタマイズ）/ WordPressカスタマイズ・専用プラグイン制作</p>
           </li>
         </ol>
         <div class="gt-service__foot">
@@ -261,9 +283,29 @@
       </div>
     </section>
 
-    <section id="knowledge" aria-labelledby="knowledge-h">
+    <section id="food" aria-labelledby="food-h" style="border-top:1px solid #E3E7EB">
       <div class="gt__wrap">
         <div class="gt-head">
+          <span class="gt-num">06</span>
+          <div class="gt-head__body">
+            <p class="gt-en">FOR RESTAURANTS</p>
+            <h2 id="food-h" class="gt-h2">特に、<br />飲食業界の方へ。</h2>
+          </div>
+          <p class="gt-lead">飲食店経営、メニュー監修、店舗プロデュース。飲食店経営でお悩みをお持ちの経営者さま、開業支援をご希望の方、企業のご担当者さま。お気軽にお問い合わせください。</p>
+        </div>
+        <ul class="gt-tags gt-tags--lg">
+          <li>飲食店開業コンサル</li>
+          <li>開業への資金調達相談</li>
+          <li>経営コンサルティング（経営相談・覆面調査を含む）</li>
+          <li>商品開発</li>
+          <li>商品アドバイザー</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="knowledge" class="gt-pale" aria-labelledby="knowledge-h">
+      <div class="gt__wrap">
+        <div class="gt-head gt-head--rule">
           <span class="gt-num">07</span>
           <div class="gt-head__body">
             <p class="gt-en">KNOWLEDGE</p>
@@ -306,21 +348,21 @@
       </div>
     </section>
 
-    <section id="about" aria-labelledby="about-h" style="border-top:1px solid #E3E7EB">
+    <section id="about" aria-labelledby="about-h">
       <div class="gt__wrap gt-about">
         <div>
           <div class="gt-head">
             <span class="gt-num">08</span>
             <div>
               <p class="gt-en">ABOUT</p>
-              <h2 id="about-h" class="gt-h2">Goûterは、<br />飴（あめ）/ Satoko Kimura が<br />運営する個人事業です。</h2>
+              <h2 id="about-h" class="gt-h2">Goûterは、<br />「おやつ」という意味です。</h2>
             </div>
           </div>
           <div class="gt-prose" style="margin-top:clamp(28px,3vw,44px)">
-            <p>福岡県宗像市を拠点に、Web、広報、広告、事業支援、商品開発、システムなど、さまざまな仕事に携わっています。</p>
-            <p class="gt-mincho" style="font-size:17px">必要なことを、必要なだけ。<br />考えるところから、つくるところまで。</p>
-            <p>ひとつの専門領域だけでは解決できないことを、一緒に整理して、前に進めていく。</p>
-            <p>鞄に忍ばせておくと何かと役に立つ、おやつのような存在を目指してます。</p>
+            <p>Goûterは、フランス語の「味覚」という意味の名詞 le goût から来た言葉で、「おやつ」とか「茶話会」という意味です。</p>
+            <p class="gt-mincho" style="font-size:17px">感動や喜びを「味わう」「楽しむ」。<br />そんな意味もあります。</p>
+            <p>たくさんの経験や感動を「味わう」「楽しむ」をお届けできる、日常になくてはならない「おやつ」のような存在になれればと思っています。</p>
+            <p>鞄に忍ばせておくと何かと役に立つ。そんな存在を目指しています。</p>
           </div>
           <dl class="gt-dl">
             <div><dt>屋号</dt><dd>Goûter（グーテ）</dd></div>
@@ -345,7 +387,7 @@
           <div>
             <h2 id="contact-h">まずは、<br />話してみませんか。</h2>
             <p class="gt-contact__lead">「ホームページをつくりたい」「集客を相談したい」「新しいことを始めたい」。具体的な相談はもちろん、「何が問題なのかわからない」からでも大丈夫です。</p>
-            <p class="gt-contact__pull">「こんなこと、相談していいのかな？」<br />くらいからどうぞ。</p>
+            <p class="gt-contact__pull">「困ってあることは何ですか？」<br />何でもお手伝いできますよ。</p>
             <p class="gt-area" style="color:rgba(255,255,255,.6);border-top-color:rgba(255,255,255,.28)">福岡市・宗像市・北九州市を中心に、福岡県全域<br />オンラインでのご相談も承ります。</p>
           </div>
           <div class="gt-form">
@@ -366,10 +408,11 @@
       <nav aria-label="フッターナビゲーション">
         <ul>
           <li><a href="#problem">困りごと</a></li>
-          <li><a href="#what-we-do">できること</a></li>
-          <li><a href="#philosophy">考え方</a></li>
+          <li><a href="#comdesign">考え方</a></li>
+          <li><a href="#philosophy">或るべき姿</a></li>
           <li><a href="#works">仕事</a></li>
-          <li><a href="#service">サービス</a></li>
+          <li><a href="#service">できること</a></li>
+          <li><a href="#food">飲食業界の方へ</a></li>
           <li><a href="#knowledge">読みもの</a></li>
           <li><a href="#about">事務所について</a></li>
           <li><a href="#contact">お問い合わせ</a></li>
