@@ -283,30 +283,10 @@
       </div>
     </section>
 
-    <section id="food" aria-labelledby="food-h" style="border-top:1px solid #E3E7EB">
-      <div class="gt__wrap">
-        <div class="gt-head">
-          <span class="gt-num">06</span>
-          <div class="gt-head__body">
-            <p class="gt-en">FOR RESTAURANTS</p>
-            <h2 id="food-h" class="gt-h2">特に、<br />飲食業界の方へ。</h2>
-          </div>
-          <p class="gt-lead">飲食店経営、メニュー監修、店舗プロデュース。飲食店経営でお悩みをお持ちの経営者さま、開業支援をご希望の方、企業のご担当者さま。お気軽にお問い合わせください。</p>
-        </div>
-        <ul class="gt-tags gt-tags--lg">
-          <li>飲食店開業コンサル</li>
-          <li>開業への資金調達相談</li>
-          <li>経営コンサルティング（経営相談・覆面調査を含む）</li>
-          <li>商品開発</li>
-          <li>商品アドバイザー</li>
-        </ul>
-      </div>
-    </section>
-
-    <section id="knowledge" class="gt-pale" aria-labelledby="knowledge-h">
+    <section id="knowledge" aria-labelledby="knowledge-h" style="border-top:1px solid #E3E7EB">
       <div class="gt__wrap">
         <div class="gt-head gt-head--rule">
-          <span class="gt-num">07</span>
+          <span class="gt-num">06</span>
           <div class="gt-head__body">
             <p class="gt-en">KNOWLEDGE</p>
             <h2 id="knowledge-h" class="gt-h2">仕事の中で考えたこと、<br />試したこと。</h2>
@@ -352,7 +332,7 @@
       <div class="gt__wrap gt-about">
         <div>
           <div class="gt-head">
-            <span class="gt-num">08</span>
+            <span class="gt-num">07</span>
             <div>
               <p class="gt-en">ABOUT</p>
               <h2 id="about-h" class="gt-h2">Goûterは、<br />「おやつ」という意味です。</h2>
@@ -380,7 +360,7 @@
     <section id="contact" class="gt-navy" aria-labelledby="contact-h">
       <div class="gt__wrap">
         <div class="gt-head gt-head--rule">
-          <span class="gt-num">09</span>
+          <span class="gt-num">08</span>
           <p class="gt-en" style="margin-bottom:0">CONTACT</p>
         </div>
         <div class="gt-contact">
@@ -412,7 +392,6 @@
           <li><a href="#philosophy">或るべき姿</a></li>
           <li><a href="#works">仕事</a></li>
           <li><a href="#service">できること</a></li>
-          <li><a href="#food">飲食業界の方へ</a></li>
           <li><a href="#knowledge">読みもの</a></li>
           <li><a href="#about">事務所について</a></li>
           <li><a href="#contact">お問い合わせ</a></li>

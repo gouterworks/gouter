@@ -149,8 +149,6 @@ Text Domain: gouter
 .gt-work h3 { font-size: clamp(19px,2vw,24px); line-height: 1.6; }
 .gt-tags { margin-top: clamp(18px,2vw,24px); display: flex; flex-wrap: wrap; gap: 10px; }
 .gt-tags li { font-size: 13px; line-height: 1.7; letter-spacing: .04em; color: var(--sub); border: 1px solid var(--line2); padding: 7px 14px; }
-.gt-tags--lg { margin-top: clamp(32px,4vw,56px); gap: 12px; }
-.gt-tags--lg li { font-size: 14px; padding: 12px 22px; border-color: var(--navy); color: var(--navy); }
 
 /* ===== works / knowledge cards ===== */
 .gt-cards3 { margin-top: clamp(40px,5vw,72px); display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: clamp(24px,3vw,40px); }
