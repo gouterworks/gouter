@@ -59,8 +59,8 @@
       </div>
       <div class="gt-hero__fig">
         <div class="gt-hero__card">
-          <?php gouter_image( 'hero.jpg', 'ヒーロー画像：ノートと手描きの電球', 'gt-ratio-45' ); ?>
-          <p class="gt-hero__cap">NOTE &amp; IDEA</p>
+          <?php gouter_image( 'hero.jpg', '打ち合わせを見下ろす位置に灯る電球', 'gt-ratio-45' ); ?>
+          <p class="gt-hero__cap">THINK TOGETHER</p>
         </div>
       </div>
     </section>
@@ -141,6 +141,10 @@
           </li>
         </ul>
 
+        <figure class="gt-band">
+          <?php gouter_image( 'comdesign.jpg', '点と点を糸で結んだ関係図', 'gt-ratio-1610' ); ?>
+        </figure>
+
         <p class="gt-pull">これらを俯瞰して考え、最良の環境を設定し、設計していく。<br />それがコミュニケーションデザインです。</p>
 
         <div class="gt-prose" style="margin-top:clamp(28px,3vw,44px)">
@@ -161,6 +165,10 @@
           <h2 id="phil-h">或るべき姿を考えて、<br />それをカタチにする。</h2>
           <p>本人が気づかないほど自然に、いい結果につながる。そんな状態をつくることができたなら、それは最良の戦略です。素敵なコミュニケーションデザインです。そういうものを、わたしたちは「或るべき姿」と呼んでいます。</p>
         </div>
+        <figure class="gt-band">
+          <?php gouter_image( 'philosophy.jpg', '黒板に描かれた電球と、そこから伸びる線', 'gt-ratio-1610' ); ?>
+        </figure>
+
         <div class="gt-cols3">
           <div>
             <h3>絶対にこう或るべきだという姿を見出した時、それをカタチにするまで、必要なことはすべて行います。</h3>
@@ -186,6 +194,10 @@
           </div>
           <p class="gt-lead">ご相談の入口は「ホームページ」や「SNS」のことがほとんどです。でも実際に携わるようになると、事業のいろいろなところを一緒にやることになります。</p>
         </div>
+
+        <figure class="gt-band">
+          <?php gouter_image( 'works.jpg', '机に写真や付箋を広げて考えている手元', 'gt-ratio-1610' ); ?>
+        </figure>
 
         <ul class="gt-worklist">
           <li class="gt-work">
@@ -247,24 +259,32 @@
           </div>
           <p class="gt-lead">コミュニケーションデザイン事業と、WEBソリューション事業。この2つを軸にしています。</p>
         </div>
-        <ol class="gt-service">
-          <li>
-            <div class="gt-service__title"><span>01</span><h3>コンサルティング</h3></div>
+        <div class="gt-cards2">
+          <div class="gt-svc">
+            <?php gouter_image( 'service-1.jpg', 'コンサルティングのイメージ', 'gt-ratio-169' ); ?>
+            <p class="gt-svc__en">01 — CONSULTING</p>
+            <h3>コンサルティング</h3>
             <p>開業支援 / 事業経営（企画立案）/ IT活用（集客アップ・売上アップ）</p>
-          </li>
-          <li>
-            <div class="gt-service__title"><span>02</span><h3>クライアント案件制作</h3></div>
+          </div>
+          <div class="gt-svc">
+            <?php gouter_image( 'service-2.jpg', 'クライアント案件制作のイメージ', 'gt-ratio-169' ); ?>
+            <p class="gt-svc__en">02 — CREATIVE</p>
+            <h3>クライアント案件制作</h3>
             <p>ロゴ / WEB / 広告（看板、チラシ、WEB）/ システム / 販促物 / イベント企画・運営</p>
-          </li>
-          <li>
-            <div class="gt-service__title"><span>03</span><h3>運営サポート・運営代行</h3></div>
+          </div>
+          <div class="gt-svc">
+            <?php gouter_image( 'service-3.jpg', '運営サポート・記事執筆代行のイメージ', 'gt-ratio-169' ); ?>
+            <p class="gt-svc__en">03 — OPERATION</p>
+            <h3>運営サポート・運営代行</h3>
             <p>WEB / EC / SNS活用（Instagram、Twitter、LINE、Googleビジネス 他）/ 記事執筆代行（SEO対策、キーワード選定、記事構成、ディレクション 他）</p>
-          </li>
-          <li>
-            <div class="gt-service__title"><span>04</span><h3>WEBソリューション</h3></div>
+          </div>
+          <div class="gt-svc">
+            <?php gouter_image( 'service-4.jpg', 'WEBソリューションのイメージ', 'gt-ratio-169' ); ?>
+            <p class="gt-svc__en">04 — WEB SOLUTION</p>
+            <h3>WEBソリューション</h3>
             <p>ポータルサイト運営 / オーダーメイドシステムの構築 / ECサイトの構築（フルスクラッチ・既存サービスのカスタマイズ）/ WordPressカスタマイズ・専用プラグイン制作</p>
-          </li>
-        </ol>
+          </div>
+        </div>
         <div class="gt-service__foot">
           <p>「こんなこと、できますか？」からでもどうぞ。</p>
           <a class="gt-btn--sm" href="#contact">相談してみる</a>
@@ -341,7 +361,7 @@
           </dl>
         </div>
         <div style="padding-top:clamp(0px,3vw,48px)">
-          <?php gouter_image( 'about.jpg', '事務所・手元・道具などの風景写真', 'gt-ratio-34' ); ?>
+          <?php gouter_image( 'about.jpg', 'ノートに描かれた電球と、青い紙のかたまり', 'gt-ratio-34' ); ?>
         </div>
       </div>
     </section>

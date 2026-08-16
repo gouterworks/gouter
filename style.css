@@ -90,6 +90,12 @@ Text Domain: gouter
 .gt-ratio-1610 { aspect-ratio: 16/10; }
 .gt-ratio-169 { aspect-ratio: 16/9; }
 .gt-ratio-34 { aspect-ratio: 3/4; }
+/* 素材の縦横比と指定比が違っても歪ませない */
+.gt img.gt-ratio-45, .gt img.gt-ratio-1610, .gt img.gt-ratio-169, .gt img.gt-ratio-34 { width: 100%; height: 100%; object-fit: cover; }
+
+/* ===== セクションを横断する帯状の画像 ===== */
+.gt-band { margin: clamp(40px,5vw,72px) 0 0; }
+.gt-band img, .gt-band .gt-ph { width: 100%; }
 
 /* ===== problem ===== */
 .gt-pale { background: var(--pale); }
@@ -163,6 +169,12 @@ Text Domain: gouter
 .gt-post p { margin-top: 12px; font-size: 13px; line-height: 2; color: #6B7382; }
 
 /* ===== service ===== */
+.gt-cards2 { margin-top: clamp(40px,5vw,72px); display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: clamp(32px,4vw,56px); }
+@media (min-width: 900px) { .gt-cards2 { grid-template-columns: repeat(2, 1fr); } }
+.gt-svc__en { margin-top: 22px; font-family: var(--mincho); font-size: 10px; letter-spacing: .28em; color: var(--mute); }
+.gt-svc h3 { margin-top: 12px; font-size: clamp(19px,2vw,23px); line-height: 1.6; }
+.gt-svc > p:last-child { margin-top: 14px; font-size: 14px; line-height: 2.05; color: var(--sub); }
+
 .gt-service { margin-top: clamp(36px,4vw,60px); display: flex; flex-direction: column; }
 .gt-service li { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: clamp(12px,3vw,48px); padding: clamp(26px,3vw,36px) 0; border-bottom: 1px solid var(--line2); }
 .gt-service__title { display: flex; gap: 20px; align-items: baseline; }
