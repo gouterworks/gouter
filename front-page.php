@@ -60,8 +60,8 @@ add_action( 'wp_head', function () {
 
     <section class="gt-hero">
       <div>
-        <p class="gt-eyebrow">COMMUNICATION DESIGN OFFICE</p>
-        <h1 class="gt-h1">「困ってあることは<br />何ですか？」</h1>
+        <p class="gt-eyebrow">福岡・宗像 ｜ コミュニケーションデザイン事務所</p>
+        <h1 class="gt-h1">「困ってあることは、<br /><span class="gt-mark">何ですか？」</span></h1>
         <p class="gt-hero__sub">何でもお手伝いできますよ。<br />毎回、相談に来られた方にそうお伝えしています。</p>
         <p class="gt-hero__note">ITコンサル、Webディレクター、プランナー。肩書を3つ並べても説明しきれませんが、やっていることはひとつです。</p>
         <div class="gt-cta">
@@ -167,7 +167,7 @@ add_action( 'wp_head', function () {
         <div class="gt-head gt-head--rule">
           <span class="gt-num">03</span>
           <p class="gt-en" style="margin-bottom:0">PHILOSOPHY</p>
-          <p style="font-family:var(--mincho);font-size:13px;letter-spacing:.1em">Goûterの考え方</p>
+          <p style="font-weight:700;font-size:14px;letter-spacing:.04em">Goûterの考え方</p>
         </div>
         <div class="gt-phil">
           <h2 id="phil-h">或るべき姿を考えて、<br />それをカタチにする。</h2>
