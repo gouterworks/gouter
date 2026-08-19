@@ -158,7 +158,50 @@ add_action( 'wp_head', function () {
           <?php gouter_image( 'comdesign.jpg', '点と点を糸で結んだ関係図', 'gt-ratio-1610' ); ?>
         </figure>
 
-        <p class="gt-pull">これらを俯瞰して考え、最良の環境を設計していく。<br />昔うまくいった方法が、今も効くとは限りません。</p>
+        <p class="gt-pull">でも今は、ラブレターを渡すのも簡単ではありません。<br />会えないし、受け取ってもらえないかもしれない。</p>
+
+        <ul class="gt-cards4">
+          <li class="gt-card">
+            <h3>他に楽しいことが、<br />たくさんある</h3>
+            <p>誘惑が多い。そもそも見てもらえない。</p>
+          </li>
+          <li class="gt-card">
+            <h3>表現を<br />信じてくれない</h3>
+            <p>うまいことを言われ慣れている。</p>
+          </li>
+          <li class="gt-card">
+            <h3>じっくり比較検討<br />ができる</h3>
+            <p>みんな、検索が上手になった。</p>
+          </li>
+          <li class="gt-card">
+            <h3>友達に判断を<br />任せたりする</h3>
+            <p>レビューを読んでから決める。</p>
+          </li>
+        </ul>
+
+        <p class="gt-pull">では、どうすればいいでしょう？<br />絶対に成功するために、戦略が必要です。</p>
+
+        <p class="gt-tri__n" style="margin-top:clamp(44px,5vw,68px)">コミュニケーションデザイン的な考え方</p>
+        <ol class="gt-service">
+          <li>
+            <div class="gt-service__title"><span>01</span><h3>ターゲットを明確にする</h3></div>
+            <p>誰に届けたいのかを、はっきりさせるところから。</p>
+          </li>
+          <li>
+            <div class="gt-service__title"><span>02</span><h3>その人を、しっかり調べる</h3></div>
+            <p>どんな風に生活し、どういう行動を日々とっているか。何を感じ、何に不満を持ち、何を好むのか。</p>
+          </li>
+          <li>
+            <div class="gt-service__title"><span>03</span><h3>上手に「出会える」場所を探す</h3></div>
+            <p>その人がいるシチュエーションを見つける。無ければ、つくる。</p>
+          </li>
+          <li>
+            <div class="gt-service__title"><span>04</span><h3>相手にしてもらえる表現で話しかける</h3></div>
+            <p>どのコンタクトポイントが、メッセージを伝える適切な場なのかを考える。</p>
+          </li>
+        </ol>
+
+        <p class="gt-pull">隅々まで考え抜いて、計算し尽くして、準備する。<br />昔うまくいった方法が、今も効くとは限りません。</p>
       </div>
     </section>
 
