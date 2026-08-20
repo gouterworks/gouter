@@ -25,7 +25,9 @@ Text Domain: gouter
   --mincho: "Zen Old Mincho", serif;
   --gothic: "Zen Kaku Gothic New", system-ui, sans-serif;
   --pad: clamp(20px, 5vw, 56px);
-  --sec: clamp(88px, 11vw, 176px);
+  --sec: clamp(60px, 7.2vw, 112px);
+  --blk: clamp(36px, 4.4vw, 68px);   /* ブロック間の標準の余白 */
+  --blk-sm: clamp(24px, 2.8vw, 42px); /* 補助的な余白 */
   --wrap: 1200px;
 }
 /* overflow-x:clip は hidden と違いスクロールコンテナを作らないので、
@@ -102,7 +104,7 @@ Text Domain: gouter
 .gt img.gt-ratio-45, .gt img.gt-ratio-1610, .gt img.gt-ratio-169, .gt img.gt-ratio-34 { width: 100%; height: auto; object-fit: cover; }
 
 /* ===== セクションを横断する帯状の画像 ===== */
-.gt-band { margin: clamp(48px,6vw,88px) 0 0; border-radius: var(--radius); overflow: hidden; }
+.gt-band { margin: var(--blk) 0 0; border-radius: var(--radius); overflow: hidden; }
 .gt-band img, .gt-band .gt-ph { width: 100%; }
 /* コンテナ幅を突き抜けて画面いっぱいに使う */
 .gt-band--bleed { width: 100vw; max-width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); border-radius: 0; }
@@ -117,13 +119,13 @@ Text Domain: gouter
 
 /* ===== problem ===== */
 .gt-pale { background: var(--pale); }
-.gt-grid6 { margin-top: clamp(40px,5vw,72px); display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: clamp(20px,2.2vw,28px); background: none; }
+.gt-grid6 { margin-top: var(--blk); display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: clamp(20px,2.2vw,28px); background: none; }
 @media (min-width: 900px) { .gt-grid6 { grid-template-columns: repeat(3, 1fr); } }
 .gt-cell { background: #fff; padding: clamp(28px,3vw,38px); border-radius: var(--radius); }
 .gt-cell__num { display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 50%; background: var(--navy); color: #fff; font-weight: 700; font-size: 14px; }
 .gt-cell h3 { margin-top: 18px; font-size: 20px; line-height: 1.65; font-weight: 700; }
 .gt-cell p { margin-top: 16px; font-size: 15px; line-height: 2.15; color: var(--sub); }
-.gt-pull { margin-top: clamp(40px,4vw,64px); font-family: var(--gothic); font-weight: 700; font-size: clamp(20px,2.2vw,29px); line-height: 1.9; letter-spacing: .01em; }
+.gt-pull { margin-top: var(--blk); font-family: var(--gothic); font-weight: 700; font-size: clamp(20px,2.2vw,29px); line-height: 1.9; letter-spacing: .01em; }
 
 /* ===== think first ===== */
 .gt-two { display: grid; grid-template-columns: 1fr; gap: clamp(24px,3vw,44px); }
@@ -132,7 +134,7 @@ Text Domain: gouter
 .gt-prose .gt-mincho { font-family: var(--gothic); font-weight: 700; font-size: clamp(19px,1.7vw,24px); line-height: 1.95; letter-spacing: .01em; color: var(--ink); }
 
 /* ===== what we do ===== */
-.gt-cards4 { margin-top: clamp(40px,5vw,72px); display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: clamp(28px,3vw,44px); }
+.gt-cards4 { margin-top: var(--blk); display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: clamp(28px,3vw,44px); }
 @media (min-width: 900px) { .gt-cards4 { grid-template-columns: repeat(4, 1fr); } }
 .gt-card { border-top: 1px solid var(--navy); padding-top: 26px; }
 .gt-card__en { font-family: var(--gothic); font-weight: 700; font-size: 12px; letter-spacing: .12em; color: var(--navy); }
@@ -149,17 +151,17 @@ Text Domain: gouter
 .gt-navy p { color: rgba(255,255,255,.8); }
 /* ネイビー面のリンク（reCAPTCHAの規約リンク等）が背景と同色になるのを防ぐ */
 .gt-navy a { color: #fff; }
-.gt-phil { margin-top: clamp(40px,5vw,64px); display: grid; grid-template-columns: 1fr; gap: clamp(24px,3vw,40px); align-items: start; }
+.gt-phil { margin-top: var(--blk); display: grid; grid-template-columns: 1fr; gap: clamp(24px,3vw,40px); align-items: start; }
 .gt-phil h2 { font-size: clamp(26px,3vw,40px); line-height: 1.5; letter-spacing: .005em; font-weight: 900; }
 .gt-phil p { font-size: 15px; line-height: 2.2; max-width: 44em; }
-.gt-cols3 { margin-top: clamp(44px,5vw,80px); display: grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); gap: clamp(28px,3vw,48px); }
+.gt-cols3 { margin-top: var(--blk); display: grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); gap: clamp(28px,3vw,48px); }
 .gt-cols3 > div { border-top: 1px solid rgba(255,255,255,.28); padding-top: 24px; }
 .gt-cols3 h3 { font-size: 18px; line-height: 1.8; }
 .gt-cols3 p { margin-top: 14px; font-size: 14px; line-height: 2.05; }
 .gt-navy .gt-link { color: #fff; border-bottom-color: rgba(255,255,255,.5); font-size: 13px; }
 
 /* ===== 3カラム（白背景用。.gt-cols3 はネイビー面専用） ===== */
-.gt-tri { margin-top: clamp(40px,5vw,72px); display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: clamp(28px,3vw,48px); }
+.gt-tri { margin-top: var(--blk); display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: clamp(28px,3vw,48px); }
 @media (min-width: 900px) { .gt-tri { grid-template-columns: repeat(3, 1fr); } }
 .gt-tri > li { border-top: 3px solid var(--sun); padding-top: 24px; }
 .gt-tri__n { font-family: var(--gothic); font-weight: 700; font-size: 12px; letter-spacing: .12em; color: var(--navy); }
@@ -170,42 +172,46 @@ Text Domain: gouter
 .gt-case__label { margin-top: 20px; font-family: var(--gothic); font-weight: 700; font-size: 12px; letter-spacing: .12em; color: var(--navy); }
 .gt-case h3 { margin-top: 12px; font-size: 19px; line-height: 1.7; }
 .gt-case p { margin-top: 12px; font-size: 13px; line-height: 2; color: #6B7382; }
-.gt-posts { margin-top: clamp(40px,5vw,72px); display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: clamp(20px,2.2vw,28px); background: none; }
+.gt-posts { margin-top: var(--blk); display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: clamp(20px,2.2vw,28px); background: none; }
 .gt-post { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; padding: 0 0 26px; }
 .gt-post__meta { display: flex; gap: 14px; align-items: center; margin: 20px 24px 0; font-size: 12px; color: var(--faint); }
 .gt-post__cat { background: var(--sun); color: var(--ink); font-weight: 700; font-size: 11px; padding: 5px 13px; border-radius: 100px; }
 .gt-post h3 { margin: 12px 24px 0; font-size: 18px; line-height: 1.7; font-weight: 700; }
 .gt-post p { margin: 12px 24px 0; font-size: 13.5px; line-height: 1.95; color: #6B7382; }
-.gt-more { margin-top: clamp(32px,4vw,48px); }
+.gt-more { margin-top: var(--blk-sm); }
 
 /* ===== service ===== */
-.gt-cards2 { margin-top: clamp(40px,5vw,72px); display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: clamp(32px,4vw,56px); }
+.gt-cards2 { margin-top: var(--blk); display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: clamp(32px,4vw,56px); }
 @media (min-width: 900px) { .gt-cards2 { grid-template-columns: repeat(2, 1fr); } }
 .gt-svc__en { margin-top: 22px; font-family: var(--gothic); font-weight: 700; font-size: 12px; letter-spacing: .12em; color: var(--navy); }
 .gt-svc h3 { margin-top: 12px; font-size: clamp(20px,2.1vw,25px); line-height: 1.6; font-weight: 700; }
 .gt-svc > p:last-child { margin-top: 16px; font-size: 15px; line-height: 2.15; color: var(--sub); }
 
-.gt-service { margin-top: clamp(36px,4vw,60px); display: flex; flex-direction: column; }
+.gt-service { margin-top: var(--blk-sm); display: flex; flex-direction: column; }
 .gt-service li { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: clamp(12px,3vw,48px); padding: clamp(26px,3vw,36px) 0; border-bottom: 1px solid var(--line2); }
 .gt-service__title { display: flex; gap: 20px; align-items: baseline; }
 .gt-service__title span { font-family: var(--gothic); font-weight: 700; font-size: 13px; color: var(--navy); }
 .gt-service h3 { font-size: 21px; line-height: 1.6; font-weight: 700; }
 .gt-service p { font-size: 14px; line-height: 2.05; color: var(--sub); }
-.gt-service__foot { margin-top: clamp(32px,4vw,48px); display: flex; flex-wrap: wrap; gap: 20px; align-items: center; }
+.gt-service__foot { margin-top: var(--blk-sm); display: flex; flex-wrap: wrap; gap: 20px; align-items: center; }
 .gt-service__foot p { font-family: var(--gothic); font-weight: 700; font-size: 17px; }
 
 /* ===== about ===== */
 .gt-about { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: clamp(36px,5vw,80px); align-items: start; }
-@media (min-width: 1000px) { .gt-about { grid-template-columns: 1.35fr .65fr; } }
+@media (min-width: 1000px) {
+  .gt-about { grid-template-columns: 1.35fr .65fr; }
+  .gt-about > div:last-child { position: sticky; top: 96px; }
+}
 .gt-about h2 { line-height: 1.7; font-size: clamp(22px,2.4vw,32px); }
-.gt-dl { margin-top: clamp(32px,4vw,48px); display: flex; flex-direction: column; }
+.gt-dl { margin-top: var(--blk-sm); display: flex; flex-direction: column; }
 .gt-dl > div { display: flex; gap: 24px; padding: 16px 0; border-top: 1px solid var(--line); }
 .gt-dl > div:last-child { border-bottom: 1px solid var(--line); }
 .gt-dl dt { width: 7em; flex: none; font-size: 12px; letter-spacing: .1em; color: var(--mute); }
 .gt-dl dd { margin: 0; font-size: 14px; line-height: 1.9; color: #333B4A; }
 
 /* ===== contact ===== */
-.gt-contact { margin-top: clamp(40px,5vw,64px); display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: clamp(36px,5vw,80px); }
+.gt-contact { margin-top: var(--blk); display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: clamp(36px,5vw,80px); }
+@media (min-width: 1000px) { .gt-contact { grid-template-columns: 1fr 1fr; } }
 .gt-contact h2 { font-size: clamp(24px,2.8vw,38px); line-height: 1.6; }
 .gt-contact__lead { margin-top: 28px; font-size: 15px; line-height: 2.15; max-width: 30em; }
 .gt-contact__pull { margin-top: 20px; font-family: var(--gothic); font-weight: 700; font-size: 19px; line-height: 1.9; color: #fff !important; }

@@ -183,7 +183,7 @@ add_action( 'wp_head', function () {
           <p class="gt-lead">人と人の間にあるあらゆる「モノ」「コト」を、隅々までデザインする。</p>
         </div>
 
-        <div class="gt-prose" style="margin-top:clamp(32px,4vw,56px)">
+        <div class="gt-prose" style="margin-top:var(--blk)">
           <p class="gt-mincho">コミュニケーションデザインは、<br />よく、ラブレターに例えられます。</p>
         </div>
 
@@ -229,7 +229,7 @@ add_action( 'wp_head', function () {
 
         <p class="gt-pull">では、どうすればいいでしょう？<br />絶対に成功するために、戦略が必要です。</p>
 
-        <p class="gt-tri__n" style="margin-top:clamp(44px,5vw,68px)">コミュニケーションデザイン的な考え方</p>
+        <p class="gt-tri__n" style="margin-top:var(--blk)">コミュニケーションデザイン的な考え方</p>
         <ol class="gt-service">
           <li>
             <div class="gt-service__title"><span>01</span><h3>ターゲットを明確にする</h3></div>
@@ -387,7 +387,7 @@ add_action( 'wp_head', function () {
               <h2 id="about-h" class="gt-h2">Goûterは、<br />「おやつ」という意味です。</h2>
             </div>
           </div>
-          <div class="gt-prose" style="margin-top:clamp(28px,3vw,44px)">
+          <div class="gt-prose" style="margin-top:var(--blk)">
             <p>Goûterは、フランス語の「味覚」という意味の名詞 le goût から来た言葉で、「おやつ」とか「茶話会」という意味です。</p>
             <p class="gt-mincho" style="font-size:17px">感動や喜びを「味わう」「楽しむ」。<br />そんな意味もあります。</p>
             <p>たくさんの経験や感動を「味わう」「楽しむ」をお届けできる、日常になくてはならない「おやつ」のような存在になれればと思っています。</p>
@@ -400,7 +400,7 @@ add_action( 'wp_head', function () {
             <div><dt>対応地域</dt><dd>福岡市・宗像市・北九州市を中心に、福岡県全域</dd></div>
           </dl>
         </div>
-        <div style="padding-top:clamp(0px,3vw,48px)">
+        <div style="padding-top:0">
           <?php gouter_image( 'about.jpg', 'ノートに描かれた電球と、青い紙のかたまり', 'gt-ratio-34' ); ?>
         </div>
       </div>
