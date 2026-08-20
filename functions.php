@@ -1,6 +1,8 @@
 <?php
 
-add_action('wp_enqueue_scripts', 'gouter_theme_enqueue_styles');
+// JIN:R 側(theme-style)が後から同じ style.css を読み、ver 固定の古いキャッシュで
+// こちらの指定を打ち消すため、優先度を下げて必ず最後に読み込ませる
+add_action('wp_enqueue_scripts', 'gouter_theme_enqueue_styles', 999);
 function gouter_theme_enqueue_styles()
 {
 	wp_enqueue_style('parent-style', get_template_directory_uri() . '/style.css');
