@@ -12,11 +12,14 @@ function gouter_theme_enqueue_styles()
 		null
 	);
 
+	// バージョンを 1.00 固定にすると、CSSを更新してもURLが変わらず
+	// 再訪問者に古いスタイルが残り続けるため、更新時刻を使う
+	$css = get_stylesheet_directory() . '/style.css';
 	wp_enqueue_style(
 		'gouter-front',
 		get_stylesheet_directory_uri() . '/style.css',
 		array('parent-style', 'gouter-fonts'),
-		wp_get_theme()->get('Version')
+		file_exists($css) ? filemtime($css) : wp_get_theme()->get('Version')
 	);
 }
 
