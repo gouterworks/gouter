@@ -52,7 +52,7 @@ Text Domain: gouter
 .gt-header { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
 .gt-header__inner { max-width: var(--wrap); margin: 0 auto; padding: 18px var(--pad); display: flex; align-items: center; gap: clamp(16px,4vw,48px); flex-wrap: wrap; }
 .gt-logo { font-family: var(--gothic); font-weight: 400; font-size: 26px; letter-spacing: .40em; color: var(--navy); line-height: 1; }
-.gt-nav { flex: 1 1 300px; }
+.gt-nav { flex: 0 1 auto; }
 .gt-nav ul { display: flex; flex-wrap: wrap; gap: 6px clamp(14px,2.4vw,28px); font-size: 13px; letter-spacing: .08em; }
 .gt-nav a { color: var(--body); }
 .gt-btn, .gt-btn--ghost, .gt-btn--light { display: inline-block; font-size: 15px; font-weight: 700; letter-spacing: .04em; padding: 19px 38px; border-radius: 100px; }
@@ -62,12 +62,13 @@ Text Domain: gouter
 .gt .gt-btn--ghost { border: 2px solid var(--navy); color: var(--navy); padding: 17px 36px; }
 .gt .gt-btn--ghost:hover { border-color: var(--navy); }
 .gt .gt-btn--sm { font-size: 13px; font-weight: 700; padding: 12px 26px; border-radius: 100px; background: var(--navy); color: #fff; white-space: nowrap; }
+.gt-header__inner .gt-btn--sm { margin-left: auto; }
 .gt .gt-btn--sm:hover { background: var(--ink); color: #fff; }
 .gt-link { display: inline-block; border-bottom: 1px solid var(--navy); font-size: 14px; letter-spacing: .08em; padding-bottom: 6px; }
 
 /* ===== section head ===== */
 /* 番号とENラベルを1行目に、見出しと導入文は罫線と同じ左端から始める */
-.gt-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 clamp(20px,4vw,56px); }
+.gt-head { display: flex; flex-wrap: wrap; align-items: center; gap: 0 16px; }
 .gt-head > div { display: contents; }
 .gt-head h1, .gt-head h2 { flex: 1 1 100%; margin-top: 18px; }
 .gt-head--rule { border-top: 1px solid var(--line2); padding-top: 22px; }
@@ -91,9 +92,9 @@ Text Domain: gouter
 .gt-cta { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 40px; }
 .gt-area { margin-top: 44px; padding-top: 20px; border-top: 1px solid var(--line); font-size: 12px; line-height: 2; letter-spacing: .06em; color: var(--mute); }
 .gt-hero__fig { position: relative; }
-.gt-hero__fig::before { content: ""; position: absolute; inset: auto -20px -20px auto; width: 62%; height: 68%; background: var(--sun); border-radius: var(--radius); }
-.gt-hero__card { position: relative; background: #fff; padding: 0; }
-.gt-hero__cap { margin-top: 14px; font-family: var(--gothic); font-weight: 700; font-size: 11px; letter-spacing: .12em; color: var(--faint); }
+.gt-hero__fig::before { content: ""; position: absolute; inset: 22px -22px -22px 22px; background: var(--sun); border-radius: var(--radius); }
+.gt-hero__card { position: relative; }
+.gt-hero__cap { margin-top: 14px; font-family: var(--gothic); font-weight: 700; font-size: 11px; letter-spacing: .12em; color: var(--ink); }
 .gt-ph { background: var(--pale); display: grid; place-items: center; font-family: ui-monospace, monospace; font-size: 11px; color: var(--faint); text-align: center; padding: 12px; }
 .gt-ratio-45 { aspect-ratio: 4/5; }
 .gt-ratio-1610 { aspect-ratio: 16/10; }
@@ -102,6 +103,7 @@ Text Domain: gouter
 /* 素材の縦横比と指定比が違っても歪ませない */
 /* height は auto。100% にするとグリッド行の高さまで伸びて比率が崩れる */
 .gt img.gt-ratio-45, .gt img.gt-ratio-1610, .gt img.gt-ratio-169, .gt img.gt-ratio-34 { width: 100%; height: auto; object-fit: cover; }
+.gt-hero__card img { border-radius: var(--radius); }
 
 /* ===== セクションを横断する帯状の画像 ===== */
 .gt-band { margin: var(--blk) 0 0; border-radius: var(--radius); overflow: hidden; }
