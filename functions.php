@@ -44,16 +44,21 @@ function gouter_style_version($src, $handle)
 }
 
 /**
- * /service（固定ページ38）には管理画面で JIN:R のカスタムテンプレート
- * （template-full-width）が割り当てられており、テンプレート階層では
- * page-service.php より優先されてしまう。
+ * 下層ページを Goûter のテンプレート(page-gt.php)で表示する。
+ *
+ * これらの固定ページには管理画面で JIN:R のカスタムテンプレート
+ * (template-full-width 等) が割り当てられており、WordPress の
+ * テンプレート階層では page-{slug}.php より優先されてしまう。
  * そのため template_include で明示的に差し替える。
  */
-add_filter('template_include', 'gouter_service_template', 99);
-function gouter_service_template($template)
+add_filter('template_include', 'gouter_page_template', 99);
+function gouter_page_template($template)
 {
-	if (is_page(38)) {
-		$mine = get_stylesheet_directory() . '/page-service.php';
+	// 事業内容 / お問い合わせ / プライバシーポリシー / サイトマップ
+	$ids = array(38, 7334, 3, 413);
+
+	if (is_page($ids)) {
+		$mine = get_stylesheet_directory() . '/page-gt.php';
 		if (file_exists($mine)) {
 			return $mine;
 		}
