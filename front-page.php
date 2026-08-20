@@ -15,9 +15,57 @@ add_filter( 'pre_get_document_title', function () {
 }, 99 );
 
 add_action( 'wp_head', function () {
-	$desc = '福岡県宗像市のコミュニケーションデザイン事務所 Goûter（グーテ）。事業の「或るべき姿」を一緒に考えて、ホームページ、SNS、広報、広告、商品、仕組みづくりまでカタチにします。開業支援や経営のご相談から、制作・運営代行まで。';
+	$title = 'コミュニケーションデザイン事務所 Goûter（グーテ）｜福岡・宗像市';
+	$desc  = '福岡県宗像市のコミュニケーションデザイン事務所 Goûter（グーテ）。事業の「或るべき姿」を一緒に考えて、ホームページ、SNS、広報、広告、商品、仕組みづくりまでカタチにします。開業支援や経営のご相談から、制作・運営代行まで。';
+	$url   = home_url( '/' );
+	$img   = get_stylesheet_directory_uri() . '/assets/img/hero.jpg';
+
+	// JIN:R は canonical も OGP も出していないため、この固定ページ分を自前で出す
+	printf( '<link rel="canonical" href="%s" />' . "\n", esc_url( $url ) );
 	printf( '<meta name="description" content="%s" />' . "\n", esc_attr( $desc ) );
+	printf( '<meta property="og:type" content="website" />' . "\n" );
+	printf( '<meta property="og:site_name" content="%s" />' . "\n", esc_attr( get_bloginfo( 'name' ) ) );
+	printf( '<meta property="og:locale" content="ja_JP" />' . "\n" );
+	printf( '<meta property="og:url" content="%s" />' . "\n", esc_url( $url ) );
+	printf( '<meta property="og:title" content="%s" />' . "\n", esc_attr( $title ) );
 	printf( '<meta property="og:description" content="%s" />' . "\n", esc_attr( $desc ) );
+	printf( '<meta property="og:image" content="%s" />' . "\n", esc_url( $img ) );
+	printf( '<meta property="og:image:width" content="1600" />' . "\n" );
+	printf( '<meta property="og:image:height" content="900" />' . "\n" );
+	printf( '<meta name="twitter:card" content="summary_large_image" />' . "\n" );
+	printf( '<meta name="twitter:title" content="%s" />' . "\n", esc_attr( $title ) );
+	printf( '<meta name="twitter:description" content="%s" />' . "\n", esc_attr( $desc ) );
+	printf( '<meta name="twitter:image" content="%s" />' . "\n", esc_url( $img ) );
+
+	// 構造化データ。JIN:R が出す WebSite は headline も logo も空なので、
+	// 地域事業者として正しく拾われるよう ProfessionalService を別途出す
+	$ld = array(
+		'@context'     => 'https://schema.org',
+		'@type'        => 'ProfessionalService',
+		'name'         => 'コミュニケーションデザイン事務所 Goûter（グーテ）',
+		'alternateName'=> 'Goûter',
+		'url'          => $url,
+		'image'        => $img,
+		'description'  => $desc,
+		'address'      => array(
+			'@type'           => 'PostalAddress',
+			'addressCountry'  => 'JP',
+			'addressRegion'   => '福岡県',
+			'addressLocality' => '宗像市',
+		),
+		'areaServed'   => array(
+			array( '@type' => 'City', 'name' => '福岡市' ),
+			array( '@type' => 'City', 'name' => '宗像市' ),
+			array( '@type' => 'City', 'name' => '北九州市' ),
+			array( '@type' => 'AdministrativeArea', 'name' => '福岡県' ),
+		),
+		'knowsAbout'   => array(
+			'コミュニケーションデザイン', 'ホームページ制作', 'SNS運用', '広報', '広告',
+			'商品開発', '事業コンサルティング', '開業支援', 'ECサイト構築', 'WordPress',
+		),
+		'sameAs'       => array(),
+	);
+	echo '<script type="application/ld+json">' . wp_json_encode( $ld, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) . '</script>' . "\n";
 }, 1 );
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -72,7 +120,7 @@ add_action( 'wp_head', function () {
       </div>
       <div class="gt-hero__fig">
         <div class="gt-hero__card">
-          <?php gouter_image( 'hero.jpg', '打ち合わせを見下ろす位置に灯る電球', 'gt-ratio-45' ); ?>
+          <?php gouter_image( 'hero.jpg', '打ち合わせを見下ろす位置に灯る電球', 'gt-ratio-45', array( 'eager' => true ) ); ?>
           <p class="gt-hero__cap">THINK TOGETHER</p>
         </div>
       </div>
@@ -275,6 +323,7 @@ add_action( 'wp_head', function () {
         <div class="gt-service__foot">
           <p>「こんなこと、できますか？」からでもどうぞ。</p>
           <a class="gt-btn--sm" href="#contact">相談してみる</a>
+          <a class="gt-link" href="<?php echo esc_url( home_url( '/service' ) ); ?>">事業内容をくわしく見る →</a>
         </div>
       </div>
     </section>
@@ -394,6 +443,16 @@ add_action( 'wp_head', function () {
           <li><a href="#knowledge">読みもの</a></li>
           <li><a href="#about">事務所について</a></li>
           <li><a href="#contact">お問い合わせ</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="サイト内ページ">
+        <p class="gt-footer__navlabel">サイト内のページ</p>
+        <ul>
+          <li><a href="<?php echo esc_url( home_url( '/service' ) ); ?>">事業内容の詳細</a></li>
+          <li><a href="<?php echo esc_url( get_category_link( 110 ) ); ?>">読みもの一覧</a></li>
+          <li><a href="<?php echo esc_url( home_url( '/contact' ) ); ?>">お問い合わせフォーム</a></li>
+          <li><a href="<?php echo esc_url( home_url( '/sitemap' ) ); ?>">サイトマップ</a></li>
+          <li><a href="<?php echo esc_url( home_url( '/privacy-policy' ) ); ?>">プライバシーポリシー</a></li>
         </ul>
       </nav>
       <p class="gt-footer__area">福岡市・宗像市・北九州市を中心に、<br />福岡県全域<br />© <?php echo esc_html( date_i18n( 'Y' ) ); ?> Goûter</p>

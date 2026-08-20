@@ -40,16 +40,24 @@ function gouter_contact_form()
 /**
  * 画像出力。assets/img/ にファイルがあれば img、無ければプレースホルダ。
  */
-function gouter_image($file, $alt, $ratio_class)
+function gouter_image($file, $alt, $ratio_class, $args = array())
 {
 	$path = get_stylesheet_directory() . '/assets/img/' . $file;
 
 	if ($file && file_exists($path)) {
+		// width/height を出して CLS を防ぐ。ヒーローだけ eager にして LCP を早める
+		$size = @getimagesize($path);
+		$dim  = $size ? sprintf(' width="%d" height="%d"', $size[0], $size[1]) : '';
+		$load = !empty($args['eager'])
+			? ' loading="eager" fetchpriority="high" decoding="async"'
+			: ' loading="lazy" decoding="async"';
 		printf(
-			'<img class="%1$s" src="%2$s" alt="%3$s" loading="lazy" />',
+			'<img class="%1$s" src="%2$s" alt="%3$s"%4$s%5$s />',
 			esc_attr($ratio_class),
 			esc_url(get_stylesheet_directory_uri() . '/assets/img/' . $file),
-			esc_attr($alt)
+			esc_attr($alt),
+			$dim,
+			$load
 		);
 		return;
 	}
