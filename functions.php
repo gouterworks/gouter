@@ -24,6 +24,24 @@ function gouter_theme_enqueue_styles()
 }
 
 /**
+ * この子テーマの style.css は JIN:R 側(handle: theme-style)からも読み込まれ、
+ * そちらは ver=7.1 固定のため、更新しても古いCSSがキャッシュから使われ、
+ * 後勝ちで新しい指定を打ち消してしまう。
+ * どの handle から読まれても更新時刻が付くように src を正規化する。
+ */
+add_filter('style_loader_src', 'gouter_style_version', 10, 2);
+function gouter_style_version($src, $handle)
+{
+	$css = get_stylesheet_directory() . '/style.css';
+	$uri = get_stylesheet_directory_uri() . '/style.css';
+
+	if (file_exists($css) && strpos($src, $uri) === 0) {
+		return add_query_arg('ver', filemtime($css), $uri);
+	}
+	return $src;
+}
+
+/**
  * Contact Form 7 のフォームID
  * 管理画面「お問い合わせ」のショートコード [contact-form-7 id="◯◯"] の数値を入れる
  */
