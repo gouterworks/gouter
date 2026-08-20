@@ -14,12 +14,14 @@ $gt_slug = get_post_field( 'post_name', $gt_id );
 // ページごとの英字ラベルと説明文。未定義のページは汎用の文言にする
 $gt_meta = array(
 	'service'        => array(
+		'title'=> '事業内容',
 		'en'   => 'SERVICE',
 		'lead' => 'コミュニケーションデザインという考え方と、実際にお引き受けしている仕事の内容です。',
 		'desc' => 'Goûter（グーテ）の事業内容。コミュニケーションデザインという考え方と、コンサルティング、クライアント案件制作、運営サポート・代行、WEBソリューションまで。福岡県宗像市から福岡県全域に対応しています。',
 		'cta'  => true,
 	),
 	'contact'        => array(
+		'title'=> 'お問い合わせ',
 		'en'   => 'CONTACT',
 		'lead' => '「何が問題なのかわからない」からでも大丈夫です。お気軽にご連絡ください。',
 		'desc' => '福岡県宗像市のコミュニケーションデザイン事務所 Goûter（グーテ）へのお問い合わせ。ホームページ、SNS、広報、広告、商品、仕組みづくりのご相談を承っています。',
@@ -45,13 +47,17 @@ $gt = isset( $gt_meta[ $gt_slug ] ) ? $gt_meta[ $gt_slug ] : array(
 	'cta'  => true,
 );
 
-$gt_title = get_the_title( $gt_id ) . '｜コミュニケーションデザイン事務所 Goûter（グーテ）';
+// WordPress 側のページ名がスラッグのまま（service / contact）のものがあるので、
+// 表示用の日本語見出しを持っている場合はそちらを使う
+$gt_name = isset( $gt['title'] ) ? $gt['title'] : get_the_title( $gt_id );
+
+$gt_title = $gt_name . '｜コミュニケーションデザイン事務所 Goûter（グーテ）';
 
 add_filter( 'pre_get_document_title', function () use ( $gt_title ) {
 	return $gt_title;
 }, 99 );
 
-add_action( 'wp_head', function () use ( $gt, $gt_title, $gt_id ) {
+add_action( 'wp_head', function () use ( $gt, $gt_title, $gt_id, $gt_name ) {
 	$url = get_permalink( $gt_id );
 	$img = get_stylesheet_directory_uri() . '/assets/img/hero.jpg';
 
@@ -72,7 +78,7 @@ add_action( 'wp_head', function () use ( $gt, $gt_title, $gt_id ) {
 		'@type'           => 'BreadcrumbList',
 		'itemListElement' => array(
 			array( '@type' => 'ListItem', 'position' => 1, 'name' => 'ホーム', 'item' => home_url( '/' ) ),
-			array( '@type' => 'ListItem', 'position' => 2, 'name' => get_the_title( $gt_id ), 'item' => $url ),
+			array( '@type' => 'ListItem', 'position' => 2, 'name' => $gt_name, 'item' => $url ),
 		),
 	);
 	echo '<script type="application/ld+json">' . wp_json_encode( $ld, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) . '</script>' . "\n";
@@ -105,10 +111,10 @@ add_action( 'wp_head', function () use ( $gt, $gt_title, $gt_id ) {
     <section class="gt-pagehead">
       <div class="gt__wrap">
         <nav class="gt-crumb" aria-label="パンくず">
-          <a href="<?php echo esc_url( home_url( '/' ) ); ?>">ホーム</a> ／ <?php echo esc_html( get_the_title( $gt_id ) ); ?>
+          <a href="<?php echo esc_url( home_url( '/' ) ); ?>">ホーム</a> ／ <?php echo esc_html( $gt_name ); ?>
         </nav>
         <p class="gt-en"><?php echo esc_html( $gt['en'] ); ?></p>
-        <h1 class="gt-h1"><?php echo esc_html( get_the_title( $gt_id ) ); ?></h1>
+        <h1 class="gt-h1"><?php echo esc_html( $gt_name ); ?></h1>
         <?php if ( $gt['lead'] ) : ?>
           <p class="gt-lead"><?php echo esc_html( $gt['lead'] ); ?></p>
         <?php endif; ?>
