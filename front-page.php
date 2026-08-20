@@ -50,8 +50,10 @@ add_action( 'wp_head', function () {
 		'address'      => array(
 			'@type'           => 'PostalAddress',
 			'addressCountry'  => 'JP',
+			'postalCode'      => '811-4173',
 			'addressRegion'   => '福岡県',
 			'addressLocality' => '宗像市',
+			'streetAddress'   => '栄町2-1-2F',
 		),
 		'areaServed'   => array(
 			array( '@type' => 'City', 'name' => '福岡市' ),
@@ -208,28 +210,32 @@ add_action( 'wp_head', function () {
 
         <p class="gt-pull">でも今は、ラブレターを渡すのも簡単ではありません。<br />会えないし、受け取ってもらえないかもしれない。</p>
 
-        <ul class="gt-cards4">
-          <li class="gt-card">
-            <h3>他に楽しいことが、<br />たくさんある</h3>
-            <p>誘惑が多い。そもそも見てもらえない。</p>
+        <ul class="gt-why">
+          <li>
+            <span class="gt-why__n">01</span>
+            <h3>他に楽しいことが、たくさんある</h3>
+            <p>誘惑が多い。そもそも、見てもらえない。</p>
           </li>
-          <li class="gt-card">
-            <h3>表現を<br />信じてくれない</h3>
-            <p>うまいことを言われ慣れている。</p>
+          <li>
+            <span class="gt-why__n">02</span>
+            <h3>表現を信じてくれない</h3>
+            <p>うまいことを言われるのに、慣れている。</p>
           </li>
-          <li class="gt-card">
-            <h3>じっくり比較検討<br />ができる</h3>
+          <li>
+            <span class="gt-why__n">03</span>
+            <h3>じっくり比較検討ができる</h3>
             <p>みんな、検索が上手になった。</p>
           </li>
-          <li class="gt-card">
-            <h3>友達に判断を<br />任せたりする</h3>
+          <li>
+            <span class="gt-why__n">04</span>
+            <h3>友達に判断を任せたりする</h3>
             <p>レビューを読んでから決める。</p>
           </li>
         </ul>
 
         <p class="gt-pull">では、どうすればいいでしょう？<br />絶対に成功するために、戦略が必要です。</p>
 
-        <p class="gt-tri__n" style="margin-top:var(--blk)">コミュニケーションデザイン的な考え方</p>
+        <h3 class="gt-subhead">コミュニケーションデザイン的な考え方</h3>
         <ol class="gt-service">
           <li>
             <div class="gt-service__title"><span>01</span><h3>ターゲットを明確にする</h3></div>
@@ -268,16 +274,11 @@ add_action( 'wp_head', function () {
           <?php gouter_image( 'philosophy.jpg', '黒板に描かれた電球と、そこから伸びる線', 'gt-ratio-1610' ); ?>
         </figure>
 
-        <div class="gt-cols3">
-          <div>
-            <h3>その姿を見出した時、カタチにするまで、必要なことはすべて行います。</h3>
-          </div>
-          <div>
-            <p>一切の妥協もありません。</p>
-            <p style="margin-top:14px">自身では思いもしない魅力や切り口の発見に繋がります。</p>
-          </div>
-          <div>
+        <div class="gt-stmt">
+          <p class="gt-stmt__lead">その姿を見出した時、カタチにするまで、<br />必要なことはすべて行います。一切の妥協もありません。</p>
+          <div class="gt-stmt__cols">
             <p>片足ではなく、両足を突っ込んで一緒に取り組みます。必要なら毎日の朝礼にも、経営会議にも出ます。</p>
+            <p>わたしたちが見出す「或るべき姿」は、自身では思いもしない魅力や切り口の発見に繋がります。</p>
           </div>
         </div>
       </div>
@@ -334,7 +335,7 @@ add_action( 'wp_head', function () {
           <span class="gt-num">05</span>
           <div class="gt-head__body">
             <p class="gt-en">KNOWLEDGE</p>
-            <h2 id="knowledge-h" class="gt-h2">仕事の中で考えたこと、<br />試したこと。</h2>
+            <h2 id="knowledge-h" class="gt-h2">現場で使えるノウハウを、<br />公開しています。</h2>
           </div>
           <p class="gt-lead">Webのこと。SNSのこと。広報や広告のこと。事業や売上、店舗や商品、仕事の進め方のこと。</p>
         </div>
@@ -359,7 +360,6 @@ add_action( 'wp_head', function () {
                           <?php endif; ?>
                       </a>
                       <div class="gt-post__meta">
-                          <span class="gt-post__cat"><?php echo $cat ? esc_html( $cat[0]->name ) : ''; ?></span>
                           <span><?php echo esc_html( get_the_date() ); ?></span>
                       </div>
                       <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
@@ -390,13 +390,12 @@ add_action( 'wp_head', function () {
           <div class="gt-prose" style="margin-top:var(--blk)">
             <p>Goûterは、フランス語の「味覚」という意味の名詞 le goût から来た言葉で、「おやつ」とか「茶話会」という意味です。</p>
             <p class="gt-mincho" style="font-size:17px">感動や喜びを「味わう」「楽しむ」。<br />そんな意味もあります。</p>
-            <p>たくさんの経験や感動を「味わう」「楽しむ」をお届けできる、日常になくてはならない「おやつ」のような存在になれればと思っています。</p>
-            <p>鞄に忍ばせておくと何かと役に立つ。そんな存在を目指しています。</p>
+            <p>鞄に忍ばせておくと何かと役に立つ、おやつのような存在。</p>
+            <p>たくさんの経験や感動を「味わう」「楽しむ」をお届けする。そういう仕事をしています。</p>
           </div>
           <dl class="gt-dl">
             <div><dt>屋号</dt><dd>Goûter（グーテ）</dd></div>
-            <div><dt>形態</dt><dd>個人事業</dd></div>
-            <div><dt>事務所</dt><dd>宗像事務所（福岡県宗像市）</dd></div>
+            <div><dt>事務所</dt><dd>〒811-4173　福岡県宗像市栄町2-1-2F</dd></div>
             <div><dt>対応地域</dt><dd>福岡市・宗像市・北九州市を中心に、福岡県全域</dd></div>
           </dl>
         </div>
@@ -432,7 +431,7 @@ add_action( 'wp_head', function () {
     <div class="gt-footer__inner">
       <div>
         <p class="gt-footer__logo">Goûter</p>
-        <p class="gt-footer__meta">コミュニケーションデザイン事務所<br />宗像事務所</p>
+        <p class="gt-footer__meta">コミュニケーションデザイン事務所<br />〒811-4173　福岡県宗像市栄町2-1-2F</p>
       </div>
       <nav aria-label="フッターナビゲーション">
         <ul>

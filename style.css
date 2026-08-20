@@ -70,9 +70,9 @@ Text Domain: gouter
 /* 番号とENラベルを1行目に、見出しと導入文は罫線と同じ左端から始める */
 .gt-head { display: flex; flex-wrap: wrap; align-items: center; gap: 0 16px; }
 .gt-head > div { display: contents; }
-.gt-head h1, .gt-head h2 { flex: 1 1 100%; margin-top: 18px; }
-.gt-head--rule { border-top: 1px solid var(--line2); padding-top: 22px; }
-.gt-head--rule-light { border-top: 1px solid var(--line); padding-top: 22px; }
+.gt-head h1, .gt-head h2 { flex: 1 1 100%; margin-top: 34px; }
+.gt-head--rule { border-top: 1px solid var(--line2); padding-top: 34px; }
+.gt-head--rule-light { border-top: 1px solid var(--line); padding-top: 34px; }
 .gt-num { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--line2); font-family: var(--gothic); font-weight: 700; font-size: 11px; letter-spacing: 0; color: var(--mute); }
 .gt-en { display: inline-block; font-family: var(--gothic); font-weight: 700; font-size: 11px; letter-spacing: .16em; color: #fff; background: var(--navy); padding: 7px 15px; border-radius: 100px; margin-bottom: 0; }
 .gt-h2 { font-size: clamp(26px,3vw,40px); line-height: 1.5; letter-spacing: .005em; font-weight: 900; }
@@ -107,9 +107,13 @@ Text Domain: gouter
 
 /* ===== セクションを横断する帯状の画像 ===== */
 .gt-band { margin: var(--blk) 0 0; border-radius: var(--radius); overflow: hidden; }
+.gt-band + .gt-pull, .gt-service + .gt-pull { margin-top: clamp(52px,6vw,92px); }
 .gt-band img, .gt-band .gt-ph { width: 100%; }
 /* コンテナ幅を突き抜けて画面いっぱいに使う */
 .gt-band--bleed { width: 100vw; max-width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); border-radius: 0; }
+/* 全幅で 16:10 のままだと高さ900pxになり大きすぎるので、横長に切る */
+.gt-band--bleed img { aspect-ratio: 5/2; }
+@media (max-width: 700px) { .gt-band--bleed img { aspect-ratio: 4/3; } }
 
 /* サムネイルのホバー */
 .gt-thumb { overflow: hidden; border-radius: var(--radius); }
@@ -127,7 +131,7 @@ Text Domain: gouter
 .gt-cell__num { display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 50%; background: var(--navy); color: #fff; font-weight: 700; font-size: 14px; }
 .gt-cell h3 { margin-top: 18px; font-size: 20px; line-height: 1.65; font-weight: 700; }
 .gt-cell p { margin-top: 16px; font-size: 15px; line-height: 2.15; color: var(--sub); }
-.gt-pull { margin-top: var(--blk); font-family: var(--gothic); font-weight: 700; font-size: clamp(20px,2.2vw,29px); line-height: 1.9; letter-spacing: .01em; }
+.gt-pull { margin-top: clamp(44px,5vw,80px); font-family: var(--gothic); font-weight: 700; font-size: clamp(20px,2.2vw,29px); line-height: 1.9; letter-spacing: .01em; }
 
 /* ===== think first ===== */
 .gt-two { display: grid; grid-template-columns: 1fr; gap: clamp(24px,3vw,44px); }
@@ -135,7 +139,22 @@ Text Domain: gouter
 .gt-prose p { font-size: 16px; line-height: 2.25; color: var(--body); }
 .gt-prose .gt-mincho { font-family: var(--gothic); font-weight: 700; font-size: clamp(19px,1.7vw,24px); line-height: 1.95; letter-spacing: .01em; color: var(--ink); }
 
-/* ===== what we do ===== */
+/* ===== 4つの障害（読ませるためにカード化して階層をつける） ===== */
+.gt-why { margin-top: clamp(36px,4vw,56px); display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: clamp(18px,2vw,24px); }
+@media (min-width: 900px) { .gt-why { grid-template-columns: repeat(4, 1fr); } }
+.gt-why > li { background: var(--pale); border-radius: var(--radius); padding: clamp(26px,2.6vw,32px); border-top: 4px solid var(--sun); }
+.gt-why__n { display: block; font-weight: 900; font-size: 13px; letter-spacing: .1em; color: var(--navy); }
+.gt-why h3 { margin-top: 14px; font-size: clamp(17px,1.6vw,19px); line-height: 1.65; font-weight: 700; }
+.gt-why p { margin-top: 14px; font-size: 15px; line-height: 1.95; color: var(--sub); }
+
+/* ===== 或るべき姿の言い切り＋補足（3カラムは配置が不安定だった） ===== */
+.gt-stmt { margin-top: clamp(44px,5vw,76px); }
+.gt-stmt__lead { font-size: clamp(21px,2.4vw,30px); line-height: 1.75; font-weight: 700; color: #fff; }
+.gt-stmt__cols { margin-top: clamp(32px,3.6vw,52px); display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: clamp(28px,3vw,56px); }
+@media (min-width: 900px) { .gt-stmt__cols { grid-template-columns: repeat(2, 1fr); } }
+.gt-stmt__cols p { font-size: 15px; line-height: 2.1; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.32); }
+
+/* ===== what we do =====
 .gt-cards4 { margin-top: var(--blk); display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: clamp(28px,3vw,44px); }
 @media (min-width: 900px) { .gt-cards4 { grid-template-columns: repeat(4, 1fr); } }
 .gt-card { border-top: 1px solid var(--navy); padding-top: 26px; }
@@ -167,6 +186,8 @@ Text Domain: gouter
 @media (min-width: 900px) { .gt-tri { grid-template-columns: repeat(3, 1fr); } }
 .gt-tri > li { border-top: 3px solid var(--sun); padding-top: 24px; }
 .gt-tri__n { font-family: var(--gothic); font-weight: 700; font-size: 12px; letter-spacing: .12em; color: var(--navy); }
+/* セクション内の中見出し */
+.gt-subhead { margin-top: clamp(52px,6vw,92px); font-size: clamp(21px,2.2vw,28px); line-height: 1.6; font-weight: 900; padding-bottom: 14px; border-bottom: 3px solid var(--sun); display: inline-block; }
 .gt-tri h3 { margin-top: 14px; font-size: clamp(18px,1.8vw,21px); line-height: 1.8; font-weight: 700; }
 
 /* ===== works / knowledge cards ===== */
