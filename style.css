@@ -281,3 +281,26 @@ Text Domain: gouter
 .gt-article .b--jinr-box, .gt-article .wp-block-jinr-blocks-simplebox { background: var(--pale); border-radius: var(--radius); padding: clamp(22px,2.4vw,30px); }
 .gt-article .b--jinr-box p:first-child { margin-top: 0; }
 .gt-articlewrap .gt-service__foot { margin-top: clamp(52px,6vw,88px); }
+
+/* ===== 768〜999px の崩れ対策 =====
+   ヒーローは 1000px 未満だと auto-fit で2カラムのまま残り、
+   画像が文章と同じ幅になって文章が窮屈になっていた。
+   ヘッダーもボタンだけが2段目に落ちて間延びしていた。 */
+@media (max-width: 999px) {
+  .gt-hero { grid-template-columns: 1fr; gap: clamp(28px,4vw,44px); }
+  /* 1カラムで 4:5 のままだと画像が縦に長すぎるので横長にする */
+  .gt-hero__card img { aspect-ratio: 16/10; }
+  .gt-hero__fig::before { inset: 16px -16px -16px 16px; }
+  .gt-hero__sub, .gt-hero__note { max-width: none; }
+}
+@media (max-width: 900px) {
+  /* 1段目にロゴとボタン、2段目にナビを回す */
+  .gt-header__inner { row-gap: 14px; }
+  .gt-header__inner .gt-btn--sm { order: 2; margin-left: auto; }
+  .gt-nav { order: 3; flex: 1 1 100%; }
+  .gt-nav ul { gap: 8px 20px; }
+}
+@media (max-width: 560px) {
+  .gt-eyebrow { font-size: 11px; letter-spacing: .04em; padding: 7px 14px; }
+  .gt-cta .gt-btn, .gt-cta .gt-btn--ghost { flex: 1 1 100%; text-align: center; }
+}
