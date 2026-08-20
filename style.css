@@ -254,3 +254,30 @@ Text Domain: gouter
 .gt-footer nav ul { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px,1fr)); gap: 12px 24px; font-size: 13px; }
 .gt-footer nav a { color: var(--body); }
 .gt-footer__area { font-size: 12px; line-height: 2; color: var(--mute); align-self: end; }
+
+/* ===== 下層ページ（/service など） ===== */
+.gt-pagehead { background: var(--pale); }
+.gt-pagehead .gt__wrap { padding-top: clamp(40px,5vw,72px); padding-bottom: clamp(40px,5vw,72px); }
+.gt-crumb { font-size: 12px; color: var(--mute); margin-bottom: 26px; }
+.gt-crumb a { color: var(--navy); }
+.gt-pagehead .gt-h1 { margin-top: 20px; }
+.gt-pagehead .gt-lead { margin-top: 22px; }
+
+/* WordPress 側の本文。JIN:R のブロックがそのまま入ってくる */
+.gt-article { max-width: 46em; }
+.gt-article > * + * { margin-top: 1.9em; }
+.gt-article p { font-size: 17px; line-height: 2.15; color: var(--body); }
+.gt-article h2 { margin-top: 2.2em; font-size: clamp(23px,2.4vw,31px); line-height: 1.55; font-weight: 900; padding-bottom: 14px; border-bottom: 3px solid var(--sun); }
+.gt-article h3 { margin-top: 2em; font-size: clamp(19px,1.9vw,23px); line-height: 1.65; font-weight: 700; color: var(--navy); }
+.gt-article h4 { margin-top: 1.8em; font-size: 18px; line-height: 1.7; font-weight: 700; }
+.gt-article ul, .gt-article ol { padding-left: 1.4em; }
+.gt-article ul li { list-style: disc; }
+.gt-article ol li { list-style: decimal; }
+.gt-article li { font-size: 16px; line-height: 2.05; color: var(--body); margin-top: .5em; }
+.gt-article strong { font-weight: 700; color: var(--ink); }
+.gt-article img { border-radius: var(--radius); }
+.gt-article a { border-bottom: 1px solid var(--navy); }
+/* JIN:R のボックス類が浮かないように最低限だけ整える */
+.gt-article .b--jinr-box, .gt-article .wp-block-jinr-blocks-simplebox { background: var(--pale); border-radius: var(--radius); padding: clamp(22px,2.4vw,30px); }
+.gt-article .b--jinr-box p:first-child { margin-top: 0; }
+.gt-articlewrap .gt-service__foot { margin-top: clamp(52px,6vw,88px); }

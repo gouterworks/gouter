@@ -14,5 +14,5 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           port: 22
-          source: "front-page.php,functions.php,style.css,assets/**"
+          source: "front-page.php,page-service.php,functions.php,style.css,parts/**,assets/**"
           target: "/home/liberarch/www/gouter/wp-content/themes/gouter"

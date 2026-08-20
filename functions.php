@@ -44,6 +44,27 @@ function gouter_style_version($src, $handle)
 }
 
 /**
+ * /service 本文に残っている「※特に、飲食業界の方へ」のブロックを表示から外す。
+ * 特定の業界を強みとして打ち出さない方針のため。
+ *
+ * 注意: これは表示時に取り除いているだけで、文章そのものは
+ * WordPress のデータベースに残っている。恒久的に消すには
+ * 管理画面から該当ブロックを削除すること。
+ */
+add_filter('the_content', 'gouter_strip_food_block', 20);
+function gouter_strip_food_block($content)
+{
+	if (strpos($content, '特に、飲食業界の方へ') === false) {
+		return $content;
+	}
+	// JIN:R の simplebox セクション単位で取り除く
+	$pattern = '#<section class="wp-block-jinr-blocks-simplebox.*?</section>#s';
+	return preg_replace_callback($pattern, function ($m) {
+		return (strpos($m[0], '特に、飲食業界の方へ') !== false) ? '' : $m[0];
+	}, $content);
+}
+
+/**
  * Contact Form 7 のフォームID
  * 管理画面「お問い合わせ」のショートコード [contact-form-7 id="◯◯"] の数値を入れる
  */
