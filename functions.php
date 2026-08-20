@@ -44,6 +44,24 @@ function gouter_style_version($src, $handle)
 }
 
 /**
+ * /service（固定ページ38）には管理画面で JIN:R のカスタムテンプレート
+ * （template-full-width）が割り当てられており、テンプレート階層では
+ * page-service.php より優先されてしまう。
+ * そのため template_include で明示的に差し替える。
+ */
+add_filter('template_include', 'gouter_service_template', 99);
+function gouter_service_template($template)
+{
+	if (is_page(38)) {
+		$mine = get_stylesheet_directory() . '/page-service.php';
+		if (file_exists($mine)) {
+			return $mine;
+		}
+	}
+	return $template;
+}
+
+/**
  * /service 本文に残っている「※特に、飲食業界の方へ」のブロックを表示から外す。
  * 特定の業界を強みとして打ち出さない方針のため。
  *
