@@ -108,8 +108,8 @@ add_action( 'wp_head', function () {
       </div>
       <div class="gt-hero__fig">
         <div class="gt-hero__card">
-          <?php gouter_image( 'hero.jpg', '打ち合わせを見下ろす位置に灯る電球', 'gt-ratio-45', array( 'eager' => true ) ); ?>
-          <p class="gt-hero__cap">THINK TOGETHER</p>
+          <?php gouter_image( 'hero.png', '窓辺の机でノートに書き込んでいる手元', 'gt-ratio-45', array( 'eager' => true ) ); ?>
+          <p class="gt-hero__cap">THINK FIRST</p>
         </div>
       </div>
     </section>
@@ -352,7 +352,7 @@ add_action( 'wp_head', function () {
           <p>本人が気づかないほど自然に、いい結果につながる。そんな状態を、わたしたちは「或るべき姿」と呼んでいます。</p>
         </div>
         <figure class="gt-band gt-band--bleed">
-          <?php gouter_image( 'philosophy.jpg', '黒板に描かれた電球と、そこから伸びる線', 'gt-ratio-1610' ); ?>
+          <?php gouter_image( 'night.png', 'スタンドの灯りがノートを照らしている夜の机', 'gt-ratio-1610' ); ?>
         </figure>
 
         <div class="gt-stmt">
