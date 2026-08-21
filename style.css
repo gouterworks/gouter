@@ -304,3 +304,35 @@ Text Domain: gouter
   .gt-eyebrow { font-size: 11px; letter-spacing: .04em; padding: 7px 14px; }
   .gt-cta .gt-btn, .gt-cta .gt-btn--ghost { flex: 1 1 100%; text-align: center; }
 }
+
+/* ===== 中間CTA帯 =====
+   フォームまで1万px以上スクロールしないと辿り着けなかったので、
+   本文の切れ目に短い帯を挟んで申込みへの導線を増やす */
+.gt-ctaband { background: var(--navy); color: #fff; }
+.gt-ctaband__inner { max-width: var(--wrap); margin: 0 auto; padding: clamp(26px,3vw,38px) var(--pad);
+  display: flex; flex-wrap: wrap; align-items: center; gap: clamp(16px,2.4vw,32px); }
+.gt-ctaband p { font-size: clamp(17px,1.9vw,23px); font-weight: 700; line-height: 1.7; }
+.gt-ctaband p span { font-weight: 400; color: rgba(255,255,255,.8); }
+.gt .gt-btn--light { margin-left: auto; background: var(--sun); color: var(--ink); }
+.gt .gt-btn--light:hover { background: #fff; color: var(--ink); }
+@media (max-width: 700px) { .gt .gt-btn--light { margin-left: 0; width: 100%; text-align: center; } }
+
+/* ===== 相談の流れ ===== */
+.gt-flow { margin-top: var(--blk); display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: clamp(22px,2.6vw,32px); }
+@media (min-width: 900px) { .gt-flow { grid-template-columns: repeat(3, 1fr); } }
+.gt-flow > li { background: #fff; border-radius: var(--radius); padding: clamp(28px,3vw,38px); position: relative; }
+.gt-flow > li::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 4px; background: var(--navy); border-radius: var(--radius) var(--radius) 0 0; }
+.gt-flow__n { font-weight: 900; font-size: 12px; letter-spacing: .14em; color: var(--navy); }
+.gt-flow h3 { margin-top: 14px; font-size: clamp(19px,1.9vw,22px); line-height: 1.6; font-weight: 700; }
+.gt-flow > li > p:last-child { margin-top: 14px; font-size: 15px; line-height: 2.05; color: var(--sub); }
+
+/* ===== モバイルの固定CTA =====
+   スマホはページが長く、申込みまでの距離があるため下部に常時出す */
+.gt-sticky { display: none; }
+@media (max-width: 767px) {
+  .gt-sticky { display: block; position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+    background: rgba(255,255,255,.94); backdrop-filter: blur(8px); border-top: 1px solid var(--line); }
+  .gt-sticky .gt-btn { display: block; text-align: center; width: 100%; padding: 16px 20px; }
+  .gt-footer { padding-bottom: 96px; }
+}

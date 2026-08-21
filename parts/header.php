@@ -13,6 +13,7 @@ $gt_home = is_front_page() ? '' : esc_url( home_url( '/' ) );
           <li><a href="<?php echo $gt_home; ?>#problem">困りごと</a></li>
           <li><a href="<?php echo $gt_home; ?>#comdesign">考え方</a></li>
           <li><a href="<?php echo $gt_home; ?>#service">できること</a></li>
+          <li><a href="<?php echo $gt_home; ?>#flow">相談の流れ</a></li>
           <li><a href="<?php echo $gt_home; ?>#knowledge">読みもの</a></li>
           <li><a href="<?php echo $gt_home; ?>#about">事務所について</a></li>
         </ul>

@@ -102,7 +102,7 @@ add_action( 'wp_head', function () {
         <p class="gt-hero__note">ITコンサル、Webディレクター、プランナー。肩書を3つ並べても説明しきれませんが、やっていることはひとつです。</p>
         <div class="gt-cta">
           <a class="gt-btn" href="#contact">まず相談してみる</a>
-          <a class="gt-btn--ghost" href="#service">できること</a>
+          <a class="gt-btn--ghost" href="#flow">相談の流れ</a>
         </div>
         <p class="gt-area">福岡市・宗像市・北九州市を中心に、福岡県全域</p>
       </div>
@@ -160,10 +160,105 @@ add_action( 'wp_head', function () {
       </div>
     </section>
 
+    <aside class="gt-ctaband" aria-label="相談への案内">
+      <div class="gt-ctaband__inner">
+        <p>「こんなことを相談していいのかな？」<span>くらいからで大丈夫です。</span></p>
+        <a class="gt-btn gt-btn--light" href="#contact">まず相談してみる</a>
+      </div>
+    </aside>
+
+    <section id="service" aria-labelledby="service-h">
+      <div class="gt__wrap">
+        <div class="gt-head gt-head--rule">
+          <span class="gt-num">02</span>
+          <div class="gt-head__body">
+            <p class="gt-en">SERVICE</p>
+            <h2 id="service-h" class="gt-h2">できること</h2>
+          </div>
+          <p class="gt-lead">コミュニケーションデザイン事業と、WEBソリューション事業。この2つを軸にしています。</p>
+        </div>
+        <div class="gt-cards2">
+          <div class="gt-svc">
+            <div class="gt-thumb"><?php gouter_image( 'service-1.jpg', 'コンサルティングのイメージ', 'gt-ratio-169' ); ?></div>
+            <p class="gt-svc__en">01 — CONSULTING</p>
+            <h3>コンサルティング</h3>
+            <p>開業支援 / 事業経営（企画立案）/ IT活用（集客アップ・売上アップ）</p>
+          </div>
+          <div class="gt-svc">
+            <div class="gt-thumb"><?php gouter_image( 'service-2.jpg', 'クライアント案件制作のイメージ', 'gt-ratio-169' ); ?></div>
+            <p class="gt-svc__en">02 — CREATIVE</p>
+            <h3>クライアント案件制作</h3>
+            <p>ロゴ / WEB / 広告（看板、チラシ、WEB）/ システム / 販促物 / イベント企画・運営</p>
+          </div>
+          <div class="gt-svc">
+            <div class="gt-thumb"><?php gouter_image( 'service-3.jpg', '運営サポート・記事執筆代行のイメージ', 'gt-ratio-169' ); ?></div>
+            <p class="gt-svc__en">03 — OPERATION</p>
+            <h3>運営サポート・運営代行</h3>
+            <p>WEB / EC / SNS活用（Instagram、Twitter、LINE、Googleビジネス 他）/ 記事執筆代行（SEO対策、キーワード選定、記事構成、ディレクション 他）</p>
+          </div>
+          <div class="gt-svc">
+            <div class="gt-thumb"><?php gouter_image( 'service-4.jpg', 'WEBソリューションのイメージ', 'gt-ratio-169' ); ?></div>
+            <p class="gt-svc__en">04 — WEB SOLUTION</p>
+            <h3>WEBソリューション</h3>
+            <p>ポータルサイト運営 / オーダーメイドシステムの構築 / ECサイトの構築（フルスクラッチ・既存サービスのカスタマイズ）/ WordPressカスタマイズ・専用プラグイン制作</p>
+          </div>
+        </div>
+        <div class="gt-service__foot">
+          <p>「こんなこと、できますか？」からでもどうぞ。</p>
+          <a class="gt-btn--sm" href="#contact">相談してみる</a>
+          <a class="gt-link" href="<?php echo esc_url( home_url( '/service' ) ); ?>">事業内容をくわしく見る →</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="flow" class="gt-pale" aria-labelledby="flow-h">
+      <div class="gt__wrap">
+        <div class="gt-head gt-head--rule">
+          <span class="gt-num">03</span>
+          <div class="gt-head__body">
+            <p class="gt-en">FLOW</p>
+            <h2 id="flow-h" class="gt-h2">相談してから、<br />どうなるのか。</h2>
+          </div>
+          <p class="gt-lead">いきなり見積もりを出したり、契約を迫ったりはしません。まず話を聞くところから始めます。</p>
+        </div>
+
+        <ol class="gt-flow">
+          <li>
+            <p class="gt-flow__n">STEP 01</p>
+            <h3>まず、話を聞きます</h3>
+            <p>フォームからご連絡ください。何が問題なのかはっきりしていなくて構いません。「何から手をつければいいか」から一緒に整理します。オンラインでも伺っても、どちらでも。</p>
+          </li>
+          <li>
+            <p class="gt-flow__n">STEP 02</p>
+            <h3>「或るべき姿」を一緒に決めます</h3>
+            <p>いきなり手段の話はしません。その事業がどうなればいいのかを先に決めます。ここが決まると、ホームページが要るのか、SNSなのか、別のことなのかが見えてきます。</p>
+          </li>
+          <li>
+            <p class="gt-flow__n">STEP 03</p>
+            <h3>必要なところから、カタチにします</h3>
+            <p>必要なものを、必要なだけ。全部まとめて頼む必要はありません。一部だけ、一度だけでも構いません。</p>
+          </li>
+        </ol>
+
+        <figure class="gt-band gt-band--bleed">
+          <?php gouter_image( 'talk.png', 'テーブルを挟んで資料を広げ、一緒に考えている様子', 'gt-ratio-1610' ); ?>
+        </figure>
+
+        <p class="gt-pull">「困ってあることは何ですか？」<br />そこから始めます。</p>
+      </div>
+    </section>
+
+    <aside class="gt-ctaband" aria-label="相談への案内">
+      <div class="gt-ctaband__inner">
+        <p>必要なものを、必要なだけ。<span>一部だけ、一度だけでも構いません。</span></p>
+        <a class="gt-btn gt-btn--light" href="#contact">まず相談してみる</a>
+      </div>
+    </aside>
+
     <section id="comdesign" aria-labelledby="comdesign-h" style="border-top:1px solid #E3E7EB">
       <div class="gt__wrap">
         <div class="gt-head">
-          <span class="gt-num">02</span>
+          <span class="gt-num">04</span>
           <div class="gt-head__body">
             <p class="gt-en">COMMUNICATION DESIGN</p>
             <h2 id="comdesign-h" class="gt-h2--lg">コミュニケーションデザイン<br />という考え方をしています。</h2>
@@ -191,7 +286,7 @@ add_action( 'wp_head', function () {
         </ul>
 
         <figure class="gt-band gt-band--bleed">
-          <?php gouter_image( 'comdesign.jpg', '点と点を糸で結んだ関係図', 'gt-ratio-1610' ); ?>
+          <?php gouter_image( 'think.png', '机に広げたノートとペンと付箋', 'gt-ratio-1610' ); ?>
         </figure>
 
         <p class="gt-pull">でも今は、ラブレターを渡すのも簡単ではありません。<br />会えないし、受け取ってもらえないかもしれない。</p>
@@ -248,7 +343,7 @@ add_action( 'wp_head', function () {
     <section id="philosophy" class="gt-navy" aria-labelledby="phil-h">
       <div class="gt__wrap">
         <div class="gt-head gt-head--rule">
-          <span class="gt-num">03</span>
+          <span class="gt-num">05</span>
           <p class="gt-en" style="margin-bottom:0">PHILOSOPHY</p>
           <p style="font-weight:700;font-size:14px;letter-spacing:.04em">Goûterの考え方</p>
         </div>
@@ -271,54 +366,11 @@ add_action( 'wp_head', function () {
     </section>
 
 
-    <section id="service" class="gt-pale" aria-labelledby="service-h">
-      <div class="gt__wrap">
-        <div class="gt-head gt-head--rule">
-          <span class="gt-num">04</span>
-          <div class="gt-head__body">
-            <p class="gt-en">SERVICE</p>
-            <h2 id="service-h" class="gt-h2">できること</h2>
-          </div>
-          <p class="gt-lead">コミュニケーションデザイン事業と、WEBソリューション事業。この2つを軸にしています。</p>
-        </div>
-        <div class="gt-cards2">
-          <div class="gt-svc">
-            <div class="gt-thumb"><?php gouter_image( 'service-1.jpg', 'コンサルティングのイメージ', 'gt-ratio-169' ); ?></div>
-            <p class="gt-svc__en">01 — CONSULTING</p>
-            <h3>コンサルティング</h3>
-            <p>開業支援 / 事業経営（企画立案）/ IT活用（集客アップ・売上アップ）</p>
-          </div>
-          <div class="gt-svc">
-            <div class="gt-thumb"><?php gouter_image( 'service-2.jpg', 'クライアント案件制作のイメージ', 'gt-ratio-169' ); ?></div>
-            <p class="gt-svc__en">02 — CREATIVE</p>
-            <h3>クライアント案件制作</h3>
-            <p>ロゴ / WEB / 広告（看板、チラシ、WEB）/ システム / 販促物 / イベント企画・運営</p>
-          </div>
-          <div class="gt-svc">
-            <div class="gt-thumb"><?php gouter_image( 'service-3.jpg', '運営サポート・記事執筆代行のイメージ', 'gt-ratio-169' ); ?></div>
-            <p class="gt-svc__en">03 — OPERATION</p>
-            <h3>運営サポート・運営代行</h3>
-            <p>WEB / EC / SNS活用（Instagram、Twitter、LINE、Googleビジネス 他）/ 記事執筆代行（SEO対策、キーワード選定、記事構成、ディレクション 他）</p>
-          </div>
-          <div class="gt-svc">
-            <div class="gt-thumb"><?php gouter_image( 'service-4.jpg', 'WEBソリューションのイメージ', 'gt-ratio-169' ); ?></div>
-            <p class="gt-svc__en">04 — WEB SOLUTION</p>
-            <h3>WEBソリューション</h3>
-            <p>ポータルサイト運営 / オーダーメイドシステムの構築 / ECサイトの構築（フルスクラッチ・既存サービスのカスタマイズ）/ WordPressカスタマイズ・専用プラグイン制作</p>
-          </div>
-        </div>
-        <div class="gt-service__foot">
-          <p>「こんなこと、できますか？」からでもどうぞ。</p>
-          <a class="gt-btn--sm" href="#contact">相談してみる</a>
-          <a class="gt-link" href="<?php echo esc_url( home_url( '/service' ) ); ?>">事業内容をくわしく見る →</a>
-        </div>
-      </div>
-    </section>
 
     <section id="knowledge" aria-labelledby="knowledge-h" style="border-top:1px solid #E3E7EB">
       <div class="gt__wrap">
         <div class="gt-head gt-head--rule">
-          <span class="gt-num">05</span>
+          <span class="gt-num">06</span>
           <div class="gt-head__body">
             <p class="gt-en">KNOWLEDGE</p>
             <h2 id="knowledge-h" class="gt-h2">現場で使えるノウハウを、<br />公開しています。</h2>
@@ -367,7 +419,7 @@ add_action( 'wp_head', function () {
       <div class="gt__wrap gt-about">
         <div>
           <div class="gt-head">
-            <span class="gt-num">06</span>
+            <span class="gt-num">07</span>
             <div>
               <p class="gt-en">ABOUT</p>
               <h2 id="about-h" class="gt-h2">Goûterは、<br />「おやつ」という意味です。</h2>
@@ -394,7 +446,7 @@ add_action( 'wp_head', function () {
     <section id="contact" class="gt-navy" aria-labelledby="contact-h">
       <div class="gt__wrap">
         <div class="gt-head gt-head--rule">
-          <span class="gt-num">07</span>
+          <span class="gt-num">08</span>
           <p class="gt-en" style="margin-bottom:0">CONTACT</p>
         </div>
         <div class="gt-contact">
@@ -412,6 +464,10 @@ add_action( 'wp_head', function () {
     </section>
 
   </main>
+
+  <div class="gt-sticky" aria-hidden="false">
+    <a class="gt-btn" href="#contact">まず相談してみる</a>
+  </div>
 
   <?php require get_stylesheet_directory() . '/parts/footer.php'; ?>
 
