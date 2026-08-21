@@ -179,7 +179,7 @@ add_action( 'wp_head', function () {
         </div>
         <div class="gt-cards2">
           <div class="gt-svc">
-            <div class="gt-thumb"><?php gouter_image( 'service-1.jpg', 'コンサルティングのイメージ', 'gt-ratio-169' ); ?></div>
+            <div class="gt-thumb"><?php gouter_image( 'consult.png', '壁に貼った付箋と手書きの図で課題を整理している様子', 'gt-ratio-169' ); ?></div>
             <p class="gt-svc__en">01 — CONSULTING</p>
             <h3>コンサルティング</h3>
             <p>開業支援 / 事業経営（企画立案）/ IT活用（集客アップ・売上アップ）</p>
@@ -438,7 +438,7 @@ add_action( 'wp_head', function () {
           </dl>
         </div>
         <div style="padding-top:0">
-          <?php gouter_image( 'about.jpg', 'ノートに描かれた電球と、青い紙のかたまり', 'gt-ratio-34' ); ?>
+          <?php gouter_image( 'tea.png', '木のテーブルに置かれた紅茶と焼き菓子、ノートと万年筆', 'gt-ratio-34' ); ?>
         </div>
       </div>
     </section>
