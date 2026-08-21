@@ -472,6 +472,24 @@ add_action( 'wp_head', function () {
   <?php require get_stylesheet_directory() . '/parts/footer.php'; ?>
 
 </div>
+
+<script>
+(function () {
+  if (!('IntersectionObserver' in window)) return;
+  var sel = '.gt__wrap > *, .gt-hero > div, .gt-cell, .gt-svc, .gt-flow > li, .gt-why > li, .gt-tri > li, .gt-post, .gt-ctaband__inner';
+  var els = document.querySelectorAll(sel);
+  for (var i = 0; i < els.length; i++) { els[i].classList.add('gt-reveal'); }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e, n) {
+      if (!e.isIntersecting) return;
+      var d = (n % 6) * 70;
+      setTimeout(function () { e.target.classList.add('is-in'); }, d);
+      io.unobserve(e.target);
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
+  for (var j = 0; j < els.length; j++) { io.observe(els[j]); }
+})();
+</script>
 <?php wp_footer(); ?>
 </body>
 </html>

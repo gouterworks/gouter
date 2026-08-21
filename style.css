@@ -336,3 +336,68 @@ Text Domain: gouter
   .gt-sticky .gt-btn { display: block; text-align: center; width: 100%; padding: 16px 20px; }
   .gt-footer { padding-bottom: 96px; }
 }
+
+
+/* =========================================================
+   雰囲気の刷新
+   これまで全セクションが「細い罫線 → 丸番号 → ピル → 見出し」の
+   同じ型の繰り返しで、ヒーローも「左に文字・右に小さな画像」という
+   ありふれた構図だった。以下でその2つを壊す。
+   ========================================================= */
+
+/* ---- 1. セクションの見出しを大きな英字に重ねる ---- */
+.gt-head { display: block; position: relative; }
+.gt-head > div { display: contents; }
+.gt-head--rule, .gt-head--rule-light { border-top: none; padding-top: 0; }
+.gt-en {
+  display: block; background: none; border-radius: 0; padding: 0;
+  font-size: clamp(46px, 7vw, 104px); font-weight: 900; line-height: .92;
+  letter-spacing: -.01em; color: #E9EDF1; white-space: nowrap;
+}
+.gt-pale .gt-en { color: #E1E6EB; }
+.gt-navy .gt-en { background: none; color: rgba(255,255,255,.13); }
+.gt-head h1, .gt-head h2 { position: relative; margin-top: -.34em; }
+.gt-num {
+  position: absolute; top: .1em; right: 0; width: auto; height: auto;
+  border: 0; border-radius: 0; font-size: 12px; letter-spacing: .22em; color: var(--faint);
+}
+.gt-navy .gt-num { color: rgba(255,255,255,.5); }
+.gt-lead { margin-top: 26px; }
+
+/* ---- 2. ヒーローを画面いっぱいの構図に ---- */
+@media (min-width: 1000px) {
+  .gt-hero {
+    max-width: none; min-height: 82vh; align-items: center;
+    grid-template-columns: 1fr minmax(40vw, 48vw);
+    gap: clamp(40px, 5vw, 88px);
+    padding: 0 0 0 max(var(--pad), calc(50vw - (var(--wrap) / 2) + var(--pad)));
+  }
+  .gt-hero > div:first-child { padding: clamp(48px,6vw,88px) 0; }
+  .gt-hero__fig { height: 82vh; }
+  .gt-hero__card { height: 100%; }
+  .gt-hero__card img { height: 100%; aspect-ratio: auto; object-fit: cover;
+    border-radius: var(--radius) 0 0 var(--radius); }
+  /* 黄色の敷き板はやめ、細い縦のアクセントに */
+  .gt-hero__fig::before { inset: auto auto 0 -14px; width: 14px; height: 42%;
+    background: var(--sun); border-radius: 0; }
+  .gt-hero__cap { position: absolute; left: 24px; bottom: 20px; color: #fff;
+    text-shadow: 0 1px 8px rgba(0,0,0,.5); margin: 0; z-index: 2; }
+}
+
+/* ---- 3. 文字の大きさの落差を広げる ---- */
+.gt-h1 { font-size: clamp(34px, 5.2vw, 72px); line-height: 1.4; }
+.gt-h2 { font-size: clamp(28px, 3.6vw, 50px); line-height: 1.45; }
+.gt-h2--lg { font-size: clamp(29px, 3.8vw, 52px); line-height: 1.45; }
+.gt-phil h2 { font-size: clamp(28px, 3.6vw, 50px); line-height: 1.45; }
+
+/* ---- 4. スクロールで現れる ---- */
+.gt-reveal { opacity: 0; transform: translateY(20px); }
+.gt-reveal.is-in { opacity: 1; transform: none;
+  transition: opacity .75s ease, transform .75s cubic-bezier(.2,.6,.2,1); }
+@media (prefers-reduced-motion: reduce) {
+  .gt-reveal, .gt-reveal.is-in { opacity: 1; transform: none; transition: none; }
+}
+
+/* 下層ページの見出しも同じ扱いに */
+.gt-pagehead .gt-en { color: #E1E6EB; }
+.gt-pagehead .gt-h1 { margin-top: -.30em; position: relative; }
