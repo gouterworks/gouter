@@ -87,10 +87,10 @@ Text Domain: gouter
 .gt-h1 { font-size: clamp(32px,4vw,54px); line-height: 1.45; letter-spacing: .005em; font-weight: 900; }
 /* 見出しの一部に黄色のマーカーを敷く */
 .gt-mark { background: linear-gradient(transparent 62%, var(--sun) 62%); }
-.gt-hero__sub { margin-top: 34px; font-size: clamp(15px,1.2vw,17px); line-height: 2.25; color: var(--body); max-width: 32em; }
+.gt-hero__sub { margin-top: 26px; font-size: clamp(15px,1.2vw,17px); line-height: 2.25; color: var(--body); max-width: 32em; }
 .gt-hero__note { margin-top: 20px; font-size: 14px; line-height: 2.1; color: #6B7382; max-width: 34em; }
-.gt-cta { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 40px; }
-.gt-area { margin-top: 44px; padding-top: 20px; border-top: 1px solid var(--line); font-size: 12px; line-height: 2; letter-spacing: .06em; color: var(--mute); }
+.gt-cta { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; }
+.gt-area { margin-top: 30px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 12px; line-height: 2; letter-spacing: .06em; color: var(--mute); }
 .gt-hero__fig { position: relative; }
 .gt-hero__fig::before { content: ""; position: absolute; inset: 22px -22px -22px 22px; background: var(--sun); border-radius: var(--radius); }
 .gt-hero__card { position: relative; }
@@ -370,13 +370,13 @@ Text Domain: gouter
 /* ---- 2. ヒーローを画面いっぱいの構図に ---- */
 @media (min-width: 1000px) {
   .gt-hero {
-    max-width: none; min-height: clamp(460px, 64vh, 660px); align-items: center;
+    max-width: none; min-height: clamp(420px, 58vh, 600px); align-items: center;
     grid-template-columns: 1fr minmax(34vw, 40vw);
     gap: clamp(40px, 5vw, 88px);
     padding: 0 0 0 max(var(--pad), calc(50vw - (var(--wrap) / 2) + var(--pad)));
   }
-  .gt-hero > div:first-child { padding: clamp(48px,6vw,88px) 0; }
-  .gt-hero__fig { height: clamp(460px, 64vh, 660px); }
+  .gt-hero > div:first-child { padding: clamp(28px,3.4vw,52px) 0; }
+  .gt-hero__fig { height: clamp(420px, 58vh, 600px); }
   .gt-hero__card { height: 100%; }
   .gt-hero__card img { height: 100%; aspect-ratio: auto; object-fit: cover;
     border-radius: var(--radius) 0 0 var(--radius); }
