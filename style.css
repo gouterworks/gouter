@@ -25,8 +25,8 @@ Text Domain: gouter
   --mincho: "Zen Old Mincho", serif;
   --gothic: "Zen Kaku Gothic New", system-ui, sans-serif;
   --pad: clamp(20px, 5vw, 56px);
-  --sec: clamp(60px, 7.2vw, 112px);
-  --blk: clamp(36px, 4.4vw, 68px);   /* ブロック間の標準の余白 */
+  --sec: clamp(48px, 5.6vw, 84px);
+  --blk: clamp(30px, 3.6vw, 54px);   /* ブロック間の標準の余白 */
   --blk-sm: clamp(24px, 2.8vw, 42px); /* 補助的な余白 */
   --wrap: 1200px;
 }
@@ -107,16 +107,19 @@ Text Domain: gouter
 
 /* ===== セクションを横断する帯状の画像 ===== */
 .gt-band { margin: var(--blk) 0 0; border-radius: var(--radius); overflow: hidden; }
-.gt-band + .gt-pull, .gt-service + .gt-pull { margin-top: clamp(52px,6vw,92px); }
+.gt-band + .gt-pull, .gt-service + .gt-pull { margin-top: clamp(34px,4vw,62px); }
 .gt-band img, .gt-band .gt-ph { width: 100%; }
 /* コンテナ幅を突き抜けて画面いっぱいに使う */
 .gt-band--bleed { width: 100vw; max-width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); border-radius: 0; }
 /* 全幅で 16:10 のままだと高さ900pxになり大きすぎるので、横長に切る */
-.gt-band--bleed img { aspect-ratio: 5/2; }
-@media (max-width: 700px) { .gt-band--bleed img { aspect-ratio: 4/3; } }
+/* 帯は情報量が無いので低く抑える。目的を持って来た人の邪魔をしない */
+.gt-band--bleed img { aspect-ratio: 38/10; }
+@media (max-width: 700px) { .gt-band--bleed img { aspect-ratio: 16/10; } }
 
 /* サムネイルのホバー */
 .gt-thumb { overflow: hidden; border-radius: var(--radius); }
+/* サムネは内容の識別が目的。大きく見せる必要はない */
+.gt-svc .gt-thumb img { aspect-ratio: 3/1; }
 .gt-thumb img { transition: transform .8s cubic-bezier(.2,.6,.2,1); }
 .gt-svc:hover .gt-thumb img { transform: scale(1.04); }
 .gt-post > a { display: block; overflow: hidden; }
@@ -127,11 +130,11 @@ Text Domain: gouter
 .gt-pale { background: var(--pale); }
 .gt-grid6 { margin-top: var(--blk); display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: clamp(20px,2.2vw,28px); background: none; }
 @media (min-width: 900px) { .gt-grid6 { grid-template-columns: repeat(3, 1fr); } }
-.gt-cell { background: #fff; padding: clamp(28px,3vw,38px); border-radius: var(--radius); }
+.gt-cell { background: #fff; padding: clamp(24px,2.6vw,32px); border-radius: var(--radius); }
 .gt-cell__num { display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 50%; background: var(--navy); color: #fff; font-weight: 700; font-size: 14px; }
 .gt-cell h3 { margin-top: 18px; font-size: 20px; line-height: 1.65; font-weight: 700; }
 .gt-cell p { margin-top: 16px; font-size: 15px; line-height: 2.15; color: var(--sub); }
-.gt-pull { margin-top: clamp(44px,5vw,80px); font-family: var(--gothic); font-weight: 700; font-size: clamp(20px,2.2vw,29px); line-height: 1.9; letter-spacing: .01em; }
+.gt-pull { margin-top: clamp(32px,3.6vw,58px); font-family: var(--gothic); font-weight: 700; font-size: clamp(20px,2.2vw,29px); line-height: 1.9; letter-spacing: .01em; }
 
 /* ===== think first ===== */
 .gt-two { display: grid; grid-template-columns: 1fr; gap: clamp(24px,3vw,44px); }
@@ -187,7 +190,7 @@ Text Domain: gouter
 .gt-tri > li { border-top: 3px solid var(--sun); padding-top: 24px; }
 .gt-tri__n { font-family: var(--gothic); font-weight: 700; font-size: 12px; letter-spacing: .12em; color: var(--navy); }
 /* セクション内の中見出し */
-.gt-subhead { margin-top: clamp(52px,6vw,92px); font-size: clamp(21px,2.2vw,28px); line-height: 1.6; font-weight: 900; padding-bottom: 14px; border-bottom: 3px solid var(--sun); display: inline-block; }
+.gt-subhead { margin-top: clamp(36px,4.2vw,64px); font-size: clamp(21px,2.2vw,28px); line-height: 1.6; font-weight: 900; padding-bottom: 14px; border-bottom: 3px solid var(--sun); display: inline-block; }
 .gt-tri h3 { margin-top: 14px; font-size: clamp(18px,1.8vw,21px); line-height: 1.8; font-weight: 700; }
 
 /* ===== works / knowledge cards ===== */
@@ -320,7 +323,7 @@ Text Domain: gouter
 /* ===== 相談の流れ ===== */
 .gt-flow { margin-top: var(--blk); display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: clamp(22px,2.6vw,32px); }
 @media (min-width: 900px) { .gt-flow { grid-template-columns: repeat(3, 1fr); } }
-.gt-flow > li { background: #fff; border-radius: var(--radius); padding: clamp(28px,3vw,38px); position: relative; }
+.gt-flow > li { background: #fff; border-radius: var(--radius); padding: clamp(24px,2.6vw,32px); position: relative; }
 .gt-flow > li::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 4px; background: var(--navy); border-radius: var(--radius) var(--radius) 0 0; }
 .gt-flow__n { font-weight: 900; font-size: 12px; letter-spacing: .14em; color: var(--navy); }
 .gt-flow h3 { margin-top: 14px; font-size: clamp(19px,1.9vw,22px); line-height: 1.6; font-weight: 700; }
@@ -351,12 +354,12 @@ Text Domain: gouter
 .gt-head--rule, .gt-head--rule-light { border-top: none; padding-top: 0; }
 .gt-en {
   display: block; background: none; border-radius: 0; padding: 0;
-  font-size: clamp(46px, 7vw, 104px); font-weight: 900; line-height: .92;
+  font-size: clamp(34px, 4.6vw, 68px); font-weight: 900; line-height: .92;
   letter-spacing: -.01em; color: #E9EDF1; white-space: nowrap;
 }
 .gt-pale .gt-en { color: #E1E6EB; }
 .gt-navy .gt-en { background: none; color: rgba(255,255,255,.13); }
-.gt-head h1, .gt-head h2 { position: relative; margin-top: -.34em; }
+.gt-head h1, .gt-head h2 { position: relative; margin-top: -.30em; }
 .gt-num {
   position: absolute; top: .1em; right: 0; width: auto; height: auto;
   border: 0; border-radius: 0; font-size: 12px; letter-spacing: .22em; color: var(--faint);
@@ -367,13 +370,13 @@ Text Domain: gouter
 /* ---- 2. ヒーローを画面いっぱいの構図に ---- */
 @media (min-width: 1000px) {
   .gt-hero {
-    max-width: none; min-height: clamp(560px, 82vh, 880px); align-items: center;
-    grid-template-columns: 1fr minmax(40vw, 48vw);
+    max-width: none; min-height: clamp(460px, 64vh, 660px); align-items: center;
+    grid-template-columns: 1fr minmax(34vw, 40vw);
     gap: clamp(40px, 5vw, 88px);
     padding: 0 0 0 max(var(--pad), calc(50vw - (var(--wrap) / 2) + var(--pad)));
   }
   .gt-hero > div:first-child { padding: clamp(48px,6vw,88px) 0; }
-  .gt-hero__fig { height: clamp(560px, 82vh, 880px); }
+  .gt-hero__fig { height: clamp(460px, 64vh, 660px); }
   .gt-hero__card { height: 100%; }
   .gt-hero__card img { height: 100%; aspect-ratio: auto; object-fit: cover;
     border-radius: var(--radius) 0 0 var(--radius); }

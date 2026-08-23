@@ -285,10 +285,6 @@ add_action( 'wp_head', function () {
           </li>
         </ul>
 
-        <figure class="gt-band gt-band--bleed">
-          <?php gouter_image( 'think.png', '机に広げたノートとペンと付箋', 'gt-ratio-1610' ); ?>
-        </figure>
-
         <p class="gt-pull">でも今は、ラブレターを渡すのも簡単ではありません。<br />会えないし、受け取ってもらえないかもしれない。</p>
 
         <ul class="gt-why">
@@ -351,10 +347,6 @@ add_action( 'wp_head', function () {
           <h2 id="phil-h">或るべき姿を考えて、<br />それをカタチにする。</h2>
           <p>本人が気づかないほど自然に、いい結果につながる。そんな状態を、わたしたちは「或るべき姿」と呼んでいます。</p>
         </div>
-        <figure class="gt-band gt-band--bleed">
-          <?php gouter_image( 'night.png', 'スタンドの灯りがノートを照らしている夜の机', 'gt-ratio-1610' ); ?>
-        </figure>
-
         <div class="gt-stmt">
           <p class="gt-stmt__lead">その姿を見出した時、カタチにするまで、<br />必要なことはすべて行います。一切の妥協もありません。</p>
           <div class="gt-stmt__cols">
