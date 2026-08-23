@@ -377,9 +377,9 @@ Text Domain: gouter
   }
   .gt-hero > div:first-child { padding: clamp(28px,3.4vw,52px) 0; }
   .gt-hero__fig { height: clamp(420px, 58vh, 600px); }
-  .gt-hero__card { height: 100%; }
-  .gt-hero__card img { height: 100%; aspect-ratio: auto; object-fit: cover;
-    border-radius: var(--radius) 0 0 var(--radius); }
+  .gt-hero__card { height: 100%; overflow: hidden; border-radius: var(--radius) 0 0 var(--radius); }
+  /* .gt img.gt-ratio-45 (0,2,1) に負けて height:auto のままだったので詳細度を合わせる */
+  .gt .gt-hero__card img { height: 100%; width: 100%; aspect-ratio: auto; object-fit: cover; }
   /* 黄色の敷き板はやめ、細い縦のアクセントに */
   .gt-hero__fig::before { inset: auto auto 0 -14px; width: 14px; height: 42%;
     background: var(--sun); border-radius: 0; }
