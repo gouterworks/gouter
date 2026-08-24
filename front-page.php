@@ -97,7 +97,8 @@ add_action( 'wp_head', function () {
     <section class="gt-hero">
       <div>
         <p class="gt-eyebrow">福岡・宗像 ｜ コミュニケーションデザイン事務所</p>
-        <h1 class="gt-h1">「困ってあることは何ですか？<br /><span class="gt-mark">何でもお手伝いできますよ。」</span></h1>
+        <?php // 1行14文字だと左カラムに収まらず「何でも」だけが孤立した行になる。改行は明示する ?>
+        <h1 class="gt-h1">「困ってあることは<br />何ですか？<br /><span class="gt-mark">何でもお手伝い<br />できますよ。」</span></h1>
         <p class="gt-hero__sub">毎回、相談に来られた方にそうお伝えしています。</p>
         <p class="gt-hero__note">ITコンサル、Webディレクター、プランナー。肩書を3つ並べても説明しきれませんが、やっていることはひとつです。</p>
         <div class="gt-cta">
