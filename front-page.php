@@ -97,8 +97,8 @@ add_action( 'wp_head', function () {
     <section class="gt-hero">
       <div>
         <p class="gt-eyebrow">福岡・宗像 ｜ コミュニケーションデザイン事務所</p>
-        <h1 class="gt-h1">「困ってあることは、<br /><span class="gt-mark">何ですか？」</span></h1>
-        <p class="gt-hero__sub">何でもお手伝いできますよ。<br />毎回、相談に来られた方にそうお伝えしています。</p>
+        <h1 class="gt-h1">「困ってあることは何ですか？<br /><span class="gt-mark">何でもお手伝いできますよ。」</span></h1>
+        <p class="gt-hero__sub">毎回、相談に来られた方にそうお伝えしています。</p>
         <p class="gt-hero__note">ITコンサル、Webディレクター、プランナー。肩書を3つ並べても説明しきれませんが、やっていることはひとつです。</p>
         <div class="gt-cta">
           <a class="gt-btn" href="#contact">まず相談してみる</a>
@@ -445,7 +445,7 @@ add_action( 'wp_head', function () {
           <div>
             <h2 id="contact-h">まずは、<br />話してみませんか。</h2>
             <p class="gt-contact__lead">「ホームページをつくりたい」「集客を相談したい」「新しいことを始めたい」。具体的な相談はもちろん、「何が問題なのかわからない」からでも大丈夫です。</p>
-            <p class="gt-contact__pull">「困ってあることは何ですか？」<br />何でもお手伝いできますよ。</p>
+            <p class="gt-contact__pull">「困ってあることは何ですか？<br />何でもお手伝いできますよ。」</p>
             <p class="gt-area" style="color:rgba(255,255,255,.6);border-top-color:rgba(255,255,255,.28)">福岡市・宗像市・北九州市を中心に、福岡県全域<br />オンラインでのご相談も承ります。</p>
           </div>
           <div class="gt-form">
