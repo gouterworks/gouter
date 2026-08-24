@@ -131,3 +131,121 @@ function gouter_image($file, $alt, $ratio_class, $args = array())
 
 	printf('<div class="gt-ph %1$s">%2$s</div>', esc_attr($ratio_class), esc_html($alt));
 }
+
+/**
+ * 記事詳細を Goûter のテンプレート(single.php)で表示する。
+ *
+ * 子テーマの single.php はテンプレート階層でも選ばれるはずだが、
+ * 固定ページと同じく JIN:R 側が template_include で差し替えてくる
+ * 可能性があるため、こちらでも明示して確実にする。
+ */
+add_filter('template_include', 'gouter_single_template', 100);
+function gouter_single_template($template)
+{
+	if (is_singular('post')) {
+		$mine = get_stylesheet_directory() . '/single.php';
+		if (file_exists($mine)) {
+			return $mine;
+		}
+	}
+	return $template;
+}
+
+/**
+ * 記事の代表カテゴリ。複数付いていても最初のひとつを使う。
+ * カテゴリが無い記事でも落ちないよう、既定カテゴリに退避する。
+ */
+function gouter_post_cat($post_id)
+{
+	$cats = get_the_category($post_id);
+
+	if (!empty($cats)) {
+		return $cats[0];
+	}
+
+	$fallback = get_category(get_option('default_category'));
+	return $fallback ? $fallback : (object) array('term_id' => 0, 'slug' => '', 'name' => '', 'count' => 0);
+}
+
+/**
+ * カテゴリの表示名。
+ *
+ * WordPress 側のカテゴリ名が英小文字のスラッグのまま（column / information）
+ * なので、画面に出す日本語名をここで持つ。管理画面のカテゴリ名を
+ * 日本語に変えれば、この対応表は不要になる。
+ */
+function gouter_cat_label($term)
+{
+	$map = array(
+		'column'      => '読みもの',
+		'information' => 'お知らせ',
+	);
+
+	$slug = is_object($term) ? $term->slug : (string) $term;
+
+	if (isset($map[$slug])) {
+		return $map[$slug];
+	}
+	return is_object($term) ? $term->name : $slug;
+}
+
+/**
+ * 見出しに重ねる大きな英字ラベル。
+ */
+function gouter_cat_en($term)
+{
+	$slug = is_object($term) ? $term->slug : (string) $term;
+	return $slug ? strtoupper($slug) : 'ARTICLE';
+}
+
+/**
+ * 記事の description。
+ *
+ * 優先順位:
+ *  1. JIN:R の記事ごとの説明文（管理画面で個別に設定したもの）
+ *  2. 本文に紛れ込んでいる <meta name="description"> の中身
+ *     ※ 5記事で、書いた説明文が本文の先頭に貼り付けられている。
+ *       本来 head に入るものなので、そこから拾って head に出す。
+ *  3. 本文の先頭120文字
+ */
+function gouter_post_description($post_id)
+{
+	$set = trim((string) get_post_meta($post_id, '_jinr_description_display', true));
+	if ($set !== '') {
+		return $set;
+	}
+
+	$raw = (string) get_post_field('post_content', $post_id);
+
+	if (preg_match('/<meta\s[^>]*name=["\']description["\'][^>]*content=["\']([^"\']*)["\']/i', $raw, $m)) {
+		$found = trim(html_entity_decode($m[1], ENT_QUOTES, 'UTF-8'));
+		if ($found !== '') {
+			return $found;
+		}
+	}
+
+	$text = wp_strip_all_tags(strip_shortcodes($raw));
+	$text = trim(preg_replace('/\s+/u', ' ', $text));
+
+	return function_exists('mb_substr') ? mb_substr($text, 0, 120) : substr($text, 0, 360);
+}
+
+/**
+ * 本文に貼り付けられてしまった <meta> タグを表示から取り除く。
+ *
+ * <meta> は本来 head に置くもので、本文にあると空の段落が残るだけになる。
+ * 中身は gouter_post_description() が head の description として使うので、
+ * 情報は失われない。データベース側は書き換えていない。
+ */
+add_filter('the_content', 'gouter_strip_stray_meta', 20);
+function gouter_strip_stray_meta($content)
+{
+	if (stripos($content, '<meta') === false) {
+		return $content;
+	}
+
+	// <p><meta ...></p> ごと消す。残すと空の段落の余白だけが残る
+	$content = preg_replace('/<p[^>]*>\s*<meta\b[^>]*>\s*<\/p>/i', '', $content);
+
+	return preg_replace('/<meta\b[^>]*>/i', '', $content);
+}

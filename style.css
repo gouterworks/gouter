@@ -404,3 +404,107 @@ Text Domain: gouter
 /* 下層ページの見出しも同じ扱いに */
 .gt-pagehead .gt-en { color: #E1E6EB; }
 .gt-pagehead .gt-h1 { margin-top: -.30em; position: relative; }
+
+/* =========================================================
+   記事詳細（single.php）
+   記事だけが JIN:R 標準のままでサイトから浮いていたため、
+   トップ・下層ページと同じ言葉づかいに揃える。
+   本文は読むためのものなので、装飾は足さず余白と行間で作る。
+   ========================================================= */
+
+/* ---- 記事の冒頭 ---- */
+.gt-posthead { background: var(--pale); }
+.gt-posthead .gt__wrap { padding-top: clamp(34px,4.2vw,60px); padding-bottom: clamp(30px,3.6vw,50px); }
+.gt-posthead .gt-crumb { margin-bottom: 22px; }
+/* 記事名は長いので、パンくずの最後は折り返さず省略する */
+.gt-crumb span { color: var(--mute); }
+.gt-posthead .gt-en { color: #E1E6EB; font-size: clamp(30px,3.8vw,54px); }
+/* 記事の見出しは文章なので、トップのH1ほど大きくすると読みづらい */
+.gt-posttitle {
+  position: relative; margin-top: -.24em;
+  font-size: clamp(25px, 3.1vw, 42px); line-height: 1.55; letter-spacing: .005em; font-weight: 900;
+}
+.gt-postinfo { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 12.5px; color: var(--mute); }
+.gt-postinfo time { letter-spacing: .06em; }
+
+/* ---- アイキャッチ ---- */
+/* 本文と同じ幅に収める。全幅にすると高さを食うだけで内容が増えない */
+.gt-postthumb { max-width: 46em; margin: 0 0 clamp(30px,3.4vw,46px); border-radius: var(--radius); overflow: hidden; }
+.gt-postthumb img { width: 100%; }
+
+/* ---- 本文（.gt-article の記事向けの追加分） ---- */
+.gt-article blockquote {
+  margin-left: 0; margin-right: 0; padding: 4px 0 4px clamp(18px,2vw,26px);
+  border-left: 3px solid var(--line2); color: var(--sub);
+}
+.gt-article blockquote p { font-size: 16px; }
+.gt-article figure { margin-left: 0; margin-right: 0; }
+.gt-article figcaption { margin-top: 12px; font-size: 13px; line-height: 1.9; color: var(--mute); }
+.gt-article hr { border: 0; border-top: 1px solid var(--line); margin: clamp(38px,4vw,58px) 0; }
+.gt-article table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.gt-article th, .gt-article td { border: 1px solid var(--line); padding: 12px 14px; line-height: 1.9; text-align: left; vertical-align: top; }
+.gt-article th { background: var(--pale); font-weight: 700; }
+/* 表は幅が足りないと横に潰れるので、内側だけ横スクロールさせる */
+.gt-article .wp-block-table { overflow-x: auto; }
+.gt-article code { background: var(--pale); border-radius: 4px; padding: 2px 6px; font-size: .93em; }
+.gt-article pre { background: var(--pale); border-radius: var(--radius); padding: clamp(16px,2vw,22px); overflow-x: auto; }
+.gt-article pre code { background: none; padding: 0; }
+.gt-article a:hover { color: var(--ink); border-bottom-color: var(--ink); }
+
+/* 本文中の見出しに ID が振られている（目次のリンク先）。
+   ヘッダーが sticky なので、飛んだ先が隠れないよう余白を確保する */
+.gt-article :where(h2, h3, h4)[id] { scroll-margin-top: 90px; }
+
+/* ---- 本文に直接書かれている色を Goûter の2色に寄せる ----
+   記事側の囲みが茶・金（#c8a96e 系）で書かれていて、ネイビーと衝突する。
+   本文はデータベース側にあり書き換えると記事を壊しかねないので、
+   表示の段階で上書きする。インラインの style に勝つため !important を使う */
+.gt-article [style*="#c8a96e"] {
+  background: var(--pale) !important;
+  border-color: var(--navy) !important;
+}
+.gt-article [style*="#f7f3ee"],
+.gt-article [style*="#fdf8f0"],
+.gt-article [style*="#f8f4ee"],
+.gt-article [style*="#f9f9f9"],
+.gt-article [style*="#f0f4f8"] {
+  background: var(--pale) !important;
+}
+.gt-article [style*="#e0e0e0"] { border-color: var(--line) !important; }
+.gt-article [style*="#6a9ec0"] { border-color: var(--navy) !important; }
+/* 囲みの角丸もそろえる。画像に当てると意図した切り抜きを壊すので div/p だけ */
+.gt-article div[style*="border-radius"],
+.gt-article p[style*="border-radius"] { border-radius: var(--radius) !important; }
+
+/* ---- 目次（Rich Table of Content プラグイン） ---- */
+/* プラグイン既定の見た目がサイトから浮くので、最低限だけ上書きする */
+.gt-article #rtoc-mokuji-wrapper {
+  background: var(--pale); border: 0; border-radius: var(--radius);
+  padding: clamp(20px,2.4vw,28px); box-shadow: none; width: 100%; max-width: none;
+}
+.gt-article #rtoc-mokuji-title { font-family: var(--gothic); font-weight: 700; font-size: 15px; letter-spacing: .06em; color: var(--ink); }
+.gt-article .rtoc-mokuji li { font-size: 15px; line-height: 1.95; }
+.gt-article .rtoc-mokuji a { border-bottom: 0; color: var(--body); }
+.gt-article .rtoc-mokuji a:hover { color: var(--navy); border-bottom: 1px solid var(--navy); }
+
+/* ---- 続けて読む ---- */
+.gt-relwrap { border-top: 1px solid var(--line); background: #fff; }
+.gt-relwrap .gt-posts { grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); }
+.gt-relwrap .gt-post h3 { font-size: 16.5px; }
+
+/* ---- 前後の記事 ---- */
+.gt-pnwrap { border-top: 1px solid var(--line); background: var(--pale); }
+.gt-pnwrap .gt__wrap { padding-top: clamp(28px,3vw,42px); padding-bottom: clamp(28px,3vw,42px); }
+.gt-pn { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: clamp(16px,2vw,26px); }
+.gt-pn > li { background: #fff; border-radius: var(--radius); }
+.gt-pn a { display: block; padding: clamp(18px,2vw,24px); }
+.gt-pn__label { display: block; font-size: 11px; letter-spacing: .16em; color: var(--faint); font-weight: 700; }
+.gt-pn__title { display: block; margin-top: 10px; font-size: 15.5px; line-height: 1.85; font-weight: 700; color: var(--ink); }
+.gt-pn a:hover .gt-pn__title { color: var(--navy); }
+/* 次の記事は右寄せにして、前後の向きが見た目で分かるようにする */
+.gt-pn__next { text-align: right; }
+
+@media (max-width: 700px) {
+  .gt-pn__next { text-align: left; }
+  .gt-postthumb { margin-bottom: 26px; }
+}

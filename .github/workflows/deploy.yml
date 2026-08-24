@@ -14,5 +14,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           port: 22
-          source: "front-page.php,page-gt.php,functions.php,style.css,parts/**,assets/**"
+          # テンプレートを1枚ずつ書くと追加したときに転送し忘れる
+          # （single.php を足したときに実際に忘れた）。ルートの .php は全部送る
+          source: "*.php,style.css,parts/**,assets/**"
           target: "/home/liberarch/www/gouter/wp-content/themes/gouter"
