@@ -361,6 +361,14 @@ def audit(post_id, kw):
     return r.show(f"記事{post_id}")
 
 
+def show(post_id):
+    """記事の中身をそのまま出す。手元に引き取って直すときに使う。"""
+    post = api("GET", f"posts/{post_id}?context=edit")
+    print(f"--- title ---\n{post['title']['raw']}")
+    print(f"--- status --- {post['status']}  featured_media: {post.get('featured_media')}")
+    print(f"--- content ---\n{post['content']['raw']}\n--- end ---")
+
+
 def set_status(post_id, status):
     post = api("POST", f"posts/{post_id}", {"status": status})
     print(f"状態を{post['status']}に変更 記事{post['id']}: {post['link']}")
@@ -402,6 +410,9 @@ def main(argv=None):
     s.add_argument("--post", required=True)
     s.add_argument("--kw", required=True)
 
+    s = sub.add_parser("show", help="記事の中身をそのまま出す")
+    s.add_argument("--post", required=True)
+
     s = sub.add_parser("publish", help="下書きを公開する")
     s.add_argument("--post", required=True)
 
@@ -439,6 +450,9 @@ def main(argv=None):
         return
     if a.cmd == "audit":
         sys.exit(audit(a.post, a.kw))
+    if a.cmd == "show":
+        show(a.post)
+        return
     if a.cmd == "publish":
         set_status(a.post, "publish")
         return
