@@ -475,6 +475,10 @@ Text Domain: gouter
 .gt-article pre { background: var(--pale); border-radius: var(--radius); padding: clamp(16px,2vw,22px); overflow-x: auto; }
 .gt-article pre code { background: none; padding: 0; }
 .gt-article a:hover { color: var(--ink); border-bottom-color: var(--ink); }
+/* JIN:R が本文に差し込む広告枠。スマホで本文幅(335px)に対して
+   736px で描画されてはみ出すので、本文の幅に収める */
+.gt-article .o--ads-area,
+.gt-article .adsbygoogle { max-width: 100%; overflow: hidden; }
 
 /* 本文中の見出しに ID が振られている（目次のリンク先）。
    ヘッダーが sticky なので、飛んだ先が隠れないよう余白を確保する */
@@ -509,7 +513,8 @@ Text Domain: gouter
 }
 .gt-article #rtoc-mokuji-title { font-family: var(--gothic); font-weight: 700; font-size: 15px; letter-spacing: .06em; color: var(--ink); }
 .gt-article .rtoc-mokuji li { font-size: 15px; line-height: 1.95; }
-.gt-article .rtoc-mokuji a { border-bottom: 0; color: var(--body); }
+/* リンクが inline-block なので、狭い画面で項目の枠より広がってはみ出す */
+.gt-article .rtoc-mokuji a { border-bottom: 0; color: var(--body); max-width: 100%; }
 .gt-article .rtoc-mokuji a:hover { color: var(--navy); border-bottom: 1px solid var(--navy); }
 
 /* ---- 続けて読む ---- */
