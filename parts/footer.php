@@ -7,7 +7,7 @@ $gt_home = is_front_page() ? '' : esc_url( home_url( '/' ) );
   <footer class="gt-footer">
     <div class="gt-footer__inner">
       <div>
-        <p class="gt-footer__logo">Goûter</p>
+        <p class="gt-footer__logo"><?php gouter_logo(); ?></p>
         <p class="gt-footer__meta">コミュニケーションデザイン事務所<br />〒811-4173　福岡県宗像市栄町2-1-2F</p>
       </div>
       <nav aria-label="フッターナビゲーション">

@@ -58,6 +58,9 @@ Text Domain: gouter
 .gt-header { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
 .gt-header__inner { max-width: var(--wrap); margin: 0 auto; padding: 18px var(--pad); display: flex; align-items: center; gap: clamp(16px,4vw,48px); flex-wrap: wrap; }
 .gt-logo { font-family: var(--gothic); font-weight: 400; font-size: 26px; letter-spacing: .40em; color: var(--navy); line-height: 1; }
+/* ロゴ画像を設定したとき。文字の Goûter と同じ高さに揃える。
+   幅を auto にしたまま max-width を効かせると横に潰れるので object-fit で防ぐ */
+.gt-logo__img { display: block; height: 26px; width: auto; max-width: min(220px, 46vw); object-fit: contain; object-position: left center; }
 .gt-nav { flex: 0 1 auto; }
 .gt-nav ul { display: flex; flex-wrap: wrap; gap: 6px clamp(14px,2.4vw,28px); font-size: 13px; letter-spacing: .08em; }
 .gt-nav a { color: var(--body); }
@@ -258,6 +261,7 @@ Text Domain: gouter
 .gt-footer__inner { max-width: var(--wrap); margin: 0 auto; padding: clamp(48px,6vw,84px) var(--pad) 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: clamp(28px,4vw,56px); border-top: 1px solid var(--line); }
 .gt-footer__navlabel { font-size: 11px; font-weight: 700; letter-spacing: .14em; color: var(--faint); margin-bottom: 14px; }
 .gt-footer__logo { font-family: var(--gothic); font-weight: 400; font-size: 24px; letter-spacing: .40em; color: var(--navy); }
+.gt-footer__logo .gt-logo__img { height: 24px; }
 .gt-footer__meta { margin-top: 14px; font-size: 12px; line-height: 2; letter-spacing: .06em; color: var(--mute); }
 .gt-footer nav ul { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px,1fr)); gap: 12px 24px; font-size: 13px; }
 .gt-footer nav a { color: var(--body); }

@@ -249,3 +249,63 @@ function gouter_strip_stray_meta($content)
 
 	return preg_replace('/<meta\b[^>]*>/i', '', $content);
 }
+
+/**
+ * サイトのロゴ。
+ *
+ * ファイル名を直書きすると、差し替えのたびにテーマの再アップロードが要る。
+ * WordPress 標準の「カスタムロゴ」に対応させて、管理画面
+ * （外観 → カスタマイズ → サイト基本情報 → ロゴ）で差し替えられるようにする。
+ *
+ * 親テーマ(JIN:R)も after_setup_theme で custom-logo を宣言している可能性があり、
+ * 子テーマの functions.php は親より先に読まれる。同じ優先度だと親に上書き
+ * されるため、優先度を下げて必ず後から宣言する。
+ */
+add_action('after_setup_theme', 'gouter_logo_support', 20);
+function gouter_logo_support()
+{
+	add_theme_support('custom-logo', array(
+		'height'      => 72,
+		'width'       => 320,
+		'flex-height' => true,
+		'flex-width'  => true,
+	));
+}
+
+/**
+ * ロゴを出力する。ヘッダーとフッターの両方から呼ぶ。
+ *
+ * 探す順番:
+ *  1. 管理画面のカスタムロゴ
+ *  2. テーマ内の assets/img/logo.svg / logo.png（1が使えないテーマ設定のときの逃げ道）
+ *  3. どちらも無ければ、これまで通り文字の「Goûter」
+ *
+ * 3があるので、ロゴが未設定でもヘッダーが空になることはない。
+ */
+function gouter_logo()
+{
+	$id = get_theme_mod('custom_logo');
+
+	if ($id && wp_attachment_is_image($id)) {
+		echo wp_get_attachment_image($id, 'full', false, array(
+			'class' => 'gt-logo__img',
+			'alt'   => get_bloginfo('name'),
+		));
+		return;
+	}
+
+	foreach (array('logo.svg', 'logo.png') as $file) {
+		$path = get_stylesheet_directory() . '/assets/img/' . $file;
+
+		if (file_exists($path)) {
+			printf(
+				'<img class="gt-logo__img" src="%1$s" alt="%2$s" />',
+				esc_url(get_stylesheet_directory_uri() . '/assets/img/' . $file),
+				esc_attr(get_bloginfo('name'))
+			);
+			return;
+		}
+	}
+
+	echo 'Goûter';
+}
