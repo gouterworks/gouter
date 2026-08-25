@@ -314,3 +314,47 @@ function gouter_logo()
 
 	echo 'Goûter';
 }
+
+/**
+ * 記事一覧を Goûter のテンプレート(archive.php / search.php)で表示する。
+ *
+ * 固定ページや記事詳細と同じく、JIN:R 側が template_include で
+ * 差し替えてくるため、こちらでも明示して確実にする。
+ */
+add_filter('template_include', 'gouter_archive_template', 100);
+function gouter_archive_template($template)
+{
+	if (is_search()) {
+		$mine = get_stylesheet_directory() . '/search.php';
+		if (file_exists($mine)) {
+			return $mine;
+		}
+	}
+
+	if (is_category() || is_tag() || is_date() || is_author() || is_home()) {
+		$mine = get_stylesheet_directory() . '/archive.php';
+		if (file_exists($mine)) {
+			return $mine;
+		}
+	}
+
+	return $template;
+}
+
+/**
+ * 一覧に出す記事数。
+ *
+ * 既定の10本だと3列のグリッドで最後の行が1本だけ残って落ち着かない。
+ * 12本にすると 3列×4行 / 2列×6行 のどちらでも埋まる。
+ */
+add_action('pre_get_posts', 'gouter_archive_per_page');
+function gouter_archive_per_page($query)
+{
+	if (is_admin() || !$query->is_main_query()) {
+		return;
+	}
+
+	if ($query->is_category() || $query->is_tag() || $query->is_date() || $query->is_author() || $query->is_search()) {
+		$query->set('posts_per_page', 12);
+	}
+}
