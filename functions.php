@@ -44,20 +44,25 @@ function gouter_style_version($src, $handle)
 }
 
 /**
- * 下層ページを Goûter のテンプレート(page-gt.php)で表示する。
+ * 固定ページを Goûter のテンプレート(page-gt.php)で表示する。
  *
- * これらの固定ページには管理画面で JIN:R のカスタムテンプレート
+ * 固定ページには管理画面で JIN:R のカスタムテンプレート
  * (template-full-width 等) が割り当てられており、WordPress の
  * テンプレート階層では page-{slug}.php より優先されてしまう。
  * そのため template_include で明示的に差し替える。
+ *
+ * 以前は 事業内容 / お問い合わせ / プライバシーポリシー / サイトマップ の
+ * 4枚を ID で名指ししていたが、ページを足すたびに ID を書き足す必要があり、
+ * 書き忘れるとそのページだけ JIN:R の見た目で出てしまう。
+ * サイト全体が Goûter のデザインになった今は、全固定ページを対象にする。
+ *
+ * ただしトップページは front-page.php が受け持つ。ホームページの表示を
+ * 固定ページにしているため、除外しないとトップまで下層の見た目になる。
  */
 add_filter('template_include', 'gouter_page_template', 99);
 function gouter_page_template($template)
 {
-	// 事業内容 / お問い合わせ / プライバシーポリシー / サイトマップ
-	$ids = array(38, 7334, 3, 413);
-
-	if (is_page($ids)) {
+	if (is_page() && !is_front_page()) {
 		$mine = get_stylesheet_directory() . '/page-gt.php';
 		if (file_exists($mine)) {
 			return $mine;
