@@ -1,5 +1,3 @@
 [
-  ["demote", "--post", "9327", "--heading", "星だけの口コミ"],
-  ["audit", "--post", "9327", "--kw", "口コミ 返信 例文"],
-  ["publish", "--post", "9327"]
+  ["push", "docs/articles/02-line-coupon.md"]
 ]
