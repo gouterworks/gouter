@@ -6,6 +6,8 @@
   featured  画像をURLから取り込んで記事のアイキャッチにする
   audit     WordPress上の記事をルール照合する
   publish   下書きを公開する
+  slots     公開の枠と空きを見る
+  reserve   記事を次の空き枠に予約する
   demote    H2をH3に下げる（見出しが字数に対して多いとき）
   push      WordPressへ下書きとして反映する（新規/更新）
   schedule  公開日時を指定して予約投稿にする
@@ -34,8 +36,12 @@ import re
 import sys
 import urllib.error
 import urllib.request
+from datetime import datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
 
 CATEGORY_COLUMN = 110
+# 公開する時間帯。朝・昼・夜。変えるならここ
+SLOTS = [(7, 0), (12, 0), (19, 0)]
 MIN_CHARS, MAX_CHARS = 3500, 5500
 TITLE_MAX = 32
 
@@ -435,6 +441,62 @@ def demote(post_id, needle):
     print(f"H3に下げた: {re.sub(r'<[^>]+>', '', m.group(3))}")
 
 
+def site_timezone():
+    """サイトのタイムゾーン。予約の時刻はサイトのローカル時間で入る。"""
+    st = api("GET", "settings")
+    name = st.get("timezone_string")
+    if name:
+        return ZoneInfo(name)
+    # timezone_string が空で、UTCからのずれだけ設定されている場合
+    offset = float(st.get("gmt_offset") or 0)
+    return timezone(timedelta(hours=offset))
+
+
+def taken_slots():
+    """すでに予約が入っている日時。"""
+    posts = api("GET", f"posts?status=future&categories={CATEGORY_COLUMN}"
+                       "&per_page=100&orderby=date&order=asc&context=edit")
+    return {p["date"][:16] for p in posts}
+
+
+def next_free_slot(count=1):
+    """次に空いている枠を、古いほうから count 個返す。"""
+    tz = site_timezone()
+    now = datetime.now(tz)
+    taken = taken_slots()
+    found, day = [], now.date()
+    while len(found) < count:
+        for hour, minute in SLOTS:
+            when = datetime(day.year, day.month, day.day, hour, minute, tzinfo=tz)
+            if when <= now + timedelta(minutes=5):
+                continue
+            key = when.strftime("%Y-%m-%dT%H:%M")
+            if key in taken:
+                continue
+            found.append(key + ":00")
+            taken.add(key)
+            if len(found) == count:
+                break
+        day += timedelta(days=1)
+        if (day - now.date()).days > 90:
+            raise SystemExit("90日先まで見ても空き枠が無い")
+    return found
+
+
+def slots(count):
+    """空いている枠を眺めるだけ。"""
+    tz = site_timezone()
+    print(f"サイトの時間帯 {tz}")
+    print(f"公開の枠 {'、'.join(f'{h:02d}:{m:02d}' for h, m in SLOTS)}")
+    booked = sorted(taken_slots())
+    if booked:
+        print(f"予約済み {len(booked)}件: {booked[0]} 〜 {booked[-1]}")
+    else:
+        print("予約済み なし")
+    for w in next_free_slot(count):
+        print(f"  空き {w}")
+
+
 def set_status(post_id, status):
     post = api("POST", f"posts/{post_id}", {"status": status})
     print(f"状態を{post['status']}に変更 記事{post['id']}: {post['link']}")
@@ -501,7 +563,15 @@ def main(argv=None):
 
     s = sub.add_parser("schedule", help="予約投稿にする")
     s.add_argument("file")
-    s.add_argument("--at", required=True, help="例 2026-09-01T07:00:00")
+    s.add_argument("--at", help="例 2026-09-01T07:00:00")
+    s.add_argument("--next", action="store_true", dest="use_next",
+                   help="次に空いている枠に入れる")
+
+    s = sub.add_parser("slots", help="公開の枠と空きを見る")
+    s.add_argument("--count", type=int, default=3)
+
+    s = sub.add_parser("reserve", help="公開済み・下書きの記事を次の空き枠に予約する")
+    s.add_argument("--post", required=True)
 
     a = p.parse_args(argv)
     if a.cmd == "pending":
@@ -549,10 +619,20 @@ def main(argv=None):
         if lint(a.file):
             sys.exit("ルール違反があるので反映しない")
         send(a.file, "draft")
+    if a.cmd == "slots":
+        slots(a.count)
+        return
+    if a.cmd == "reserve":
+        when = next_free_slot()[0]
+        post = api("POST", f"posts/{a.post}", {"status": "future", "date": when})
+        print(f"記事{post['id']} を {when} に予約: {post['link']}")
+        return
     if a.cmd == "schedule":
         if lint(a.file):
             sys.exit("ルール違反があるので反映しない")
-        send(a.file, "future", a.at)
+        when = a.at or next_free_slot()[0]
+        send(a.file, "future", when)
+        print(f"公開予定 {when}")
 
 
 if __name__ == "__main__":
