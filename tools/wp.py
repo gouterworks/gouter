@@ -42,6 +42,9 @@ from zoneinfo import ZoneInfo
 CATEGORY_COLUMN = 110
 # 公開する時間帯。朝・昼・夜。変えるならここ
 SLOTS = [(7, 0), (12, 0), (19, 0)]
+# 枠は読者の時間で決める。サイトの設定はUTCのままなので、
+# 予約は date_gmt（UTC）で渡して取り違えを防ぐ
+POST_TZ = ZoneInfo("Asia/Tokyo")
 MIN_CHARS, MAX_CHARS = 3500, 5500
 TITLE_MAX = 32
 
@@ -453,27 +456,34 @@ def site_timezone():
 
 
 def taken_slots():
-    """すでに予約が入っている日時。"""
+    """すでに予約が入っている日時。読者の時間（JST）で返す。"""
     posts = api("GET", f"posts?status=future&categories={CATEGORY_COLUMN}"
                        "&per_page=100&orderby=date&order=asc&context=edit")
-    return {p["date"][:16] for p in posts}
+    out = set()
+    for p in posts:
+        gmt = datetime.fromisoformat(p["date_gmt"]).replace(tzinfo=timezone.utc)
+        out.add(gmt.astimezone(POST_TZ).strftime("%Y-%m-%dT%H:%M"))
+    return out
 
 
 def next_free_slot(count=1):
-    """次に空いている枠を、古いほうから count 個返す。"""
-    tz = site_timezone()
-    now = datetime.now(tz)
+    """次に空いている枠を、古いほうから count 個返す。
+
+    返すのは (読者の時間, UTC) の組。予約は date_gmt に入れる。
+    """
+    now = datetime.now(POST_TZ)
     taken = taken_slots()
     found, day = [], now.date()
     while len(found) < count:
         for hour, minute in SLOTS:
-            when = datetime(day.year, day.month, day.day, hour, minute, tzinfo=tz)
+            when = datetime(day.year, day.month, day.day, hour, minute, tzinfo=POST_TZ)
             if when <= now + timedelta(minutes=5):
                 continue
             key = when.strftime("%Y-%m-%dT%H:%M")
             if key in taken:
                 continue
-            found.append(key + ":00")
+            gmt = when.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S")
+            found.append((key + ":00", gmt))
             taken.add(key)
             if len(found) == count:
                 break
@@ -485,16 +495,15 @@ def next_free_slot(count=1):
 
 def slots(count):
     """空いている枠を眺めるだけ。"""
-    tz = site_timezone()
-    print(f"サイトの時間帯 {tz}")
-    print(f"公開の枠 {'、'.join(f'{h:02d}:{m:02d}' for h, m in SLOTS)}")
+    print(f"サイトの設定 {site_timezone()}／枠を決める時間 {POST_TZ}")
+    print(f"公開の枠 {'、'.join(f'{h:02d}:{m:02d}' for h, m in SLOTS)}（日本時間）")
     booked = sorted(taken_slots())
     if booked:
         print(f"予約済み {len(booked)}件: {booked[0]} 〜 {booked[-1]}")
     else:
         print("予約済み なし")
-    for w in next_free_slot(count):
-        print(f"  空き {w}")
+    for jst, gmt in next_free_slot(count):
+        print(f"  空き {jst}（日本時間） = {gmt}Z")
 
 
 def set_status(post_id, status):
@@ -503,6 +512,7 @@ def set_status(post_id, status):
 
 
 def send(path, status, date=None):
+    """date はUTC（date_gmt）で渡す。"""
     meta, body = parse(path)
     payload = {
         "title": meta.get("title", ""),
@@ -511,7 +521,7 @@ def send(path, status, date=None):
         "categories": [int(meta.get("category", CATEGORY_COLUMN))],
     }
     if date:
-        payload["date"] = date
+        payload["date_gmt"] = date
     post_id = meta.get("post_id")
     if post_id:
         res = api("POST", f"posts/{post_id}", payload)
@@ -623,16 +633,21 @@ def main(argv=None):
         slots(a.count)
         return
     if a.cmd == "reserve":
-        when = next_free_slot()[0]
-        post = api("POST", f"posts/{a.post}", {"status": "future", "date": when})
-        print(f"記事{post['id']} を {when} に予約: {post['link']}")
+        jst, gmt = next_free_slot()[0]
+        post = api("POST", f"posts/{a.post}", {"status": "future", "date_gmt": gmt})
+        print(f"記事{post['id']} を {jst}（日本時間）に予約: {post['link']}")
         return
     if a.cmd == "schedule":
         if lint(a.file):
             sys.exit("ルール違反があるので反映しない")
-        when = a.at or next_free_slot()[0]
-        send(a.file, "future", when)
-        print(f"公開予定 {when}")
+        if a.at:
+            jst = a.at
+            gmt = datetime.fromisoformat(a.at).replace(
+                tzinfo=POST_TZ).astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S")
+        else:
+            jst, gmt = next_free_slot()[0]
+        send(a.file, "future", gmt)
+        print(f"公開予定 {jst}（日本時間）")
 
 
 if __name__ == "__main__":
