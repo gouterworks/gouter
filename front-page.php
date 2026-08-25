@@ -365,7 +365,7 @@ add_action( 'wp_head', function () {
     /**
      * Goûter がやっている事業。
      *
-     * ポケット文庫・ツキヌケ・Digne・Dignement は UTAGE で動いている別サイトなので、
+     * ポケット文庫・ツキヌケ・BizHack Digne・Dignement は UTAGE で動いている別サイトなので、
      * ここでは中身を持たず、外に送り出すだけにする。
      * リンク切れを防ぐため、URL を変えるときはこの配列だけ直せばよい。
      *
@@ -402,11 +402,11 @@ add_action( 'wp_head', function () {
         ),
         array(
             'no'    => '04',
-            'en'    => 'DIGNE / DIGNEMENT / CCL',
-            'name'  => 'ディーニュ ／ ディニマン ／ CCL',
-            'desc'  => 'ビジネスの話を届ける音声配信「Digne」。ワークショップとセミナーの「Dignement」。その上位プランになるグループコンサル「CCL」。',
+            'en'    => 'BIZHACK DIGNE / DIGNEMENT / CCL',
+            'name'  => 'BizHack Digne ／ Dignement ／ CCL',
+            'desc'  => 'ビジネスの話を届ける音声配信「BizHack Digne」。ワークショップとセミナーの「Dignement」。その上位プランになるグループコンサル「CCL」。',
             'links' => array(
-                array( 'label' => 'Digne（音声配信）', 'url' => 'https://www.biz-digne.com', 'ext' => true ),
+                array( 'label' => 'BizHack Digne（音声配信）', 'url' => 'https://www.biz-digne.com', 'ext' => true ),
                 array( 'label' => 'Dignement', 'url' => 'https://www.dignement.com', 'ext' => true ),
                 array( 'label' => 'CCL', 'url' => 'https://www.dignement.com/ccl', 'ext' => true ),
             ),
