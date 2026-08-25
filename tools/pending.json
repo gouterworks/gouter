@@ -1,0 +1,5 @@
+[
+  ["featured", "--post", "9332", "--url", "https://export-download.canva.com/FUkSI/DAHTUzFUkSI/-1/0/0001-8873731001566292324.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQYCGKMUH5AO7UJ26%2F20260824%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260824T203705Z&X-Amz-Expires=91198&X-Amz-Signature=1d03da903b41e850d7e90556a59b9925870db9bd50db3b5fe6386c7b73954ff8&X-Amz-SignedHeaders=host%3Bx-amz-expected-bucket-owner&response-expires=Tue%2C%2025%20Aug%202026%2021%3A57%3A03%20GMT", "--alt", "店頭のカウンターでスマートフォンを使う人", "--name", "9332-line-coupon.png"],
+  ["audit", "--post", "9332", "--kw", "LINE クーポン 再来店"],
+  ["publish", "--post", "9332"]
+]
