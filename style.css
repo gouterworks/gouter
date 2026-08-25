@@ -475,10 +475,16 @@ Text Domain: gouter
 .gt-article pre { background: var(--pale); border-radius: var(--radius); padding: clamp(16px,2vw,22px); overflow-x: auto; }
 .gt-article pre code { background: none; padding: 0; }
 .gt-article a:hover { color: var(--ink); border-bottom-color: var(--ink); }
-/* JIN:R が本文に差し込む広告枠。スマホで本文幅(335px)に対して
-   736px で描画されてはみ出すので、本文の幅に収める */
-.gt-article .o--ads-area,
-.gt-article .adsbygoogle { max-width: 100%; overflow: hidden; }
+/* JIN:R が本文に差し込む広告枠。AdSense が画面いっぱいに広げようとして
+   スマホで width:375px / margin-left:-20px をインラインで書き込むため、
+   本文(335px)から左に20pxずれてはみ出す。本文の柱に揃える。
+   インラインの指定に勝つ必要があるので !important を使う */
+.gt-article .o--ads-area { max-width: 100%; overflow: hidden; }
+.gt-article .adsbygoogle {
+  max-width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
 
 /* 本文中の見出しに ID が振られている（目次のリンク先）。
    ヘッダーが sticky なので、飛んだ先が隠れないよう余白を確保する */
