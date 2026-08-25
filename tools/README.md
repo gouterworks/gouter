@@ -43,6 +43,28 @@ python3 tools/wp.py check
 SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
 ```
 
+### アイキャッチを設定する
+
+```
+python3 tools/wp.py featured --post 9327 --url <画像のURL> --alt "カフェで…"
+```
+
+Canvaから書き出したPNGのURLをそのまま渡せる。メディアに登録し、altを入れ、記事のアイキャッチにする。
+
+`tools/featured.json` を置いてpushすると、GitHub Actionsが同じことをする。
+
+```json
+{
+  "post_id": "9327",
+  "image_url": "https://...",
+  "alt": "カフェでスマートフォンとノートパソコンを使う人",
+  "name": "9327-kuchikomi-henshin.png"
+}
+```
+
+`workflow_dispatch`（手動実行）は**ワークフローが既定ブランチに無いと使えない**というGitHubの仕様があるため、
+このPRが `main` に入るまでの回り道。設定が済んだらファイルは消すこと。
+
 ### 実行する場所
 
 **クラウドのセッションからは実行できない。** 環境のネットワークポリシーが `gouter.works` を許可しておらず、
