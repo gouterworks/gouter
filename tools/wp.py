@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """gouter.works のコラムを扱う道具。
 
-  lint   原稿が docs/WRITING-STYLE.md のルールを守っているか検査する（ネット不要）
-  push   WordPressへ下書きとして反映する（新規/更新）
+  lint      原稿が docs/WRITING-STYLE.md のルールを守っているか検査する（ネット不要）
+  check     WordPressへの接続と認証を確かめる
+  push      WordPressへ下書きとして反映する（新規/更新）
   schedule  公開日時を指定して予約投稿にする
 
 原稿は Markdown。先頭にフロントマターを置く。
@@ -249,6 +250,18 @@ def to_html(body):
     return "\n".join(out)
 
 
+def check():
+    """接続と認証だけを確かめる。"""
+    me = api("GET", "users/me")
+    print(f"接続OK {os.environ['WP_URL']}")
+    print(f"  ユーザー {me.get('name')}（{me.get('slug')}）")
+    caps = me.get("capabilities") or {}
+    if not caps.get("publish_posts"):
+        print("  ! このユーザーには投稿権限が無い")
+    cat = api("GET", f"categories/{CATEGORY_COLUMN}")
+    print(f"  カテゴリ{CATEGORY_COLUMN} {cat.get('name')}（{cat.get('count')}記事）")
+
+
 def send(path, status, date=None):
     meta, body = parse(path)
     payload = {
@@ -279,6 +292,8 @@ def main():
     s = sub.add_parser("lint", help="ルール違反を検査する")
     s.add_argument("files", nargs="+")
 
+    sub.add_parser("check", help="接続と認証を確かめる")
+
     s = sub.add_parser("push", help="下書きとして反映する")
     s.add_argument("file")
 
@@ -287,6 +302,9 @@ def main():
     s.add_argument("--at", required=True, help="例 2026-09-01T07:00:00")
 
     a = p.parse_args()
+    if a.cmd == "check":
+        check()
+        return
     if a.cmd == "lint":
         code = 0
         for f in a.files:
