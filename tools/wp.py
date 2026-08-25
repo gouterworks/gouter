@@ -291,6 +291,155 @@ def to_html(body):
     return "\n".join(out)
 
 
+def check():
+    """接続と認証だけを確かめる。"""
+    # capabilities は context=edit でしか返らない。view で呼ぶと権限があっても空になる
+    me = api("GET", "users/me?context=edit")
+    print(f"接続OK {os.environ['WP_URL']}")
+    print(f"  ユーザー {me.get('name')}（{me.get('slug')}）")
+    roles = me.get("roles")
+    if roles:
+        print(f"  権限グループ {'、'.join(roles)}")
+    caps = me.get("capabilities")
+    if caps is None:
+        print("  ! 権限を判定できなかった（capabilities が返っていない）")
+    elif not caps.get("publish_posts"):
+        print("  ! このユーザーには投稿権限が無い")
+    cat = api("GET", f"categories/{CATEGORY_COLUMN}")
+    print(f"  カテゴリ{CATEGORY_COLUMN} {cat.get('name')}（{cat.get('count')}記事）")
+
+
+def set_featured(post_id, image_url, alt, filename):
+    """画像をURLから取り込んでメディアに登録し、記事のアイキャッチにする。"""
+    with urllib.request.urlopen(image_url) as res:
+        data = res.read()
+    print(f"取得 {len(data):,}バイト")
+
+    base = os.environ["WP_URL"].rstrip("/")
+    token = base64.b64encode(
+        f"{os.environ['WP_USER']}:{os.environ['WP_APP_PASSWORD']}".encode()).decode()
+    req = urllib.request.Request(
+        f"{base}/wp-json/wp/v2/media",
+        method="POST",
+        data=data,
+        headers={
+            "Authorization": f"Basic {token}",
+            "Content-Type": "image/png",
+            "Content-Disposition": f'attachment; filename="{filename}"',
+        },
+    )
+    try:
+        with urllib.request.urlopen(req) as res:
+            media = json.loads(res.read())
+    except urllib.error.HTTPError as e:
+        raise SystemExit(f"メディア登録に失敗 {e.code}: {e.read().decode()[:400]}")
+    print(f"メディア {media['id']}: {media['source_url']}")
+
+    api("POST", f"media/{media['id']}", {"alt_text": alt})
+    post = api("POST", f"posts/{post_id}", {"featured_media": media["id"]})
+    print(f"アイキャッチを設定 記事{post['id']}: {post['link']}")
+
+
+def html_text(html):
+    """HTMLから、読者が目にする文字だけを取り出す。"""
+    t = re.sub(r"<(script|style)\b.*?</\1>", "", html, flags=re.S | re.I)
+    t = re.sub(r"<[^>]+>", "", t)
+    t = t.replace("&nbsp;", "").replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">")
+    return re.sub(r"\s+", "", t)
+
+
+def audit(post_id, kw):
+    """公開済み・下書きの記事を取り出して、lint と同じ観点で検査する。"""
+    post = api("GET", f"posts/{post_id}?context=edit")
+    title = re.sub(r"<[^>]+>", "", post["title"]["raw"] or post["title"]["rendered"])
+    html = post["content"]["raw"] or post["content"]["rendered"]
+    kws = kw.split()
+    r = Report()
+
+    print(f"記事{post_id}「{title}」 状態:{post['status']}")
+
+    if len(title) > TITLE_MAX:
+        r.error(f"タイトルが{len(title)}字。{TITLE_MAX}字以内にする")
+    if not re.search(r"[！？]", title):
+        r.error("タイトルに前半／後半の区切り（！ か ？）が無い")
+    for k in kws:
+        if k not in title:
+            r.error(f"タイトルにKW「{k}」が完全一致で入っていない")
+
+    chars = len(html_text(html))
+    if chars < MIN_CHARS:
+        r.error(f"本文が{chars}字。{MIN_CHARS}字以上にする")
+    elif chars > MAX_CHARS:
+        r.error(f"本文が{chars}字。{MAX_CHARS}字を超えたら分割する")
+    else:
+        print(f"  本文 {chars}字")
+
+    h2 = [re.sub(r"<[^>]+>", "", m) for m in re.findall(r"<h2[^>]*>(.*?)</h2>", html, flags=re.S | re.I)]
+    if not h2:
+        r.error("H2が1本も無い")
+    else:
+        if not any(k in h2[0] for k in kws):
+            r.error(f"最初のH2「{h2[0]}」にKWが入っていない")
+        if "まとめ" not in h2[-1]:
+            r.error(f"最後のH2が「{h2[-1]}」。まとめで終える")
+        limit = chars // 1000 + 1
+        if len(h2) > limit:
+            r.error(f"H2が{len(h2)}本。{chars}字なら{limit}本まで")
+        else:
+            print(f"  H2 {len(h2)}本（上限{limit}本）")
+        for i, name in enumerate(h2, 1):
+            print(f"    H2-{i} {name}")
+
+    if "gouter.works" not in html and 'href="/' not in html:
+        r.error("内部リンクが1本も無い")
+    for tag in re.findall(r"<img[^>]*>", html, flags=re.I):
+        if not re.search(r'alt="[^"]+"', tag):
+            r.error("altが空の画像がある")
+    if not post.get("featured_media"):
+        r.error("アイキャッチが設定されていない")
+
+    return r.show(f"記事{post_id}")
+
+
+def show(post_id):
+    """記事の中身をそのまま出す。手元に引き取って直すときに使う。"""
+    post = api("GET", f"posts/{post_id}?context=edit")
+    print(f"--- title ---\n{post['title']['raw']}")
+    print(f"--- status --- {post['status']}  featured_media: {post.get('featured_media')}")
+    print(f"--- content ---\n{post['content']['raw']}\n--- end ---")
+
+
+HEADING_BLOCK = re.compile(
+    r'(<!--\s*wp:heading(?:\s+\{.*?\})?\s*-->\s*)<h2([^>]*)>(.*?)</h2>', re.S)
+
+
+def demote(post_id, needle):
+    """H2をH3に下げる。本文には触らず、見出しの階層だけを直す。
+
+    マークダウンに変換して往復させるとJIN:Rのブロック記法が壊れるので、
+    該当の見出しだけを書き換える。
+    """
+    post = api("GET", f"posts/{post_id}?context=edit")
+    html = post["content"]["raw"]
+
+    hits = [m for m in HEADING_BLOCK.finditer(html)
+            if needle in re.sub(r"<[^>]+>", "", m.group(3))]
+    if len(hits) != 1:
+        raise SystemExit(f"「{needle}」に当たるH2が{len(hits)}本。1本に絞れる文字列を指定する")
+
+    m = hits[0]
+    new = '<!-- wp:heading {"level":3} -->\n' + f"<h3{m.group(2)}>{m.group(3)}</h3>"
+    html = html[:m.start()] + new + html[m.end():]
+
+    api("POST", f"posts/{post_id}", {"content": html})
+    print(f"H3に下げた: {re.sub(r'<[^>]+>', '', m.group(3))}")
+
+
+def set_status(post_id, status):
+    post = api("POST", f"posts/{post_id}", {"status": status})
+    print(f"状態を{post['status']}に変更 記事{post['id']}: {post['link']}")
+
+
 def send(path, status, date=None):
     meta, body = parse(path)
     payload = {

@@ -8,6 +8,7 @@ on:
     paths:
       - "docs/articles/**"
       - "tools/wp.py"
+      - "tools/selftest.py"
       - ".github/workflows/column.yml"
   workflow_dispatch:
     inputs:
@@ -48,6 +49,9 @@ jobs:
       IN_ALT: ${{ inputs.alt }}
     steps:
       - uses: actions/checkout@v4
+
+      - name: 道具を点検する
+        run: python3 tools/selftest.py
 
       - name: 原稿を検査する
         run: |
