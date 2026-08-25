@@ -273,7 +273,14 @@ Text Domain: gouter
 
 /* WordPress 側の本文。JIN:R のブロックがそのまま入ってくる */
 .gt-article { max-width: 46em; }
-.gt-article > * + * { margin-top: 1.9em; }
+/* JIN:R は本文を .theContentWrap-ccc という div で包んで出すため、
+   直下の子だけを見る `> * + *` では中の段落に届かず、
+   段落と段落が margin 0 でくっついていた。
+   包みを1枚跨いだ孫にも効くようにする（入れ子の一覧や目次には
+   触れないよう、孫の階層までに限定する）。 */
+.gt-article > * + *,
+.gt-article > * > :where(p, ul, ol, blockquote, figure, table, pre, dl, section, div)
+  + :where(p, ul, ol, blockquote, figure, table, pre, dl, section, div) { margin-top: 1.9em; }
 .gt-article p { font-size: 17px; line-height: 2.15; color: var(--body); }
 .gt-article h2 { margin-top: 2.2em; font-size: clamp(23px,2.4vw,31px); line-height: 1.55; font-weight: 900; padding-bottom: 14px; border-bottom: 3px solid var(--sun); }
 .gt-article h3 { margin-top: 2em; font-size: clamp(19px,1.9vw,23px); line-height: 1.65; font-weight: 700; color: var(--navy); }
