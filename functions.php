@@ -44,20 +44,25 @@ function gouter_style_version($src, $handle)
 }
 
 /**
- * 下層ページを Goûter のテンプレート(page-gt.php)で表示する。
+ * 固定ページを Goûter のテンプレート(page-gt.php)で表示する。
  *
- * これらの固定ページには管理画面で JIN:R のカスタムテンプレート
+ * 固定ページには管理画面で JIN:R のカスタムテンプレート
  * (template-full-width 等) が割り当てられており、WordPress の
  * テンプレート階層では page-{slug}.php より優先されてしまう。
  * そのため template_include で明示的に差し替える。
+ *
+ * 以前は 事業内容 / お問い合わせ / プライバシーポリシー / サイトマップ の
+ * 4枚を ID で名指ししていたが、ページを足すたびに ID を書き足す必要があり、
+ * 書き忘れるとそのページだけ JIN:R の見た目で出てしまう。
+ * サイト全体が Goûter のデザインになった今は、全固定ページを対象にする。
+ *
+ * ただしトップページは front-page.php が受け持つ。ホームページの表示を
+ * 固定ページにしているため、除外しないとトップまで下層の見た目になる。
  */
 add_filter('template_include', 'gouter_page_template', 99);
 function gouter_page_template($template)
 {
-	// 事業内容 / お問い合わせ / プライバシーポリシー / サイトマップ
-	$ids = array(38, 7334, 3, 413);
-
-	if (is_page($ids)) {
+	if (is_page() && !is_front_page()) {
 		$mine = get_stylesheet_directory() . '/page-gt.php';
 		if (file_exists($mine)) {
 			return $mine;
@@ -248,4 +253,64 @@ function gouter_strip_stray_meta($content)
 	$content = preg_replace('/<p[^>]*>\s*<meta\b[^>]*>\s*<\/p>/i', '', $content);
 
 	return preg_replace('/<meta\b[^>]*>/i', '', $content);
+}
+
+/**
+ * サイトのロゴ。
+ *
+ * ファイル名を直書きすると、差し替えのたびにテーマの再アップロードが要る。
+ * WordPress 標準の「カスタムロゴ」に対応させて、管理画面
+ * （外観 → カスタマイズ → サイト基本情報 → ロゴ）で差し替えられるようにする。
+ *
+ * 親テーマ(JIN:R)も after_setup_theme で custom-logo を宣言している可能性があり、
+ * 子テーマの functions.php は親より先に読まれる。同じ優先度だと親に上書き
+ * されるため、優先度を下げて必ず後から宣言する。
+ */
+add_action('after_setup_theme', 'gouter_logo_support', 20);
+function gouter_logo_support()
+{
+	add_theme_support('custom-logo', array(
+		'height'      => 72,
+		'width'       => 320,
+		'flex-height' => true,
+		'flex-width'  => true,
+	));
+}
+
+/**
+ * ロゴを出力する。ヘッダーとフッターの両方から呼ぶ。
+ *
+ * 探す順番:
+ *  1. 管理画面のカスタムロゴ
+ *  2. テーマ内の assets/img/logo.svg / logo.png（1が使えないテーマ設定のときの逃げ道）
+ *  3. どちらも無ければ、これまで通り文字の「Goûter」
+ *
+ * 3があるので、ロゴが未設定でもヘッダーが空になることはない。
+ */
+function gouter_logo()
+{
+	$id = get_theme_mod('custom_logo');
+
+	if ($id && wp_attachment_is_image($id)) {
+		echo wp_get_attachment_image($id, 'full', false, array(
+			'class' => 'gt-logo__img',
+			'alt'   => get_bloginfo('name'),
+		));
+		return;
+	}
+
+	foreach (array('logo.svg', 'logo.png') as $file) {
+		$path = get_stylesheet_directory() . '/assets/img/' . $file;
+
+		if (file_exists($path)) {
+			printf(
+				'<img class="gt-logo__img" src="%1$s" alt="%2$s" />',
+				esc_url(get_stylesheet_directory_uri() . '/assets/img/' . $file),
+				esc_attr(get_bloginfo('name'))
+			);
+			return;
+		}
+	}
+
+	echo 'Goûter';
 }
