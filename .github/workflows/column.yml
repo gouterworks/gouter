@@ -1,0 +1,78 @@
+name: コラム
+
+# クラウドのセッションからは gouter.works に到達できない（egressで遮断される）。
+# ランナーからなら叩けるので、原稿の検査とWordPressへの反映はここで回す。
+on:
+  push:
+    branches: ["claude/**"]
+    paths:
+      - "docs/articles/**"
+      - "tools/wp.py"
+      - ".github/workflows/column.yml"
+  workflow_dispatch:
+    inputs:
+      action:
+        description: やること
+        type: choice
+        options: [check, lint, push, schedule]
+        default: check
+      file:
+        description: 原稿のパス（push / schedule のとき）
+        type: string
+      at:
+        description: 公開日時（schedule のとき。例 2026-09-01T07:00:00）
+        type: string
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    env:
+      WP_URL: ${{ secrets.WP_URL }}
+      WP_USER: ${{ secrets.WP_USER }}
+      WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+      # シェルへ直接展開すると任意のコマンドを流し込めてしまうので、環境変数で受ける
+      IN_ACTION: ${{ inputs.action }}
+      IN_FILE: ${{ inputs.file }}
+      IN_AT: ${{ inputs.at }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 原稿を検査する
+        run: |
+          shopt -s nullglob
+          files=()
+          for f in docs/articles/*.md; do
+            [ "$(basename "$f")" = "README.md" ] && continue
+            files+=("$f")
+          done
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "原稿がまだ無い"
+            exit 0
+          fi
+          python3 tools/wp.py lint "${files[@]}"
+
+      - name: WordPressへの接続を確かめる
+        run: |
+          if [ -z "$WP_URL" ]; then
+            echo "シークレット WP_URL / WP_USER / WP_APP_PASSWORD が未設定。接続の確認をとばす"
+            echo "→ https://github.com/${{ github.repository }}/settings/secrets/actions"
+            exit 0
+          fi
+          python3 tools/wp.py check
+
+      - name: 反映する
+        if: ${{ github.event_name == 'workflow_dispatch' && (inputs.action == 'push' || inputs.action == 'schedule') }}
+        run: |
+          if [ -z "$IN_FILE" ]; then
+            echo "原稿のパスが指定されていない"
+            exit 1
+          fi
+          if [ "$IN_ACTION" = "schedule" ]; then
+            if [ -z "$IN_AT" ]; then
+              echo "公開日時が指定されていない"
+              exit 1
+            fi
+            python3 tools/wp.py schedule "$IN_FILE" --at "$IN_AT"
+          else
+            python3 tools/wp.py push "$IN_FILE"
+          fi
