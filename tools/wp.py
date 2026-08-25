@@ -6,6 +6,7 @@
   featured  画像をURLから取り込んで記事のアイキャッチにする
   audit     WordPress上の記事をルール照合する
   publish   下書きを公開する
+  demote    H2をH3に下げる（見出しが字数に対して多いとき）
   push      WordPressへ下書きとして反映する（新規/更新）
   schedule  公開日時を指定して予約投稿にする
 
@@ -371,6 +372,32 @@ def show(post_id):
     print(f"--- content ---\n{post['content']['raw']}\n--- end ---")
 
 
+HEADING_BLOCK = re.compile(
+    r'(<!--\s*wp:heading(?:\s+\{.*?\})?\s*-->\s*)<h2([^>]*)>(.*?)</h2>', re.S)
+
+
+def demote(post_id, needle):
+    """H2をH3に下げる。本文には触らず、見出しの階層だけを直す。
+
+    マークダウンに変換して往復させるとJIN:Rのブロック記法が壊れるので、
+    該当の見出しだけを書き換える。
+    """
+    post = api("GET", f"posts/{post_id}?context=edit")
+    html = post["content"]["raw"]
+
+    hits = [m for m in HEADING_BLOCK.finditer(html)
+            if needle in re.sub(r"<[^>]+>", "", m.group(3))]
+    if len(hits) != 1:
+        raise SystemExit(f"「{needle}」に当たるH2が{len(hits)}本。1本に絞れる文字列を指定する")
+
+    m = hits[0]
+    new = '<!-- wp:heading {"level":3} -->\n' + f"<h3{m.group(2)}>{m.group(3)}</h3>"
+    html = html[:m.start()] + new + html[m.end():]
+
+    api("POST", f"posts/{post_id}", {"content": html})
+    print(f"H3に下げた: {re.sub(r'<[^>]+>', '', m.group(3))}")
+
+
 def set_status(post_id, status):
     post = api("POST", f"posts/{post_id}", {"status": status})
     print(f"状態を{post['status']}に変更 記事{post['id']}: {post['link']}")
@@ -415,6 +442,10 @@ def main(argv=None):
     s = sub.add_parser("show", help="記事の中身をそのまま出す")
     s.add_argument("--post", required=True)
 
+    s = sub.add_parser("demote", help="H2をH3に下げる")
+    s.add_argument("--post", required=True)
+    s.add_argument("--heading", required=True, help="対象のH2に含まれる文字列")
+
     s = sub.add_parser("publish", help="下書きを公開する")
     s.add_argument("--post", required=True)
 
@@ -454,6 +485,9 @@ def main(argv=None):
         sys.exit(audit(a.post, a.kw))
     if a.cmd == "show":
         show(a.post)
+        return
+    if a.cmd == "demote":
+        demote(a.post, a.heading)
         return
     if a.cmd == "publish":
         set_status(a.post, "publish")
