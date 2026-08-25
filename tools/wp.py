@@ -3,6 +3,7 @@
 
   lint      原稿が docs/WRITING-STYLE.md のルールを守っているか検査する（ネット不要）
   check     WordPressへの接続と認証を確かめる
+  featured  画像をURLから取り込んで記事のアイキャッチにする
   push      WordPressへ下書きとして反映する（新規/更新）
   schedule  公開日時を指定して予約投稿にする
 
@@ -268,6 +269,37 @@ def check():
     print(f"  カテゴリ{CATEGORY_COLUMN} {cat.get('name')}（{cat.get('count')}記事）")
 
 
+def set_featured(post_id, image_url, alt, filename):
+    """画像をURLから取り込んでメディアに登録し、記事のアイキャッチにする。"""
+    with urllib.request.urlopen(image_url) as res:
+        data = res.read()
+    print(f"取得 {len(data):,}バイト")
+
+    base = os.environ["WP_URL"].rstrip("/")
+    token = base64.b64encode(
+        f"{os.environ['WP_USER']}:{os.environ['WP_APP_PASSWORD']}".encode()).decode()
+    req = urllib.request.Request(
+        f"{base}/wp-json/wp/v2/media",
+        method="POST",
+        data=data,
+        headers={
+            "Authorization": f"Basic {token}",
+            "Content-Type": "image/png",
+            "Content-Disposition": f'attachment; filename="{filename}"',
+        },
+    )
+    try:
+        with urllib.request.urlopen(req) as res:
+            media = json.loads(res.read())
+    except urllib.error.HTTPError as e:
+        raise SystemExit(f"メディア登録に失敗 {e.code}: {e.read().decode()[:400]}")
+    print(f"メディア {media['id']}: {media['source_url']}")
+
+    api("POST", f"media/{media['id']}", {"alt_text": alt})
+    post = api("POST", f"posts/{post_id}", {"featured_media": media["id"]})
+    print(f"アイキャッチを設定 記事{post['id']}: {post['link']}")
+
+
 def send(path, status, date=None):
     meta, body = parse(path)
     payload = {
@@ -300,6 +332,12 @@ def main():
 
     sub.add_parser("check", help="接続と認証を確かめる")
 
+    s = sub.add_parser("featured", help="アイキャッチを設定する")
+    s.add_argument("--post", required=True, help="記事ID")
+    s.add_argument("--url", required=True, help="画像の取得元URL")
+    s.add_argument("--alt", required=True, help="alt属性（日本語）")
+    s.add_argument("--name", default="eyecatch.png", help="メディアに登録するファイル名")
+
     s = sub.add_parser("push", help="下書きとして反映する")
     s.add_argument("file")
 
@@ -310,6 +348,9 @@ def main():
     a = p.parse_args()
     if a.cmd == "check":
         check()
+        return
+    if a.cmd == "featured":
+        set_featured(a.post, a.url, a.alt, a.name)
         return
     if a.cmd == "lint":
         code = 0

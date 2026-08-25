@@ -14,13 +14,22 @@ on:
       action:
         description: やること
         type: choice
-        options: [check, lint, push, schedule]
+        options: [check, lint, push, schedule, featured]
         default: check
       file:
         description: 原稿のパス（push / schedule のとき）
         type: string
       at:
         description: 公開日時（schedule のとき。例 2026-09-01T07:00:00）
+        type: string
+      post_id:
+        description: 記事ID（featured のとき）
+        type: string
+      image_url:
+        description: 画像の取得元URL（featured のとき）
+        type: string
+      alt:
+        description: altテキスト（featured のとき）
         type: string
 
 jobs:
@@ -34,6 +43,9 @@ jobs:
       IN_ACTION: ${{ inputs.action }}
       IN_FILE: ${{ inputs.file }}
       IN_AT: ${{ inputs.at }}
+      IN_POST: ${{ inputs.post_id }}
+      IN_IMAGE_URL: ${{ inputs.image_url }}
+      IN_ALT: ${{ inputs.alt }}
     steps:
       - uses: actions/checkout@v4
 
@@ -76,3 +88,12 @@ jobs:
           else
             python3 tools/wp.py push "$IN_FILE"
           fi
+
+      - name: アイキャッチを設定する
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.action == 'featured' }}
+        run: |
+          if [ -z "$IN_POST" ] || [ -z "$IN_IMAGE_URL" ] || [ -z "$IN_ALT" ]; then
+            echo "post_id / image_url / alt を全部指定する"
+            exit 1
+          fi
+          python3 tools/wp.py featured --post "$IN_POST" --url "$IN_IMAGE_URL" --alt "$IN_ALT"
