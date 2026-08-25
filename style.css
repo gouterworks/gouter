@@ -39,9 +39,15 @@ Text Domain: gouter
 .gt, .gt * { word-break: normal; line-break: strict; overflow-wrap: break-word; }
 /* 対応ブラウザでは文節単位で折り返す（非対応ブラウザはこの宣言ごと無視され上段が残る） */
 .gt, .gt * { word-break: auto-phrase; }
-.gt h1, .gt h2, .gt h3 { margin: 0; font-weight: 700; font-family: var(--gothic); color: var(--ink); }
-.gt p { margin: 0; }
-.gt ul, .gt ol, .gt dl { margin: 0; padding: 0; list-style: none; }
+/* リセットは :where() で包んで詳細度を 0 にする。
+   これを `.gt p { margin:0 }` のように書くと詳細度(0,1,1)が
+   後から書いた `.gt-pull { margin-top: … }`(0,1,0)に勝ってしまい、
+   p / ul / ol / h3 で組んだブロックの余白が全部 0 になる。
+   実際そうなっていて、div のブロックだけ余白が付き、
+   ページ全体の上下の間隔がバラバラになっていた。 */
+.gt :where(h1, h2, h3) { margin: 0; font-weight: 700; font-family: var(--gothic); color: var(--ink); }
+.gt :where(p) { margin: 0; }
+.gt :where(ul, ol, dl) { margin: 0; padding: 0; list-style: none; }
 .gt a { color: var(--navy); text-decoration: none; }
 .gt a:hover { color: var(--ink); }
 .gt img { max-width: 100%; height: auto; display: block; }
@@ -107,7 +113,6 @@ Text Domain: gouter
 
 /* ===== セクションを横断する帯状の画像 ===== */
 .gt-band { margin: var(--blk) 0 0; border-radius: var(--radius); overflow: hidden; }
-.gt-band + .gt-pull, .gt-service + .gt-pull { margin-top: clamp(34px,4vw,62px); }
 .gt-band img, .gt-band .gt-ph { width: 100%; }
 /* コンテナ幅を突き抜けて画面いっぱいに使う */
 .gt-band--bleed { width: 100vw; max-width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); border-radius: 0; }
@@ -521,3 +526,30 @@ Text Domain: gouter
   .gt-pn__next { text-align: left; }
   .gt-postthumb { margin-bottom: 26px; }
 }
+
+/* =========================================================
+   目線の誘導：余白で「かたまり」を作る
+   ここまでブロックの隙間がどこも46〜54pxで均等だった。均等だと
+   どこで話が変わるのかが目に見えず、上から流し読みしても頭に入らない。
+   ・語りの節目(.gt-pull)の前は大きく空けて、いったん目を止める
+   ・その節の中身(直後の一覧・カード・小見出し)は近づけて、ひとつづきに見せる
+   結果として「大 → 小 → 小」の繰り返しになり、かたまりが目に見える。
+   この規則が最終的な権限を持つよう、意図してファイルの最後に置いている。
+   ========================================================= */
+
+/* 節目の前 = 大きく空ける */
+.gt .gt-pull { margin-top: clamp(52px, 6.4vw, 96px); }
+
+/* 節目の直後 = その節の中身なので近づける */
+.gt .gt-pull + ul,
+.gt .gt-pull + ol,
+.gt .gt-pull + .gt-subhead,
+.gt .gt-prose + ul,
+.gt .gt-prose + ol,
+.gt .gt-subhead + ul,
+.gt .gt-subhead + ol { margin-top: clamp(20px, 2.4vw, 30px); }
+
+/* 言い切りのすぐ下のリンクは、その言葉の続きとして置く。
+   a 自身に margin/padding を書いても親テーマ(JIN:R)が !important で
+   潰してくるので、包んだ div 側で余白を取る */
+.gt .gt-pull + .gt-linkwrap { margin-top: 24px; }

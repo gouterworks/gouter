@@ -157,7 +157,8 @@ add_action( 'wp_head', function () {
           </li>
         </ul>
         <p class="gt-pull">「困ってあることは何ですか？」から、一緒に考えます。</p>
-        <a class="gt-link" href="#contact">相談してみる →</a>
+        <?php // 親テーマが a の margin/padding を !important で潰すため、余白は div 側で取る ?>
+        <div class="gt-linkwrap"><a class="gt-link" href="#contact">相談してみる →</a></div>
       </div>
     </section>
 
