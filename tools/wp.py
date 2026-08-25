@@ -333,10 +333,11 @@ def main():
     sub.add_parser("check", help="接続と認証を確かめる")
 
     s = sub.add_parser("featured", help="アイキャッチを設定する")
-    s.add_argument("--post", required=True, help="記事ID")
-    s.add_argument("--url", required=True, help="画像の取得元URL")
-    s.add_argument("--alt", required=True, help="alt属性（日本語）")
+    s.add_argument("--post", help="記事ID")
+    s.add_argument("--url", help="画像の取得元URL")
+    s.add_argument("--alt", help="alt属性（日本語）")
     s.add_argument("--name", default="eyecatch.png", help="メディアに登録するファイル名")
+    s.add_argument("--from", dest="src", help="上記をまとめて書いたJSONファイル")
 
     s = sub.add_parser("push", help="下書きとして反映する")
     s.add_argument("file")
@@ -350,7 +351,14 @@ def main():
         check()
         return
     if a.cmd == "featured":
-        set_featured(a.post, a.url, a.alt, a.name)
+        if a.src:
+            j = json.load(open(a.src, encoding="utf-8"))
+            set_featured(j["post_id"], j["image_url"], j["alt"],
+                         j.get("name", "eyecatch.png"))
+        elif a.post and a.url and a.alt:
+            set_featured(a.post, a.url, a.alt, a.name)
+        else:
+            sys.exit("--from か、--post --url --alt の3つを指定する")
         return
     if a.cmd == "lint":
         code = 0
