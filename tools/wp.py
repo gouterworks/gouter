@@ -252,11 +252,17 @@ def to_html(body):
 
 def check():
     """接続と認証だけを確かめる。"""
-    me = api("GET", "users/me")
+    # capabilities は context=edit でしか返らない。view で呼ぶと権限があっても空になる
+    me = api("GET", "users/me?context=edit")
     print(f"接続OK {os.environ['WP_URL']}")
     print(f"  ユーザー {me.get('name')}（{me.get('slug')}）")
-    caps = me.get("capabilities") or {}
-    if not caps.get("publish_posts"):
+    roles = me.get("roles")
+    if roles:
+        print(f"  権限グループ {'、'.join(roles)}")
+    caps = me.get("capabilities")
+    if caps is None:
+        print("  ! 権限を判定できなかった（capabilities が返っていない）")
+    elif not caps.get("publish_posts"):
         print("  ! このユーザーには投稿権限が無い")
     cat = api("GET", f"categories/{CATEGORY_COLUMN}")
     print(f"  カテゴリ{CATEGORY_COLUMN} {cat.get('name')}（{cat.get('count')}記事）")
