@@ -349,6 +349,8 @@ def audit(post_id, kw):
             r.error(f"H2が{len(h2)}本。{chars}字なら{limit}本まで")
         else:
             print(f"  H2 {len(h2)}本（上限{limit}本）")
+        for i, name in enumerate(h2, 1):
+            print(f"    H2-{i} {name}")
 
     if "gouter.works" not in html and 'href="/' not in html:
         r.error("内部リンクが1本も無い")
