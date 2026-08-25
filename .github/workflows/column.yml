@@ -73,18 +73,18 @@ jobs:
           python3 tools/wp.py check
 
       # workflow_dispatch は既定ブランチにワークフローが無いと使えない。
-      # それまでの間、tools/featured.json を置いてpushすれば設定できるようにしておく
-      - name: アイキャッチの設定待ちを処理する
+      # それまでの間、tools/pending.json を置いてpushすれば実行できるようにしておく
+      - name: 待ち行列を処理する
         run: |
-          if [ ! -f tools/featured.json ]; then
-            echo "設定待ちなし"
+          if [ ! -f tools/pending.json ]; then
+            echo "待ち行列なし"
             exit 0
           fi
           if [ -z "$WP_URL" ]; then
             echo "シークレットが未設定なのでとばす"
             exit 0
           fi
-          python3 tools/wp.py featured --from tools/featured.json
+          python3 tools/wp.py pending tools/pending.json
 
       - name: 反映する
         if: ${{ github.event_name == 'workflow_dispatch' && (inputs.action == 'push' || inputs.action == 'schedule') }}
