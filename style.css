@@ -257,6 +257,22 @@ Text Domain: gouter
 .gt-form input[type="submit"]:hover { background: var(--pale); }
 .gt-form .wpcf7-form > p { margin-bottom: 22px; }
 
+/* ===== 事業一覧 =====
+   ポケット文庫・ツキヌケ・Digne などは別サイトなので、
+   ここは名前とリンクだけの薄い一覧にして、送り出すことに徹する */
+.gt-biz { margin-top: var(--blk); border-top: 1px solid var(--line2); }
+.gt-biz > li { display: flex; flex-wrap: wrap; gap: 0 clamp(14px,3vw,40px); padding: clamp(28px,3.4vw,44px) 0; border-bottom: 1px solid var(--line2); }
+.gt-biz__no { min-width: 2em; padding-top: 5px; font-family: var(--gothic); font-weight: 700; font-size: 12px; letter-spacing: .1em; color: var(--faint); }
+.gt-biz__body { flex: 1 1 min(100%, 520px); }
+.gt-biz__en { font-family: var(--gothic); font-weight: 700; font-size: 11px; letter-spacing: .14em; color: var(--navy); }
+.gt-biz__body h3 { margin-top: 10px; font-size: clamp(21px,2.3vw,28px); line-height: 1.55; font-weight: 700; }
+.gt-biz__desc { margin-top: 14px; font-size: 15px; line-height: 2.15; color: var(--sub); }
+/* リンクが複数並ぶので、gt-link の下線が詰まらないよう行間を空ける */
+.gt-biz__links { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 14px 28px; }
+
+/* 目には見せず、読み上げにだけ渡す文言 */
+.gt-sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
 /* ===== footer ===== */
 .gt-footer__inner { max-width: var(--wrap); margin: 0 auto; padding: clamp(48px,6vw,84px) var(--pad) 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: clamp(28px,4vw,56px); border-top: 1px solid var(--line); }
 .gt-footer__navlabel { font-size: 11px; font-weight: 700; letter-spacing: .14em; color: var(--faint); margin-bottom: 14px; }

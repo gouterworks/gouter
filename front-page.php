@@ -361,10 +361,99 @@ add_action( 'wp_head', function () {
 
 
 
-    <section id="knowledge" aria-labelledby="knowledge-h" style="border-top:1px solid #E3E7EB">
+    <?php
+    /**
+     * Goûter がやっている事業。
+     *
+     * ポケット文庫・ツキヌケ・Digne・Dignement は UTAGE で動いている別サイトなので、
+     * ここでは中身を持たず、外に送り出すだけにする。
+     * リンク切れを防ぐため、URL を変えるときはこの配列だけ直せばよい。
+     *
+     * 'desc' は空にできる。文言が決まっていない事業は、名前とリンクだけで出る。
+     */
+    $gt_biz = array(
+        array(
+            'no'    => '01',
+            'en'    => 'COMMUNICATION DESIGN',
+            'name'  => 'コミュニケーションデザイン',
+            'desc'  => '事業の「或るべき姿」を一緒に考えて、ホームページ、SNS、広報、広告、商品、仕組みづくりまでカタチにします。Goûter の本業です。',
+            'links' => array(
+                array( 'label' => '事業内容をくわしく見る', 'url' => home_url( '/service' ), 'ext' => false ),
+            ),
+        ),
+        array(
+            'no'    => '02',
+            'en'    => 'POCKET BUNKO',
+            'name'  => 'ポケット文庫',
+            // 説明文は本人の言葉待ち。空のままでも名前とリンクだけで成立する
+            'desc'  => '',
+            'links' => array(
+                array( 'label' => 'ポケット文庫', 'url' => 'https://www.pocket-bunko.com', 'ext' => true ),
+            ),
+        ),
+        array(
+            'no'    => '03',
+            'en'    => 'TSUKINUKE',
+            'name'  => 'ツキヌケ編集部',
+            'desc'  => 'ツキヌケの本部です。フランチャイズ、福岡・北九州・熊本の編集部、ランチ会イベントの華サロン、美食倶楽部 G/g まで、この中にあります。',
+            'links' => array(
+                array( 'label' => 'ツキヌケ編集部', 'url' => 'https://www.tsukinuke.com', 'ext' => true ),
+            ),
+        ),
+        array(
+            'no'    => '04',
+            'en'    => 'DIGNE / DIGNEMENT / CCL',
+            'name'  => 'ディーニュ ／ ディニマン ／ CCL',
+            'desc'  => 'ビジネスの話を届ける音声配信「Digne」。ワークショップとセミナーの「Dignement」。その上位プランになるグループコンサル「CCL」。',
+            'links' => array(
+                array( 'label' => 'Digne（音声配信）', 'url' => 'https://www.biz-digne.com', 'ext' => true ),
+                array( 'label' => 'Dignement', 'url' => 'https://www.dignement.com', 'ext' => true ),
+                array( 'label' => 'CCL', 'url' => 'https://www.dignement.com/ccl', 'ext' => true ),
+            ),
+        ),
+    );
+    ?>
+    <section id="business" class="gt-pale" aria-labelledby="business-h">
       <div class="gt__wrap">
         <div class="gt-head gt-head--rule">
           <span class="gt-num">06</span>
+          <div class="gt-head__body">
+            <p class="gt-en">BUSINESS</p>
+            <h2 id="business-h" class="gt-h2">この考え方で、<br />こういうことをしています。</h2>
+          </div>
+          <p class="gt-lead">コミュニケーションデザインを軸に、事業を増やしてきました。全部、Goûter がやっています。</p>
+        </div>
+
+        <ul class="gt-biz">
+          <?php foreach ( $gt_biz as $gt_b ) : ?>
+            <li>
+              <p class="gt-biz__no"><?php echo esc_html( $gt_b['no'] ); ?></p>
+              <div class="gt-biz__body">
+                <p class="gt-biz__en"><?php echo esc_html( $gt_b['en'] ); ?></p>
+                <h3><?php echo esc_html( $gt_b['name'] ); ?></h3>
+                <?php if ( $gt_b['desc'] ) : ?>
+                  <p class="gt-biz__desc"><?php echo esc_html( $gt_b['desc'] ); ?></p>
+                <?php endif; ?>
+                <p class="gt-biz__links">
+                  <?php foreach ( $gt_b['links'] as $gt_l ) : ?>
+                    <a class="gt-link" href="<?php echo esc_url( $gt_l['url'] ); ?>"<?php echo $gt_l['ext'] ? ' target="_blank" rel="noopener"' : ''; ?>><?php
+                      echo esc_html( $gt_l['label'] );
+                      // 別サイトへ出ることを、記号と読み上げの両方で伝える
+                      echo $gt_l['ext'] ? ' ↗<span class="gt-sr">（別サイトが開きます）</span>' : ' →';
+                    ?></a>
+                  <?php endforeach; ?>
+                </p>
+              </div>
+            </li>
+          <?php endforeach; ?>
+        </ul>
+      </div>
+    </section>
+
+    <section id="knowledge" aria-labelledby="knowledge-h" style="border-top:1px solid #E3E7EB">
+      <div class="gt__wrap">
+        <div class="gt-head gt-head--rule">
+          <span class="gt-num">07</span>
           <div class="gt-head__body">
             <p class="gt-en">KNOWLEDGE</p>
             <h2 id="knowledge-h" class="gt-h2">現場で使えるノウハウを、<br />公開しています。</h2>
@@ -413,7 +502,7 @@ add_action( 'wp_head', function () {
       <div class="gt__wrap gt-about">
         <div>
           <div class="gt-head">
-            <span class="gt-num">07</span>
+            <span class="gt-num">08</span>
             <div>
               <p class="gt-en">ABOUT</p>
               <h2 id="about-h" class="gt-h2">Goûterは、<br />「おやつ」という意味です。</h2>
@@ -440,7 +529,7 @@ add_action( 'wp_head', function () {
     <section id="contact" class="gt-navy" aria-labelledby="contact-h">
       <div class="gt__wrap">
         <div class="gt-head gt-head--rule">
-          <span class="gt-num">08</span>
+          <span class="gt-num">09</span>
           <p class="gt-en" style="margin-bottom:0">CONTACT</p>
         </div>
         <div class="gt-contact">
