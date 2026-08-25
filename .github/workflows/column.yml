@@ -9,6 +9,7 @@ on:
       - "docs/articles/**"
       - "tools/wp.py"
       - "tools/selftest.py"
+      - "tools/pending.json"
       - ".github/workflows/column.yml"
   workflow_dispatch:
     inputs:
