@@ -6,6 +6,7 @@
   featured  画像をURLから取り込んで記事のアイキャッチにする
   audit     WordPress上の記事をルール照合する
   publish   下書きを公開する
+  media     メディアライブラリを検索する（読むだけ）
   slots     公開の枠と空きを見る
   reserve   記事を次の空き枠に予約する
   demote    H2をH3に下げる（見出しが字数に対して多いとき）
@@ -35,6 +36,7 @@ import os
 import re
 import sys
 import urllib.error
+import urllib.parse
 import urllib.request
 from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
@@ -320,6 +322,33 @@ def check():
     print(f"  カテゴリ{CATEGORY_COLUMN} {cat.get('name')}（{cat.get('count')}記事）")
 
 
+def media_list(search, count):
+    """メディアライブラリを検索して、寸法つきで並べる。
+
+    読むだけで何も変えない。すでにアップロード済みの画像を探すときに使う。
+    ロゴのように「サイトのどこかにあるはずだが、どれか分からない」ものを
+    突き止めるのが主な用途。寸法を出すのは、表示サイズに対して余白が
+    大きすぎないかをその場で判断するため。
+    """
+    q = f"media?per_page={count}&media_type=image&orderby=date&order=desc"
+    if search:
+        q += "&search=" + urllib.parse.quote(search)
+
+    items = api("GET", q)
+    if not items:
+        print("該当なし")
+        return
+
+    print(f"{len(items)}件")
+    for m in items:
+        d = m.get("media_details") or {}
+        w, h = d.get("width"), d.get("height")
+        size = f"{w}x{h}" if w and h else "?"
+        title = re.sub(r"<[^>]+>", "", (m.get("title") or {}).get("rendered", "")).strip()
+        print(f"  {m['id']:>6}  {size:>12}  {m.get('mime_type', ''):<14} {title}")
+        print(f"          {m.get('source_url', '')}")
+
+
 def set_featured(post_id, image_url, alt, filename):
     """画像をURLから取り込んでメディアに登録し、記事のアイキャッチにする。"""
     with urllib.request.urlopen(image_url) as res:
@@ -579,6 +608,10 @@ def main(argv=None):
     s.add_argument("--next", action="store_true", dest="use_next",
                    help="次に空いている枠に入れる")
 
+    s = sub.add_parser("media", help="メディアライブラリを検索する（読むだけ）")
+    s.add_argument("--search", default="", help="ファイル名やタイトルの一部")
+    s.add_argument("--count", type=int, default=20, help="件数")
+
     s = sub.add_parser("slots", help="公開の枠と空きを見る")
     s.add_argument("--count", type=int, default=3)
 
@@ -599,6 +632,9 @@ def main(argv=None):
         return
     if a.cmd == "check":
         check()
+        return
+    if a.cmd == "media":
+        media_list(a.search, a.count)
         return
     if a.cmd == "audit":
         sys.exit(audit(a.post, a.kw))

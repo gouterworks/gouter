@@ -1,0 +1,5 @@
+[
+  ["media", "--search", "logo", "--count", "30"],
+  ["media", "--search", "ロゴ", "--count", "30"],
+  ["media", "--search", "gouter", "--count", "30"]
+]
