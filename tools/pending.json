@@ -1,4 +1,0 @@
-[
-  ["timezone", "--set", "Asia/Tokyo"],
-  ["slots", "--count", "3"]
-]
