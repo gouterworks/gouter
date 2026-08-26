@@ -6,6 +6,7 @@
   featured  画像をURLから取り込んで記事のアイキャッチにする
   audit     WordPress上の記事をルール照合する
   publish   下書きを公開する
+  render    公開ページを取得して、部品が出ているか見る
   slots     公開の枠と空きを見る
   reserve   記事を次の空き枠に予約する
   demote    H2をH3に下げる（見出しが字数に対して多いとき）
@@ -508,6 +509,37 @@ def slots(count):
         print(f"  空き {jst}（日本時間） = {gmt}Z")
 
 
+def render(post_id, classes):
+    """公開ページを実際に取得して、指定した class の中身が出ているか見る。
+
+    テンプレートに足した部品が本当に描画されているかは、
+    REST では分からない。HTMLを取って確かめる。
+    """
+    post = api("GET", f"posts/{post_id}?context=edit")
+    url = post["link"]
+    print(f"記事{post_id} {url}")
+    with urllib.request.urlopen(url) as res:
+        html = res.read().decode("utf-8", "replace")
+    print(f"  取得 {len(html):,}文字")
+
+    for cls in classes:
+        m = re.search(rf'<div class="[^"]*\b{re.escape(cls)}\b[^"]*">(.*?)</div>', html, re.S)
+        if not m:
+            # 中に div が入れ子になっている場合は上の正規表現では取り切れない。
+            # 開始タグだけでも在ることを確かめる
+            if re.search(rf'class="[^"]*\b{re.escape(cls)}\b', html):
+                print(f"  {cls}: 枠はある（中身の取り出しは入れ子のため省略）")
+            else:
+                print(f"  {cls}: 枠が無い")
+            continue
+        inner = m.group(1).strip()
+        if inner:
+            snippet = re.sub(r"\s+", " ", inner)[:160]
+            print(f"  {cls}: 中身あり {len(inner)}文字 → {snippet}")
+        else:
+            print(f"  {cls}: 枠はあるが中身が空")
+
+
 def set_status(post_id, status):
     post = api("POST", f"posts/{post_id}", {"status": status})
     print(f"状態を{post['status']}に変更 記事{post['id']}: {post['link']}")
@@ -549,6 +581,11 @@ def main(argv=None):
     s = sub.add_parser("audit", help="WordPress上の記事をルール照合する")
     s.add_argument("--post", required=True)
     s.add_argument("--kw", required=True)
+
+    s = sub.add_parser("render", help="公開ページを取得して、部品が出ているか見る")
+    s.add_argument("--post", required=True)
+    s.add_argument("--find", action="append", dest="classes", required=True,
+                   help="探すclass名。複数指定できる")
 
     s = sub.add_parser("show", help="記事の中身をそのまま出す")
     s.add_argument("--post", required=True)
@@ -602,6 +639,9 @@ def main(argv=None):
         return
     if a.cmd == "audit":
         sys.exit(audit(a.post, a.kw))
+    if a.cmd == "render":
+        render(a.post, a.classes)
+        return
     if a.cmd == "show":
         show(a.post)
         return

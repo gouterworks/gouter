@@ -1,0 +1,3 @@
+[
+  ["render", "--post", "9327", "--find", "gt-adfinish", "--find", "gt-adrelated", "--find", "gt-article"]
+]
