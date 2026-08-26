@@ -1,0 +1,118 @@
+name: コラム
+
+# クラウドのセッションからは gouter.works に到達できない（egressで遮断される）。
+# ランナーからなら叩けるので、原稿の検査とWordPressへの反映はここで回す。
+on:
+  push:
+    branches: ["claude/**"]
+    paths:
+      - "docs/articles/**"
+      - "tools/wp.py"
+      - "tools/selftest.py"
+      - "tools/pending.json"
+      - ".github/workflows/column.yml"
+  workflow_dispatch:
+    inputs:
+      action:
+        description: やること
+        type: choice
+        options: [check, lint, push, schedule, featured]
+        default: check
+      file:
+        description: 原稿のパス（push / schedule のとき）
+        type: string
+      at:
+        description: 公開日時（schedule のとき。例 2026-09-01T07:00:00）
+        type: string
+      post_id:
+        description: 記事ID（featured のとき）
+        type: string
+      image_url:
+        description: 画像の取得元URL（featured のとき）
+        type: string
+      alt:
+        description: altテキスト（featured のとき）
+        type: string
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    env:
+      WP_URL: ${{ secrets.WP_URL }}
+      WP_USER: ${{ secrets.WP_USER }}
+      WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+      # シェルへ直接展開すると任意のコマンドを流し込めてしまうので、環境変数で受ける
+      IN_ACTION: ${{ inputs.action }}
+      IN_FILE: ${{ inputs.file }}
+      IN_AT: ${{ inputs.at }}
+      IN_POST: ${{ inputs.post_id }}
+      IN_IMAGE_URL: ${{ inputs.image_url }}
+      IN_ALT: ${{ inputs.alt }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 道具を点検する
+        run: python3 tools/selftest.py
+
+      - name: 原稿を検査する
+        run: |
+          shopt -s nullglob
+          files=()
+          for f in docs/articles/*.md; do
+            [ "$(basename "$f")" = "README.md" ] && continue
+            files+=("$f")
+          done
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "原稿がまだ無い"
+            exit 0
+          fi
+          python3 tools/wp.py lint "${files[@]}"
+
+      - name: WordPressへの接続を確かめる
+        run: |
+          if [ -z "$WP_URL" ]; then
+            echo "シークレット WP_URL / WP_USER / WP_APP_PASSWORD が未設定。接続の確認をとばす"
+            echo "→ https://github.com/${{ github.repository }}/settings/secrets/actions"
+            exit 0
+          fi
+          python3 tools/wp.py check
+
+      # workflow_dispatch は既定ブランチにワークフローが無いと使えない。
+      # それまでの間、tools/pending.json を置いてpushすれば実行できるようにしておく
+      - name: 待ち行列を処理する
+        run: |
+          if [ ! -f tools/pending.json ]; then
+            echo "待ち行列なし"
+            exit 0
+          fi
+          if [ -z "$WP_URL" ]; then
+            echo "シークレットが未設定なのでとばす"
+            exit 0
+          fi
+          python3 tools/wp.py pending tools/pending.json
+
+      - name: 反映する
+        if: ${{ github.event_name == 'workflow_dispatch' && (inputs.action == 'push' || inputs.action == 'schedule') }}
+        run: |
+          if [ -z "$IN_FILE" ]; then
+            echo "原稿のパスが指定されていない"
+            exit 1
+          fi
+          if [ "$IN_ACTION" = "schedule" ]; then
+            if [ -z "$IN_AT" ]; then
+              echo "公開日時が指定されていない"
+              exit 1
+            fi
+            python3 tools/wp.py schedule "$IN_FILE" --at "$IN_AT"
+          else
+            python3 tools/wp.py push "$IN_FILE"
+          fi
+
+      - name: アイキャッチを設定する
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.action == 'featured' }}
+        run: |
+          if [ -z "$IN_POST" ] || [ -z "$IN_IMAGE_URL" ] || [ -z "$IN_ALT" ]; then
+            echo "post_id / image_url / alt を全部指定する"
+            exit 1
+          fi
+          python3 tools/wp.py featured --post "$IN_POST" --url "$IN_IMAGE_URL" --alt "$IN_ALT"

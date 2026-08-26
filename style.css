@@ -610,3 +610,12 @@ Text Domain: gouter
    a 自身に margin/padding を書いても親テーマ(JIN:R)が !important で
    潰してくるので、包んだ div 側で余白を取る */
 .gt .gt-pull + .gt-linkwrap { margin-top: 24px; }
+
+/* 記事終わり・関連記事手前の広告枠。本文の柱に合わせ、上下に息をつかせる */
+.gt-adfinish { margin: 40px 0 8px; }
+.gt-adrelated { margin: 32px auto 0; }
+.gt-adfinish:empty,
+.gt-adrelated:empty { margin: 0; }
+@media (max-width: 767px) {
+  .gt-adfinish { margin: 28px 0 4px; }
+}
