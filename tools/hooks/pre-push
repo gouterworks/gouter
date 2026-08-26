@@ -1,0 +1,13 @@
+#!/bin/sh
+# 規定を満たさない原稿を push しない。
+# 検査はランナー側でも走るが、そこで落ちると失敗のメールが飛ぶ。
+# 手元で止めて、通知を出さない。
+set -e
+files=$(ls docs/articles/*.md 2>/dev/null | grep -v 'README.md$' || true)
+[ -z "$files" ] && exit 0
+if ! python3 tools/wp.py lint $files >/tmp/lint.out 2>&1; then
+  echo "--- 原稿が規定を満たしていません。push を止めます ---"
+  grep -E "^docs|✗" /tmp/lint.out
+  exit 1
+fi
+python3 tools/selftest.py >/dev/null
