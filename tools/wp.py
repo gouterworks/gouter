@@ -36,6 +36,7 @@ import json
 import os
 import re
 import sys
+import unicodedata
 import urllib.error
 import urllib.request
 from datetime import datetime, timedelta, timezone
@@ -189,6 +190,18 @@ def lint(path):
     for alt, _ in re.findall(r"!\[([^\]]*)\]\(([^)]*)\)", body):
         if not alt.strip():
             r.error("altが空の画像がある")
+
+    # 日本語でも英数字でもない文字の混入。
+    # 生成の途中で他言語の断片が紛れ込んだことがあるので、機械で見つける
+    strays = set()
+    for ch in body:
+        if not unicodedata.category(ch).startswith("L") or ch.isascii():
+            continue
+        name = unicodedata.name(ch, "")
+        if not any(k in name for k in ("CJK", "HIRAGANA", "KATAKANA", "IDEOGRAPHIC", "LATIN")):
+            strays.add(ch)
+    if strays:
+        r.error(f"日本語でも英数字でもない文字が混ざっている: {''.join(sorted(strays))}")
 
     return r.show(path)
 
