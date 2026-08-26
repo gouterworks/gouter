@@ -1,5 +1,0 @@
-[
-  ["publish", "--post", "9338"],
-  ["push", "docs/articles/11-rewrite-kijun.md"],
-  ["push", "docs/articles/12-line-tomodachi.md"]
-]
