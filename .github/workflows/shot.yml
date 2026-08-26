@@ -1,0 +1,73 @@
+name: スクリーンショット
+
+# クラウドのセッションからは gouter.works にも外部サイトにも到達できない（egressで遮断される）。
+# ランナーからなら開けるので、撮影はここで回して、結果を claude/shots ブランチに置く。
+# column.yml が原稿の反映で使っているのと同じ抜け道。
+#
+# 使い方: Actions → スクリーンショット → Run workflow で URL を入れる。
+# 撮ったものは claude/shots ブランチの shots/ に入る（毎回まるごと置き換える）。
+
+on:
+  workflow_dispatch:
+    inputs:
+      urls:
+        description: 撮るURL。改行かカンマ区切りで複数可
+        type: string
+        required: true
+      width:
+        description: 画面の横幅(px)。スマホを見るなら 390
+        type: string
+        default: "1280"
+      full_page:
+        description: ページ全体も撮る（外すと最初の1画面だけ）
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+# 結果は1本のブランチを毎回上書きするので、同時に走らせない
+concurrency:
+  group: shots
+  cancel-in-progress: false
+
+jobs:
+  shoot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      # ローカルの Claude Code と同じ版に合わせておく（挙動の食い違いを避ける）
+      - name: Playwright を入れる
+        run: |
+          npm init -y >/dev/null
+          npm i --no-save playwright@1.56.1
+          npx playwright install --with-deps chromium
+
+      - name: 撮る
+        env:
+          URLS: ${{ inputs.urls }}
+          WIDTH: ${{ inputs.width }}
+          FULL_PAGE: ${{ inputs.full_page }}
+        run: node tools/shot.mjs
+
+      - name: 結果を claude/shots に置く
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # 孤立ブランチにして、撮ったものだけが入った状態にする。
+          # main の履歴に画像を積み上げるとリポジトリが太るため。
+          # --orphan は追跡中のファイルを作業ツリーから外すが、
+          # shots/ は未追跡なので残る
+          git switch --orphan claude/shots
+          git add -f shots
+          git commit -m "撮影: ${{ inputs.urls }}（横幅 ${{ inputs.width }}px）"
+          git push -f origin claude/shots
+
+      - name: 撮ったものの一覧を表示
+        run: cat shots/INDEX.md >> "$GITHUB_STEP_SUMMARY"
