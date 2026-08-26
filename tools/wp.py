@@ -8,7 +8,6 @@
   publish   下書きを公開する
   render    公開ページを取得して、部品が出ているか見る
   timezone  サイトのタイムゾーンを変える
-  restamp   保存済みの日時を、いまのタイムゾーンで打ち直す
   slots     公開の枠と空きを見る
   reserve   記事を次の空き枠に予約する
   demote    H2をH3に下げる（見出しが字数に対して多いとき）
@@ -544,51 +543,13 @@ def render(post_id, classes):
 
 def timezone_set(name):
     """サイトのタイムゾーンを変える。"""
-    before = api("GET", "settings").get("timezone_string") or "(空)"
-    after = api("POST", "settings", {"timezone_string": name})
-    print(f"タイムゾーン {before} → {after.get('timezone_string')}")
-
-
-def restamp(dry_run):
-    """保存済みの日時を、いまのタイムゾーンで打ち直す。
-
-    WordPressは記事ごとにローカル時間とUTCの両方を持っている。
-    タイムゾーンの設定を変えても保存済みのローカル時間は書き換わらないので、
-    表示だけが9時間ずれた状態になる。UTC側を正としてローカル側を計算し直す。
-
-    実際の公開時刻（UTC）は動かさない。表示に使う値だけを揃える。
-    """
-    tz = site_timezone()
-    print(f"いまのタイムゾーン {tz}")
-
-    posts, page = [], 1
-    while True:
-        batch = api("GET", "posts?status=publish,future,draft,pending,private"
-                           f"&per_page=100&page={page}&context=edit&orderby=date&order=asc")
-        if not batch:
-            break
-        posts += batch
-        if len(batch) < 100:
-            break
-        page += 1
-    print(f"対象 {len(posts)}本")
-
-    changed = 0
-    for p in posts:
-        gmt = datetime.fromisoformat(p["date_gmt"]).replace(tzinfo=timezone.utc)
-        want = gmt.astimezone(tz).strftime("%Y-%m-%dT%H:%M:%S")
-        if p["date"] == want:
-            continue
-        changed += 1
-        if changed <= 5 or dry_run:
-            print(f"  {p['id']} {p['date']} → {want}  {p['title']['raw'][:28]}")
-        if not dry_run:
-            api("POST", f"posts/{p['id']}", {"date_gmt": p["date_gmt"]})
-
-    if dry_run:
-        print(f"\n打ち直しが要るもの {changed}本（--apply を付けると実行する）")
-    else:
-        print(f"\n打ち直した {changed}本")
+    b = api("GET", "settings")
+    print(f"変更前 timezone_string={b.get('timezone_string')!r} gmt_offset={b.get('gmt_offset')!r}")
+    api("POST", "settings", {"timezone_string": name})
+    a = api("GET", "settings")
+    print(f"変更後 timezone_string={a.get('timezone_string')!r} gmt_offset={a.get('gmt_offset')!r}")
+    if a.get("timezone_string") != name:
+        raise SystemExit(f"変わらなかった。{name} を期待したが {a.get('timezone_string')!r}")
 
 
 def set_status(post_id, status):
@@ -631,9 +592,6 @@ def main(argv=None):
 
     s = sub.add_parser("timezone", help="サイトのタイムゾーンを変える")
     s.add_argument("--set", dest="tz", required=True, help="例 Asia/Tokyo")
-
-    s = sub.add_parser("restamp", help="保存済みの日時を、いまのタイムゾーンで打ち直す")
-    s.add_argument("--apply", action="store_true", help="付けないと実行しない")
 
     s = sub.add_parser("audit", help="WordPress上の記事をルール照合する")
     s.add_argument("--post", required=True)
@@ -696,9 +654,6 @@ def main(argv=None):
         return
     if a.cmd == "timezone":
         timezone_set(a.tz)
-        return
-    if a.cmd == "restamp":
-        restamp(not a.apply)
         return
     if a.cmd == "audit":
         sys.exit(audit(a.post, a.kw))

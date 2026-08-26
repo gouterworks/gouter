@@ -1,5 +1,4 @@
 [
   ["timezone", "--set", "Asia/Tokyo"],
-  ["restamp"],
   ["slots", "--count", "3"]
 ]
