@@ -22,6 +22,10 @@ on:
         description: ページ全体も撮る（外すと最初の1画面だけ）
         type: boolean
         default: true
+      settle_ms:
+        description: 描画を待つ時間(ms)。演出の重いサイトは長めにする
+        type: string
+        default: "3000"
 
 permissions:
   contents: write
@@ -53,6 +57,7 @@ jobs:
           URLS: ${{ inputs.urls }}
           WIDTH: ${{ inputs.width }}
           FULL_PAGE: ${{ inputs.full_page }}
+          SETTLE_MS: ${{ inputs.settle_ms }}
         run: node tools/shot.mjs
 
       - name: 結果を claude/shots に置く
