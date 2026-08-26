@@ -6,7 +6,6 @@
   featured  画像をURLから取り込んで記事のアイキャッチにする
   audit     WordPress上の記事をルール照合する
   publish   下書きを公開する
-  probe     テーマの中身を調べる（広告が出ない原因の切り分け）
   slots     公開の枠と空きを見る
   reserve   記事を次の空き枠に予約する
   demote    H2をH3に下げる（見出しが字数に対して多いとき）
@@ -509,23 +508,6 @@ def slots(count):
         print(f"  空き {jst}（日本時間） = {gmt}Z")
 
 
-def probe():
-    """テーマの中身を調べる。JIN:Rが広告をどこで出しているかを突き止めるため。"""
-    d = api("GET", "/gouter/v1/theme-probe")
-    print(f"テーマ {d['theme']['stylesheet']}（親: {d['theme']['template']}）")
-    print("\n-- the_content のフィルタ（本文に差し込むもの。ここは効いている） --")
-    for line in d["the_content_filters"]:
-        print(f"  {line}")
-    print("\n-- JIN:R のフック --")
-    for hook, names in d["jinr_hooks"].items():
-        print(f"  {hook}")
-        for n in names:
-            print(f"      {n}")
-    print("\n-- 広告に関係しそうな関数 --")
-    for fn in d["jinr_functions"]:
-        print(f"  {fn}")
-
-
 def set_status(post_id, status):
     post = api("POST", f"posts/{post_id}", {"status": status})
     print(f"状態を{post['status']}に変更 記事{post['id']}: {post['link']}")
@@ -563,7 +545,6 @@ def main(argv=None):
     s.add_argument("files", nargs="+")
 
     sub.add_parser("check", help="接続と認証を確かめる")
-    sub.add_parser("probe", help="テーマの中身を調べる")
 
     s = sub.add_parser("audit", help="WordPress上の記事をルール照合する")
     s.add_argument("--post", required=True)
@@ -618,9 +599,6 @@ def main(argv=None):
         return
     if a.cmd == "check":
         check()
-        return
-    if a.cmd == "probe":
-        probe()
         return
     if a.cmd == "audit":
         sys.exit(audit(a.post, a.kw))

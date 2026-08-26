@@ -112,6 +112,24 @@ add_action( 'wp_head', function () use ( $gt_id, $gt_desc, $gt_url, $gt_canon, $
             <?php the_content(); ?>
           </div>
 
+          <?php
+          /*
+           * 記事終わりの広告。
+           *
+           * JIN:R の single.php は本文のあとで ad-finish を読み込んでいるが、
+           * この子テーマは single.php を丸ごと置き換えているため、その行ごと消えていた。
+           * 「最初のH2の前」だけ出ていたのは、そちらが the_content のフィルタで
+           * 本文に差し込まれるぶん、置き換えの影響を受けなかったため。
+           *
+           * 親と同じく、記事ごとの「広告を非表示」設定を尊重する。
+           * （親の条件式は !get_post_meta(...) == "1" と書かれていて意図が読みにくいので、
+           *   同じ挙動になるよう書き直している）
+           */
+          if ( get_post_meta( get_the_ID(), '_jinr_ads_display', true ) !== '1' ) :
+              ?>
+              <div class="gt-adfinish"><?php get_template_part( 'ad-finish' ); ?></div>
+          <?php endif; ?>
+
         </div>
       </div>
 
@@ -126,6 +144,13 @@ add_action( 'wp_head', function () use ( $gt_id, $gt_desc, $gt_url, $gt_canon, $
     </aside>
 
     <?php
+    // 関連記事の手前の広告。親テーマが ad-related を読み込んでいる位置に合わせる
+    if ( get_post_meta( $gt_id, '_jinr_ads_display', true ) !== '1' ) {
+        echo '<div class="gt-adrelated gt__wrap">';
+        get_template_part( 'ad-related' );
+        echo '</div>';
+    }
+
     // 同じカテゴリの新しい記事から3本。読み終えた人の次の一手になるもの
     $gt_rel = new WP_Query( array(
         'post_type'           => 'post',
