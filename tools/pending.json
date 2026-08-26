@@ -1,0 +1,5 @@
+[
+  ["featured", "--post", "9347", "--url", "https://export-download.canva.com/mU5i8/DAHTYqmU5i8/-1/0/0001-5893474006114016070.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQYCGKMUH5AO7UJ26%2F20260826%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260826T070803Z&X-Amz-Expires=20102&X-Amz-Signature=419eb77d9749b61c77b33018cfdfedae9e6c5b1df93b7b9c52a9c829cce5599e&X-Amz-SignedHeaders=host%3Bx-amz-expected-bucket-owner&response-expires=Wed%2C%2026%20Aug%202026%2012%3A43%3A05%20GMT", "--alt", "厨房で働くスタッフ", "--name", "9347-baito-kyoiku.png"],
+  ["audit", "--post", "9347", "--kw", "アルバイト 教育 マニュアル"],
+  ["reserve", "--post", "9347"]
+]
