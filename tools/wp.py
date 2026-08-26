@@ -43,7 +43,9 @@ from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
 
 CATEGORY_COLUMN = 110
-# 公開する時間帯。朝・昼・夜。変えるならここ
+# 公開する時間帯。朝・昼・夜。変えるならここ。
+# 変えたら .github/workflows/wpcron.yml の時刻も合わせること
+# （予約投稿を時刻どおりに動かすため、枠の直後にwp-cronを叩いている）
 SLOTS = [(7, 0), (12, 0), (19, 0)]
 # 枠は読者の時間で決める。サイトの設定はUTCのままなので、
 # 予約は date_gmt（UTC）で渡して取り違えを防ぐ
