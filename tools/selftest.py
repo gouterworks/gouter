@@ -11,11 +11,11 @@ from pathlib import Path
 
 WP = Path(__file__).with_name("wp.py")
 SUBCOMMANDS = ["lint", "check", "audit", "publish", "show", "demote",
-               "featured", "push", "schedule", "pending", "slots", "reserve", "render"]
+               "featured", "push", "schedule", "pending", "slots", "reserve", "render", "timezone", "restamp"]
 FUNCTIONS = ["parse", "visible_chars", "headings", "sections", "lint", "api",
              "to_html", "check", "set_featured", "html_text", "audit", "show",
              "demote", "set_status", "send", "main",
-             "site_timezone", "taken_slots", "next_free_slot", "slots", "render"]
+             "site_timezone", "taken_slots", "next_free_slot", "slots", "render", "timezone_set", "restamp"]
 
 spec = importlib.util.spec_from_file_location("wp", WP)
 wp = importlib.util.module_from_spec(spec)
