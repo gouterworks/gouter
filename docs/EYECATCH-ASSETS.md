@@ -11,6 +11,9 @@
 | 9338用 | Goûterコラムアイキャッチ 04 原価率 | `DAHTWxJhu8o` |
 | 9344用 | Goûterコラムアイキャッチ 05 問い合わせフォーム | `DAHTX_xlHd0` |
 | 9347用 | Goûterコラムアイキャッチ 06 アルバイト教育 | `DAHTYqmU5i8` |
+| 9351用 | Goûterコラムアイキャッチ 07 GA4の設定 | `DAHTYsivG8E` |
+| 9352用 | Goûterコラムアイキャッチ 08 売れるPOP | `DAHTY6qMgEI` |
+| 9353用 | Goûterコラムアイキャッチ 09 Googleマップの写真 | `DAHTY0ZBGyQ` |
 | 9344用 | Goûterコラムアイキャッチ 05 問い合わせフォーム | `DAHTX_xlHd0` |
 
 新しい記事のぶんは、**正しいフォントが入っているページを `copy-design` で複製**して作る。
@@ -61,8 +64,9 @@ Canvaのコネクタには**フォント種別を変える操作が無い**（`f
 | 22 | 材料をはかりに量る | Pexels 5964491 / asset `MAHTXuXjeco` | **9338** |
 | 23 | 用紙に記入する手元 | Pexels 7821682 / asset `MAHTXz_3vzk` | **9344** |
 | 24 | 厨房で働くスタッフ | asset `MAHTYlwPB4U` | **9347** |
-| 25 | ノートPCに表示されたグラフ | Pexels 3861957 / asset `MAHTYrkKvMI` | 9351用に確保 |
-| 26 | スマートフォンで建物を撮る手元 | Pexels 11455932 / asset `MAHTYoiKWPg` | 9353用に確保 |
+| 25 | ノートPCに表示されたグラフ | Pexels 3861957 / asset `MAHTYrkKvMI` | **9351** |
+| 26 | スマートフォンで建物を撮る手元 | Pexels 11455932 / asset `MAHTYoiKWPg` | **9353** |
+| 27 | 店頭のオープンサイン | Pexels 19418844 / asset `MAHTYw1avb0` | **9352** |
 | 23 | 用紙に記入する手元 | Pexels 7821682 / asset `MAHTXz_3vzk` | **9344** |
 
 ### 母艦から抽出した18点（要精査）

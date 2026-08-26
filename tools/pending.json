@@ -1,5 +1,11 @@
 [
-  ["featured", "--post", "9347", "--url", "https://export-download.canva.com/mU5i8/DAHTYqmU5i8/-1/0/0001-5893474006114016070.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQYCGKMUH5AO7UJ26%2F20260826%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260826T070803Z&X-Amz-Expires=20102&X-Amz-Signature=419eb77d9749b61c77b33018cfdfedae9e6c5b1df93b7b9c52a9c829cce5599e&X-Amz-SignedHeaders=host%3Bx-amz-expected-bucket-owner&response-expires=Wed%2C%2026%20Aug%202026%2012%3A43%3A05%20GMT", "--alt", "厨房で働くスタッフ", "--name", "9347-baito-kyoiku.png"],
-  ["audit", "--post", "9347", "--kw", "アルバイト 教育 マニュアル"],
-  ["reserve", "--post", "9347"]
+  ["featured", "--post", "9351", "--url", "https://export-download.canva.com/ivG8E/DAHTYsivG8E/-1/0/0001-6840355834887700542.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQYCGKMUH5AO7UJ26%2F20260826%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260826T042911Z&X-Amz-Expires=28796&X-Amz-Signature=e3683deb90bc7d0647b0858e8e707d51d8c2e082f5646b8fd977532acde5465d&X-Amz-SignedHeaders=host%3Bx-amz-expected-bucket-owner&response-expires=Wed%2C%2026%20Aug%202026%2012%3A29%3A07%20GMT", "--alt", "ノートパソコンに表示されたグラフ", "--name", "9351-ga4-cv.png"],
+  ["audit", "--post", "9351", "--kw", "GA4 コンバージョン 設定"],
+  ["reserve", "--post", "9351"],
+  ["featured", "--post", "9352", "--url", "https://export-download.canva.com/qMgEI/DAHTY6qMgEI/-1/0/0001-4649354613757594979.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQYCGKMUH5AO7UJ26%2F20260825%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260825T151107Z&X-Amz-Expires=77075&X-Amz-Signature=0f0c9907b4f61d620d55598e369c47f964812e6040407e6d9ecb905711ba7b1e&X-Amz-SignedHeaders=host%3Bx-amz-expected-bucket-owner&response-expires=Wed%2C%2026%20Aug%202026%2012%3A35%3A42%20GMT", "--alt", "店頭のオープンサイン", "--name", "9352-pop.png"],
+  ["audit", "--post", "9352", "--kw", "POP 書き方 売れる"],
+  ["reserve", "--post", "9352"],
+  ["featured", "--post", "9353", "--url", "https://export-download.canva.com/ZBGyQ/DAHTY0ZBGyQ/-1/0/0001-132244186334797298.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQYCGKMUH5AO7UJ26%2F20260825%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260825T230123Z&X-Amz-Expires=47789&X-Amz-Signature=c3ebdf2b19528a64f7510766f2005e9caeeb8a91cddf3e01a658271cd63493df&X-Amz-SignedHeaders=host%3Bx-amz-expected-bucket-owner&response-expires=Wed%2C%2026%20Aug%202026%2012%3A17%3A52%20GMT", "--alt", "スマートフォンで建物を撮る手元", "--name", "9353-gmap-photo.png"],
+  ["audit", "--post", "9353", "--kw", "Googleマップ 写真 集客"],
+  ["reserve", "--post", "9353"]
 ]
