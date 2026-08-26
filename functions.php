@@ -358,3 +358,41 @@ function gouter_archive_per_page($query)
 		$query->set('posts_per_page', 12);
 	}
 }
+
+/**
+ * 記事の横に出すウィジェットエリアを決める。
+ *
+ * JIN:R が登録しているウィジェットエリアの id は親テーマ側にあり、
+ * この子テーマからは分からない。決め打ちすると親の更新で外れるので、
+ * 実行時に登録済みのものから選ぶ。
+ *
+ * 中身が入っているエリアだけを対象にする。空のエリアを出しても
+ * サイドバーが痩せて見えるだけで、意味がない。
+ */
+function gouter_article_sidebar_id()
+{
+	global $wp_registered_sidebars;
+
+	if (empty($wp_registered_sidebars) || !is_array($wp_registered_sidebars)) {
+		return '';
+	}
+
+	// フッターやトップページ専用のエリアを記事の横に出すと的外れになる
+	$skip = array('footer', 'front', 'home', 'top', 'mobile', 'header');
+
+	foreach ($wp_registered_sidebars as $id => $sidebar) {
+		$hay = strtolower($id . ' ' . (isset($sidebar['name']) ? $sidebar['name'] : ''));
+
+		foreach ($skip as $ng) {
+			if (strpos($hay, $ng) !== false) {
+				continue 2;
+			}
+		}
+
+		if (is_active_sidebar($id)) {
+			return $id;
+		}
+	}
+
+	return '';
+}

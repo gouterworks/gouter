@@ -292,6 +292,38 @@ Text Domain: gouter
 .gt-empty__sub { margin-top: 10px; font-size: 14px; color: var(--mute); }
 .gt-empty .gt-btn--ghost { margin-top: 30px; }
 
+/* ===== 記事の2カラム =====
+   本文の幅(46em)は変えずに、右に320pxのサイドバーを足す。
+   1000px未満では1カラムに落ちて、サイドバーは本文の下にまわる */
+.gt-single { display: grid; gap: clamp(32px,3.4vw,56px); align-items: start; }
+.gt-single__main { min-width: 0; }
+.gt-side { display: grid; gap: 26px; align-content: start; }
+
+@media (min-width: 1000px) {
+  .gt-single { grid-template-columns: minmax(0,1fr) 320px; }
+  /* ヘッダーが sticky なので、その分だけ下げないと頭が隠れる。
+     中身が画面より高いときに下端が読めなくならないよう、はみ出しは中でスクロールさせる */
+  .gt-side { position: sticky; top: 88px; max-height: calc(100vh - 112px); overflow-y: auto; }
+}
+
+/* 相談への導線。ウィジェットの設定に関係なく必ず出る */
+.gt-sidecta { background: var(--navy); color: #fff; border-radius: var(--radius); padding: 26px 24px; }
+.gt-sidecta__en { font-family: var(--gothic); font-weight: 700; font-size: 11px; letter-spacing: .14em; color: var(--sun); }
+.gt-sidecta__lead { margin-top: 12px; font-size: 14px; line-height: 1.95; color: rgba(255,255,255,.86); }
+.gt .gt-sidecta .gt-btn--sm { margin-top: 18px; display: block; text-align: center; background: var(--sun); color: var(--ink); }
+
+/* JIN:R のウィジェットは親テーマのCSS前提で出てくる。
+   そのままだとサイトから浮くので、枠と見出しだけ最低限そろえる */
+.gt-side__widgets { display: grid; gap: 26px; }
+.gt-side__widgets > * { border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 20px; }
+.gt-side__widgets h2, .gt-side__widgets h3, .gt-side__widgets h4, .gt-side__widgets .widget-title {
+  font-family: var(--gothic); font-size: 13px; font-weight: 700; letter-spacing: .1em; color: var(--navy);
+  padding-bottom: 12px; border-bottom: 1px solid var(--line); margin-bottom: 14px; }
+.gt-side__widgets li { font-size: 13.5px; line-height: 1.9; margin-top: 10px; }
+.gt-side__widgets a { color: var(--body); }
+.gt-side__widgets a:hover { color: var(--navy); }
+.gt-side__widgets img { max-width: 100%; height: auto; }
+
 /* ===== footer ===== */
 .gt-footer__inner { max-width: var(--wrap); margin: 0 auto; padding: clamp(48px,6vw,84px) var(--pad) 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: clamp(28px,4vw,56px); border-top: 1px solid var(--line); }
 .gt-footer__navlabel { font-size: 11px; font-weight: 700; letter-spacing: .14em; color: var(--faint); margin-bottom: 14px; }
