@@ -20,6 +20,7 @@ const URLS = (process.env.URLS || '')
 
 const WIDTH = Number.parseInt(process.env.WIDTH || '1280', 10) || 1280;
 const FULL_PAGE = (process.env.FULL_PAGE || 'true') === 'true';
+const SETTLE = Number.parseInt(process.env.SETTLE_MS || '3000', 10) || 3000;
 const OUT = 'shots';
 
 if (URLS.length === 0) {
@@ -76,10 +77,19 @@ for (const url of URLS) {
   const page = await context.newPage();
 
   try {
-    // networkidle は広告や計測タグが動き続けるサイトで永遠に来ないことがある。
-    // load で妥協して、その後に少し待つ
     await page.goto(url, { waitUntil: 'load', timeout: 45000 });
-    await page.waitForTimeout(2500);
+
+    // load の直後だと、入場アニメーションの途中で撮れてしまうサイトがある。
+    // 実際 rightdesigninc.com は単色のまま、rgf-professional.jp は写真が
+    // 散らばった演出の途中で撮れた。通信が落ち着くまで待ってから撮る。
+    // networkidle は広告や計測タグが動き続けるサイトでは永遠に来ないので、
+    // 短めで打ち切って先へ進む
+    try {
+      await page.waitForLoadState('networkidle', { timeout: 15000 });
+    } catch {
+      // 来なくても構わない。下の待ち時間で妥協する
+    }
+    await page.waitForTimeout(SETTLE);
 
     // 遅延読み込みの画像を出すために一度下まで送って戻す
     await page.evaluate(async () => {
@@ -138,6 +148,7 @@ const lines = [
   '',
   `- 横幅: ${WIDTH}px`,
   `- ページ全体: ${FULL_PAGE ? '撮る' : '撮らない'}`,
+  `- 描画待ち: ${SETTLE}ms（＋通信が落ち着くまで最大15秒）`,
   `- 件数: ${rows.length}（成功 ${rows.filter((r) => !r.error).length}）`,
   '',
   '| URL | タイトル | 縦(px) | 最初の1画面 | 全体 | 備考 |',
