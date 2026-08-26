@@ -1,0 +1,4 @@
+# Python の中間ファイル。wp.py を実行するたびに作られるので追跡しない。
+# tools/pending.json はコラムの手順で「置いてpushする」ものなので、ここには入れない
+__pycache__/
+*.py[cod]

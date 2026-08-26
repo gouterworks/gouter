@@ -1,0 +1,70 @@
+name: ファイルを取ってくる
+
+# クラウドのセッションからは外部に出られない（egressで遮断される）。
+# Canva の書き出しURLなど、取ってきたいファイルがあるときはランナーに代わりに取らせる。
+# shot.yml と同じ抜け道。
+#
+# 取ってきたものは claude/incoming ブランチの incoming/ に入る（毎回まるごと置き換わる）。
+# そこから先（トリミングや配置）は、中身を見たうえで人か Claude が判断する。
+# main には直接入れない。
+
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: 取ってくるURL（https のみ）
+        type: string
+        required: true
+      name:
+        description: 保存するファイル名（例 logo.png）
+        type: string
+        required: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: incoming
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 取ってくる
+        env:
+          URL: ${{ inputs.url }}
+          NAME: ${{ inputs.name }}
+        run: |
+          set -euo pipefail
+
+          # https 以外は取りに行かない
+          case "$URL" in
+            https://*) ;;
+            *) echo "https のURLだけ受け付けます"; exit 1 ;;
+          esac
+
+          # ファイル名にパスを混ぜられないようにする
+          case "$NAME" in
+            */*|..*|"") echo "ファイル名にパスは使えません: $NAME"; exit 1 ;;
+          esac
+
+          mkdir -p incoming
+          curl -fsSL --max-time 120 -o "incoming/$NAME" "$URL"
+
+          echo "取れたもの:"
+          ls -la incoming/
+          file "incoming/$NAME" || true
+
+      - name: 結果を claude/incoming に置く
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # 孤立ブランチにして、取ってきたものだけが入った状態にする
+          git switch --orphan claude/incoming
+          git add -f incoming
+          git commit -m "取得: ${{ inputs.name }}"
+          git push -f origin claude/incoming
