@@ -1,5 +1,0 @@
-[
-  ["featured", "--post", "9338", "--url", "https://export-download.canva.com/Jhu8o/DAHTWxJhu8o/-1/0/0001-5529808319348713269.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQYCGKMUH5AO7UJ26%2F20260825%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260825T230527Z&X-Amz-Expires=33242&X-Amz-Signature=b0e214e7d0e679ba13721d2ec7b116c9408a023c8626aaa4ac252be71d0854d8&X-Amz-SignedHeaders=host%3Bx-amz-expected-bucket-owner&response-expires=Wed%2C%2026%20Aug%202026%2008%3A19%3A29%20GMT", "--alt", "材料をはかりに量る", "--name", "9338-genkaritsu.png"],
-  ["audit", "--post", "9338", "--kw", "原価率 計算 飲食店"],
-  ["reserve", "--post", "9338"]
-]
