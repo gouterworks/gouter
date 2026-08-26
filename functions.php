@@ -396,3 +396,133 @@ function gouter_article_sidebar_id()
 
 	return '';
 }
+
+/**
+ * 記事詳細のレイアウト設定。
+ *
+ * 外観 → カスタマイズ →「記事詳細のレイアウト」で変えられるようにする。
+ *
+ * 親テーマ(JIN:R)にも記事レイアウトの設定はあるが、その option キーは
+ * 親テーマの中にあり、この子テーマからは分からない。決め打ちすると
+ * 親の更新で外れて設定が効かなくなるため、こちらで項目を持つ。
+ */
+function gouter_article_layout()
+{
+	return array(
+		'sidebar'  => (bool) get_theme_mod('gouter_article_sidebar', true),
+		'position' => get_theme_mod('gouter_article_sidebar_position', 'right') === 'left' ? 'left' : 'right',
+		'side_w'   => gouter_sanitize_side_width(get_theme_mod('gouter_article_sidebar_width', 320)),
+		'body_w'   => gouter_sanitize_body_width(get_theme_mod('gouter_article_body_width', 46)),
+		'sticky'   => (bool) get_theme_mod('gouter_article_sidebar_sticky', true),
+	);
+}
+
+function gouter_sanitize_bool($value)
+{
+	return (bool) $value;
+}
+
+function gouter_sanitize_side_position($value)
+{
+	return $value === 'left' ? 'left' : 'right';
+}
+
+// 極端な値を入れられるとレイアウトが壊れるので、両端で止める
+function gouter_sanitize_side_width($value)
+{
+	return max(240, min(440, (int) $value));
+}
+
+function gouter_sanitize_body_width($value)
+{
+	return max(34, min(64, (int) $value));
+}
+
+add_action('customize_register', 'gouter_customize_register');
+function gouter_customize_register($wp_customize)
+{
+	$wp_customize->add_section('gouter_article', array(
+		'title'       => '記事詳細のレイアウト',
+		'description' => '記事ページの本文とサイドバーの並びを決めます。サイドバーの中身は「ウィジェット」で変えられます。',
+		'priority'    => 130,
+	));
+
+	$fields = array(
+		'gouter_article_sidebar' => array(
+			'default'  => true,
+			'sanitize' => 'gouter_sanitize_bool',
+			'label'    => 'サイドバーを出す',
+			'type'     => 'checkbox',
+		),
+		'gouter_article_sidebar_position' => array(
+			'default'  => 'right',
+			'sanitize' => 'gouter_sanitize_side_position',
+			'label'    => 'サイドバーの位置',
+			'type'     => 'radio',
+			'choices'  => array('right' => '右', 'left' => '左'),
+		),
+		'gouter_article_sidebar_width' => array(
+			'default'     => 320,
+			'sanitize'    => 'gouter_sanitize_side_width',
+			'label'       => 'サイドバーの幅（px）',
+			'type'        => 'number',
+			'input_attrs' => array('min' => 240, 'max' => 440, 'step' => 10),
+		),
+		'gouter_article_body_width' => array(
+			'default'     => 46,
+			'sanitize'    => 'gouter_sanitize_body_width',
+			'label'       => '本文の幅（em）',
+			'description' => '1行の長さ。46 で約40文字。大きくすると1行が長くなります。',
+			'type'        => 'number',
+			'input_attrs' => array('min' => 34, 'max' => 64, 'step' => 1),
+		),
+		'gouter_article_sidebar_sticky' => array(
+			'default'  => true,
+			'sanitize' => 'gouter_sanitize_bool',
+			'label'    => 'サイドバーをスクロールに追従させる',
+			'type'     => 'checkbox',
+		),
+	);
+
+	foreach ($fields as $id => $f) {
+		$wp_customize->add_setting($id, array(
+			'default'           => $f['default'],
+			'sanitize_callback' => $f['sanitize'],
+			// 表示に関わる指定なので、触ったらプレビューを読み直して結果を見せる
+			'transport'         => 'refresh',
+		));
+
+		$control = array(
+			'section' => 'gouter_article',
+			'label'   => $f['label'],
+			'type'    => $f['type'],
+		);
+		foreach (array('choices', 'input_attrs', 'description') as $k) {
+			if (isset($f[$k])) {
+				$control[$k] = $f[$k];
+			}
+		}
+
+		$wp_customize->add_control($id, $control);
+	}
+}
+
+/**
+ * 設定した幅を CSS に流す。
+ * クラスで持てる（出す/出さない・左右・追従）はテンプレート側で付ける。
+ */
+add_action('wp_head', 'gouter_article_layout_css', 20);
+function gouter_article_layout_css()
+{
+	if (!is_singular('post')) {
+		return;
+	}
+
+	$l = gouter_article_layout();
+
+	printf(
+		'<style id="gouter-article-layout">.gt-single{--gt-side-w:%dpx;--gt-article-w:%dem}</style>' . "\n",
+		$l['side_w'],
+		$l['body_w']
+	);
+}

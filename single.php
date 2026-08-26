@@ -17,6 +17,21 @@
 $gt_id  = get_queried_object_id();
 $gt_cat = gouter_post_cat( $gt_id );
 
+// 記事詳細のレイアウト（外観 → カスタマイズ →「記事詳細のレイアウト」）。
+// 幅は CSS 変数で流し、切り替えで済むものはクラスで持つ
+$gt_layout = gouter_article_layout();
+
+$gt_single_class = 'gt-single';
+if ( ! $gt_layout['sidebar'] ) {
+	$gt_single_class .= ' gt-single--full';
+}
+if ( 'left' === $gt_layout['position'] ) {
+	$gt_single_class .= ' gt-single--left';
+}
+if ( ! $gt_layout['sticky'] ) {
+	$gt_single_class .= ' gt-single--nostick';
+}
+
 $gt_desc = gouter_post_description( $gt_id );
 $gt_url  = get_permalink( $gt_id );
 
@@ -108,7 +123,7 @@ add_action( 'wp_head', function () use ( $gt_id, $gt_desc, $gt_url, $gt_canon, $
             </figure>
           <?php endif; ?>
 
-          <div class="gt-single">
+          <div class="<?php echo esc_attr( $gt_single_class ); ?>">
             <div class="gt-single__main">
 
           <div class="gt-article">
@@ -135,7 +150,9 @@ add_action( 'wp_head', function () use ( $gt_id, $gt_desc, $gt_url, $gt_canon, $
 
             </div>
 
-            <?php require get_stylesheet_directory() . '/parts/sidebar.php'; ?>
+            <?php if ( $gt_layout['sidebar'] ) : ?>
+              <?php require get_stylesheet_directory() . '/parts/sidebar.php'; ?>
+            <?php endif; ?>
           </div>
 
         </div>

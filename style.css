@@ -295,15 +295,24 @@ Text Domain: gouter
 /* ===== 記事の2カラム =====
    本文の幅(46em)は変えずに、右に320pxのサイドバーを足す。
    1000px未満では1カラムに落ちて、サイドバーは本文の下にまわる */
-.gt-single { display: grid; gap: clamp(32px,3.4vw,56px); align-items: start; }
+/* 幅は カスタマイズ画面（記事詳細のレイアウト）から CSS 変数で入ってくる。
+   ここの値は、設定が無いときの既定 */
+.gt-single { display: grid; gap: clamp(32px,3.4vw,56px); align-items: start; --gt-side-w: 320px; --gt-article-w: 46em; }
 .gt-single__main { min-width: 0; }
+.gt-single .gt-article { max-width: var(--gt-article-w); }
 .gt-side { display: grid; gap: 26px; align-content: start; }
 
 @media (min-width: 1000px) {
-  .gt-single { grid-template-columns: minmax(0,1fr) 320px; }
+  .gt-single { grid-template-columns: minmax(0,1fr) var(--gt-side-w); }
+  .gt-single--full { grid-template-columns: minmax(0,1fr); }
+  .gt-single--left { grid-template-columns: var(--gt-side-w) minmax(0,1fr); }
+  /* 左に置くときだけ順番を入れ替える。1カラムに落ちる幅では、
+     サイドバーが本文より先に来ると読み始めるまでが遠くなるので入れ替えない */
+  .gt-single--left .gt-side { order: -1; }
   /* ヘッダーが sticky なので、その分だけ下げないと頭が隠れる。
      中身が画面より高いときに下端が読めなくならないよう、はみ出しは中でスクロールさせる */
   .gt-side { position: sticky; top: 88px; max-height: calc(100vh - 112px); overflow-y: auto; }
+  .gt-single--nostick .gt-side { position: static; max-height: none; overflow: visible; }
 }
 
 /* 相談への導線。ウィジェットの設定に関係なく必ず出る */
