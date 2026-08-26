@@ -7,7 +7,7 @@ $gt_home = is_front_page() ? '' : esc_url( home_url( '/' ) );
   <footer class="gt-footer">
     <div class="gt-footer__inner">
       <div>
-        <p class="gt-footer__logo">Goûter</p>
+        <p class="gt-footer__logo"><?php gouter_logo(); ?></p>
         <p class="gt-footer__meta">コミュニケーションデザイン事務所<br />〒811-4173　福岡県宗像市栄町2-1-2F</p>
       </div>
       <nav aria-label="フッターナビゲーション">
@@ -16,6 +16,7 @@ $gt_home = is_front_page() ? '' : esc_url( home_url( '/' ) );
           <li><a href="<?php echo $gt_home; ?>#comdesign">考え方</a></li>
           <li><a href="<?php echo $gt_home; ?>#philosophy">或るべき姿</a></li>
           <li><a href="<?php echo $gt_home; ?>#service">できること</a></li>
+          <li><a href="<?php echo $gt_home; ?>#business">事業</a></li>
           <li><a href="<?php echo $gt_home; ?>#knowledge">読みもの</a></li>
           <li><a href="<?php echo $gt_home; ?>#about">事務所について</a></li>
           <li><a href="<?php echo $gt_home; ?>#contact">お問い合わせ</a></li>

@@ -1,9 +1,11 @@
 <?php
 /**
- * 下層ページ共通テンプレート。
- * /service・/contact・/privacy-policy・/sitemap で使う。
+ * 下層ページ共通テンプレート。トップページ以外の全固定ページで使う。
  * 本文はデータベース側にあるので the_content() をそのまま出し、
  * 見た目だけトップページと揃える。
+ *
+ * 管理画面で固定ページを新しく作れば、そのまま Goûter の見た目になる。
+ * 英字ラベルやリード文を作り込みたいページだけ、下の $gt_meta に足す。
  *
  * どのページに適用するかは functions.php の gouter_page_template() で決めている。
  */
@@ -40,10 +42,20 @@ $gt_meta = array(
 		'cta'  => false,
 	),
 );
+// 対応表に無いページ（これから足す事業のページなど）でも見た目が成立するよう、
+// 英字ラベルはスラッグから、description は本文から自動で作る。
+// 表示を作り込みたくなったら、上の $gt_meta に足せばそちらが優先される。
+$gt_en_auto = strtoupper( str_replace( '-', ' ', $gt_slug ) );
+
+// 日本語スラッグのページもあるため、英数字にならなければ汎用のラベルに戻す
+if ( ! preg_match( '/\A[A-Z0-9 ]+\z/', $gt_en_auto ) ) {
+	$gt_en_auto = 'PAGE';
+}
+
 $gt = isset( $gt_meta[ $gt_slug ] ) ? $gt_meta[ $gt_slug ] : array(
-	'en'   => 'PAGE',
+	'en'   => $gt_en_auto,
 	'lead' => '',
-	'desc' => get_bloginfo( 'description' ),
+	'desc' => gouter_post_description( $gt_id ),
 	'cta'  => true,
 );
 
