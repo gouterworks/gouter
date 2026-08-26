@@ -449,14 +449,18 @@ def demote(post_id, needle):
 
 
 def site_timezone():
-    """サイトのタイムゾーン。予約の時刻はサイトのローカル時間で入る。"""
-    st = api("GET", "settings")
-    name = st.get("timezone_string")
-    if name:
-        return ZoneInfo(name)
-    # timezone_string が空で、UTCからのずれだけ設定されている場合
-    offset = float(st.get("gmt_offset") or 0)
-    return timezone(timedelta(hours=offset))
+    """サイトのタイムゾーン。
+
+    注意: RESTでの項目名は timezone_string ではなく timezone。
+    間違えると常に空が返り、UTC扱いに落ちる。
+    """
+    name = api("GET", "settings").get("timezone")
+    if not name:
+        return timezone.utc
+    if name.startswith(("+", "-")) or name.replace(".", "").isdigit():
+        # 「UTC+9」のような手動指定
+        return timezone(timedelta(hours=float(name)))
+    return ZoneInfo(name)
 
 
 def taken_slots():
@@ -543,13 +547,13 @@ def render(post_id, classes):
 
 def timezone_set(name):
     """サイトのタイムゾーンを変える。"""
-    b = api("GET", "settings")
-    print(f"変更前 timezone_string={b.get('timezone_string')!r} gmt_offset={b.get('gmt_offset')!r}")
-    api("POST", "settings", {"timezone_string": name})
-    a = api("GET", "settings")
-    print(f"変更後 timezone_string={a.get('timezone_string')!r} gmt_offset={a.get('gmt_offset')!r}")
-    if a.get("timezone_string") != name:
-        raise SystemExit(f"変わらなかった。{name} を期待したが {a.get('timezone_string')!r}")
+    before = api("GET", "settings").get("timezone")
+    print(f"変更前 {before!r}")
+    api("POST", "settings", {"timezone": name})
+    after = api("GET", "settings").get("timezone")
+    print(f"変更後 {after!r}")
+    if after != name:
+        raise SystemExit(f"変わらなかった。{name} を期待したが {after!r}")
 
 
 def set_status(post_id, status):
