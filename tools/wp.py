@@ -48,7 +48,9 @@ SLOTS = [(7, 0), (12, 0), (19, 0)]
 # 枠は読者の時間で決める。サイトの設定はUTCのままなので、
 # 予約は date_gmt（UTC）で渡して取り違えを防ぐ
 POST_TZ = ZoneInfo("Asia/Tokyo")
-MIN_CHARS, MAX_CHARS = 3500, 5500
+MIN_CHARS, MAX_CHARS = 2500, 5500
+# 見出し1本あたりの最低字数。中身の薄い見出しを増やさないための下限
+MIN_CHARS_PER_H2 = 400
 TITLE_MAX = 32
 
 
@@ -164,11 +166,12 @@ def lint(path):
             r.error(f"最初のH2「{h2[0]}」にKWが入っていない（WRITING-STYLE §4）")
         if "まとめ" not in h2[-1]:
             r.error(f"最後のH2が「{h2[-1]}」。まとめで終える")
-        limit = chars // 1000 + 1
+        limit = max(1, chars // MIN_CHARS_PER_H2)
         if len(h2) > limit:
-            r.error(f"H2が{len(h2)}本。{chars}字なら{limit}本まで")
+            r.error(f"H2が{len(h2)}本。{chars}字だと1本あたり{chars // len(h2)}字にしかならない"
+                    f"（1本あたり{MIN_CHARS_PER_H2}字以上、この分量なら{limit}本まで）")
         else:
-            print(f"  H2 {len(h2)}本（上限{limit}本）")
+            print(f"  H2 {len(h2)}本（1本あたり平均{chars // len(h2)}字）")
         for name, n in sections(body):
             if n > 1200:
                 r.warn(f"H2「{name}」が{n}字。H3で割ることを検討する")
@@ -408,11 +411,11 @@ def audit(post_id, kw):
             r.error(f"最初のH2「{h2[0]}」にKWが入っていない")
         if "まとめ" not in h2[-1]:
             r.error(f"最後のH2が「{h2[-1]}」。まとめで終える")
-        limit = chars // 1000 + 1
+        limit = max(1, chars // MIN_CHARS_PER_H2)
         if len(h2) > limit:
-            r.error(f"H2が{len(h2)}本。{chars}字なら{limit}本まで")
+            r.error(f"H2が{len(h2)}本。{chars}字だと1本あたり{chars // len(h2)}字にしかならない")
         else:
-            print(f"  H2 {len(h2)}本（上限{limit}本）")
+            print(f"  H2 {len(h2)}本（1本あたり平均{chars // len(h2)}字）")
         for i, name in enumerate(h2, 1):
             print(f"    H2-{i} {name}")
 
