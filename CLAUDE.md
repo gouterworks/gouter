@@ -41,9 +41,11 @@ WordPressテーマ。ビルド工程は無く、PHPとCSSを直接書く。
 
 | ファイル | 役割 |
 |---|---|
-| `front-page.php` | トップページ。セクション01〜07の一枚もの |
+| `front-page.php` | トップページ。セクション01〜09の一枚もの |
 | `single.php` | 記事詳細 |
-| `page-gt.php` | 下層ページ |
+| `archive.php` | 記事一覧。カテゴリ・タグ・日付・書き手 |
+| `search.php` | 検索結果。`archive.php` を読み込むだけ |
+| `page-gt.php` | 下層ページ。トップ以外の全固定ページ |
 | `parts/header.php` `parts/footer.php` | 共通ヘッダー・フッター |
 | `style.css` | 全スタイル。`gt-` プレフィックス |
 | `assets/img/` | 画像 |
@@ -57,3 +59,16 @@ WordPressテーマ。ビルド工程は無く、PHPとCSSを直接書く。
 `main` にpushすると GitHub Actions（`.github/workflows/deploy.yml`）がSCPでサーバーへ転送する。
 対象は `*.php` `style.css` `parts/**` `assets/**`。テンプレートを1枚ずつ列挙すると追加時に忘れるので、
 ルートの `.php` はまとめて送っている。
+
+## 画面を見る
+
+クラウドのセッションからは gouter.works にも外部サイトにも到達できない（egressで遮断される）。
+**自分が直した画面を目で確かめられない**ので、撮影はランナーに回す。
+
+Actions → **スクリーンショット**（`.github/workflows/shot.yml`）を Run workflow で叩く。
+URLは改行かカンマ区切りで複数可。横幅を `390` にすればスマホの見え方になる。
+
+結果は **`claude/shots` ブランチ**の `shots/` に入る（毎回まるごと置き換わる）。
+`git fetch origin claude/shots` して読む。`shots/INDEX.md` に一覧と画像の大きさが出る。
+
+撮影の中身は `tools/shot.mjs`。Playwright + Chromium で、最初の1画面と全体の2枚を撮る。

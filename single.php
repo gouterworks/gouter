@@ -108,6 +108,9 @@ add_action( 'wp_head', function () use ( $gt_id, $gt_desc, $gt_url, $gt_canon, $
             </figure>
           <?php endif; ?>
 
+          <div class="gt-single">
+            <div class="gt-single__main">
+
           <div class="gt-article">
             <?php the_content(); ?>
           </div>
@@ -129,6 +132,11 @@ add_action( 'wp_head', function () use ( $gt_id, $gt_desc, $gt_url, $gt_canon, $
               ?>
               <div class="gt-adfinish"><?php get_template_part( 'ad-finish' ); ?></div>
           <?php endif; ?>
+
+            </div>
+
+            <?php require get_stylesheet_directory() . '/parts/sidebar.php'; ?>
+          </div>
 
         </div>
       </div>
