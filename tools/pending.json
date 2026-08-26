@@ -1,4 +1,7 @@
 [
   ["push", "docs/articles/11-rewrite-kijun.md"],
-  ["push", "docs/articles/12-line-tomodachi.md"]
+  ["push", "docs/articles/12-line-tomodachi.md"],
+  ["audit", "--post", "9335", "--kw", "AI 記事 リライト"],
+  ["audit", "--post", "9338", "--kw", "原価率 計算 飲食店"],
+  ["slots", "--count", "3"]
 ]
