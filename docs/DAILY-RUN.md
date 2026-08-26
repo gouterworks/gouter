@@ -19,7 +19,15 @@
 ```
 
 `tools/pending.json` に置いてpushすると、ランナーが実行してログに出す。
-複数のコマンドを並べれば、1回のpushでまとめて実行される。
+複数のコマンドを並べれば、1回でまとめて実行される。
+
+**pushだけでは起動しないことがある。** 2026-08-26 に、pushしてもワークフローが
+走らない状態が発生した（原因は不明）。**pushしたあとに手動起動をかける**のが確実。
+
+```
+mcp__github__actions_run_trigger  method=run_workflow
+  workflow_id=column.yml  ref=claude/article-creation-67nzgw
+```
 枠は日本時間の **07:00 / 12:00 / 19:00**。埋まっている枠は飛ばして次の空きが出る。
 
 ### 2. 次に書くテーマを決める

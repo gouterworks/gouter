@@ -1,0 +1,31 @@
+name: WordPressの時計を回す
+
+# WordPressの予約投稿は「誰かがサイトを訪れたとき」に動く。
+# アクセスの少ない時間帯に公開時刻が来ると、そのまま置き去りになる。
+# 実際に、日本時間8/26 19:00の記事が6時間過ぎても公開されなかった。
+# 外から定期的に叩いて、時刻どおりに公開されるようにする。
+on:
+  schedule:
+    - cron: "*/20 * * * *"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: wp-cron を叩く
+        env:
+          WP_URL: ${{ secrets.WP_URL }}
+        run: |
+          if [ -z "$WP_URL" ]; then
+            echo "WP_URL が未設定"
+            exit 1
+          fi
+          code=$(curl -sS -o /dev/null -w '%{http_code}' \
+                 --max-time 30 "$WP_URL/wp-cron.php?doing_wp_cron=$(date +%s)")
+          echo "wp-cron.php → $code"
+          # 200 と 302 のどちらも正常。それ以外は落とす
+          case "$code" in
+            200|302) ;;
+            *) echo "想定外の応答"; exit 1 ;;
+          esac
