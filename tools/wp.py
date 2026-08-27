@@ -625,7 +625,8 @@ def send(path, status, date=None):
 
 # ---------------------------------------------------------------- 入口
 
-def main(argv=None):
+def build_parser():
+    """引数の受け口を組み立てる。待ち行列の検査でも使うので、mainから分けてある。"""
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = p.add_subparsers(dest="cmd", required=True)
 
@@ -681,7 +682,11 @@ def main(argv=None):
     s = sub.add_parser("reserve", help="公開済み・下書きの記事を次の空き枠に予約する")
     s.add_argument("--post", required=True)
 
-    a = p.parse_args(argv)
+    return p
+
+
+def main(argv=None):
+    a = build_parser().parse_args(argv)
     if a.cmd == "pending":
         for argv in json.load(open(a.file, encoding="utf-8")):
             print(f"$ wp.py {' '.join(argv)}")

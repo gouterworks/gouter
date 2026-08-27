@@ -6,6 +6,8 @@
 """
 import importlib.util
 import subprocess
+import json
+import os
 import sys
 from pathlib import Path
 
@@ -55,4 +57,19 @@ missing_globals = sorted({
 if missing_globals:
     sys.exit(f"import が足りない: {', '.join(missing_globals)}")
 
-print(f"点検OK 関数{len(FUNCTIONS)}個、サブコマンド{len(SUBCOMMANDS)}個")
+# 待ち行列の中身を、実行せずに引数だけ通してみる。
+# --kw の付け忘れのような取りこぼしは、runnerではなくここで止める
+QUEUE = os.path.join(os.path.dirname(__file__), "pending.json")
+queued = 0
+if os.path.exists(QUEUE):
+    parser = wp.build_parser()
+    for i, argv in enumerate(json.load(open(QUEUE, encoding="utf-8")), 1):
+        if not isinstance(argv, list) or not all(isinstance(x, str) for x in argv):
+            sys.exit(f"待ち行列の{i}番目が文字列の配列になっていない")
+        try:
+            parser.parse_args(argv)
+        except SystemExit:
+            sys.exit(f"待ち行列の{i}番目が引数を満たしていない: wp.py {' '.join(argv)}")
+        queued += 1
+
+print(f"点検OK 関数{len(FUNCTIONS)}個、サブコマンド{len(SUBCOMMANDS)}個、待ち行列{queued}件")
