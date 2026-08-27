@@ -17,6 +17,11 @@
 | 9363用 | Goûterコラムアイキャッチ 10 小規模事業者のDX | `DAHTcCTqX7s` |
 | 9367用 | Goûterコラムアイキャッチ 11 記事のリライト基準 | `DAHTcMXmdy0` |
 | 9368用 | Goûterコラムアイキャッチ 12 LINE公式の友だち | `DAHTcBxzOJM` |
+| 9375用 | Goûterコラムアイキャッチ 13 客単価を上げる方法 | `DAHTcHeW_1U` |
+| 9376用 | Goûterコラムアイキャッチ 14 運営者情報ページ | `DAHTcK50o_o` |
+| 9377用 | Goûterコラムアイキャッチ 15 検索クエリの見方 | `DAHTcHWqaQc` |
+| 9378用 | Goûterコラムアイキャッチ 16 業務委託契約書 | `DAHTcJ3g3Qs` |
+| 9379用 | Goûterコラムアイキャッチ 17 お客様の声の集め方 | `DAHTcIMpTE8` |
 
 新しい記事のぶんは、**正しいフォントが入っているページを `copy-design` で複製**して作る。
 まっさらなページを足すとフォントが変わり、後から直せない。
@@ -75,6 +80,11 @@ Canvaのコネクタには**フォント種別を変える操作が無い**（`f
 | 28 | 付箋がたくさん貼られたボード | Pexels 3782235 / asset `MAHTcFAZSBs` | **9363** |
 | 29 | 書類を手にノートPCを見る | Pexels 5387265 / asset `MAHTcJDJePU` | **9367** |
 | 30 | 店頭でQRコードを読み取る | Pexels 12935064 / asset `MAHTcIBWsxA` | **9368** |
+| 31 | ガラスケースに並ぶ焼き菓子 | Pexels 3639538 / asset `MAHTcJIZHNo` | **9375** |
+| 32 | 書類を前に握手する二人 | Pexels 7979604 / asset `MAHTcNHCgMY` | **9376** |
+| 33 | 虫めがねでグラフを見る | Pexels 7947669 / asset `MAHTcGWnql8` | **9377** |
+| 34 | 契約書に署名する手元 | Pexels 8470836 / asset `MAHTcHT2Pm4` | **9378** |
+| 35 | カフェのカウンターで話す客と店員 | Pexels 4921263 / asset `MAHTcDdiN-A` | **9379** |
 
 ### 母艦から抽出した18点（要精査）
 
