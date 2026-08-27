@@ -579,6 +579,22 @@ def set_status(post_id, status):
     print(f"状態を{post['status']}に変更 記事{post['id']}: {post['link']}")
 
 
+def find_by_title(title):
+    """同じタイトルの記事がすでにあるか探す。
+
+    post_id を控えそこねたまま push すると、同じ記事が二重に作られる。
+    作る前に必ず探す。
+    """
+    import urllib.parse
+    q = urllib.parse.quote(title)
+    posts = api("GET", f"posts?search={q}&status=publish,future,draft,pending,private"
+                       "&per_page=20&context=edit")
+    for p in posts:
+        if (p["title"]["raw"] or "").strip() == title.strip():
+            return p
+    return None
+
+
 def send(path, status, date=None):
     """date はUTC（date_gmt）で渡す。"""
     meta, body = parse(path)
@@ -591,6 +607,12 @@ def send(path, status, date=None):
     if date:
         payload["date_gmt"] = date
     post_id = meta.get("post_id")
+    if not post_id:
+        # 二重に作らないよう、同じタイトルの記事を先に探す
+        found = find_by_title(meta.get("title", ""))
+        if found:
+            post_id = str(found["id"])
+            print(f"同じタイトルの記事が既にある（{post_id}、{found['status']}）。新規に作らず更新する")
     if post_id:
         res = api("POST", f"posts/{post_id}", payload)
         print(f"更新 {res['id']}: {res['link']}")

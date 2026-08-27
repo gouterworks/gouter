@@ -14,7 +14,7 @@ SUBCOMMANDS = ["lint", "check", "audit", "publish", "show", "demote",
                "featured", "push", "schedule", "pending", "slots", "reserve", "render", "timezone"]
 FUNCTIONS = ["parse", "visible_chars", "headings", "sections", "lint", "api",
              "to_html", "check", "set_featured", "html_text", "audit", "show",
-             "demote", "set_status", "send", "main",
+             "demote", "set_status", "send", "find_by_title", "main",
              "site_timezone", "taken_slots", "next_free_slot", "slots", "render", "timezone_set"]
 
 spec = importlib.util.spec_from_file_location("wp", WP)
