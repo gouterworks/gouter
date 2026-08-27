@@ -11,6 +11,7 @@
   slots     公開の枠と空きを見る
   queue     予約と下書きを公開される順に並べて見る
   unschedule 予約を取り消して下書きに戻す
+  trash     下書きをゴミ箱へ移す（下書き以外は拒否する）
   reserve   記事を次の空き枠に予約する
   demote    H2をH3に下げる（見出しが字数に対して多いとき）
   push      WordPressへ下書きとして反映する（新規/更新）
@@ -483,6 +484,22 @@ def site_timezone():
     return ZoneInfo(name)
 
 
+def trash(post_id):
+    """記事をゴミ箱へ移す。下書き以外は受け付けない。
+
+    IDを1つ間違えるだけで、公開予定の記事や公開済みの記事が消える。
+    消す前に状態を読んで、下書きでなければ止める。
+    """
+    post = api("GET", f"posts/{post_id}?context=edit")
+    title = (post["title"]["raw"] or "").strip() or "（無題）"
+    if post["status"] != "draft":
+        raise SystemExit(
+            f"記事{post_id}は下書きではない（{post['status']}）。"
+            f"「{title}」。ゴミ箱に入れない")
+    api("DELETE", f"posts/{post_id}")          # force を付けない＝ゴミ箱行き
+    print(f"ゴミ箱へ {post_id}: {title}")
+
+
 def queue():
     """予約と下書きを、公開される順に並べて出す。読むだけ。"""
     fut = api("GET", f"posts?status=future&categories={CATEGORY_COLUMN}"
@@ -703,6 +720,9 @@ def build_parser():
     s = sub.add_parser("unschedule", help="予約を取り消して下書きに戻す")
     s.add_argument("--post", required=True)
 
+    s = sub.add_parser("trash", help="下書きをゴミ箱へ移す（下書き以外は拒否する）")
+    s.add_argument("--post", required=True)
+
     s = sub.add_parser("reserve", help="公開済み・下書きの記事を次の空き枠に予約する")
     s.add_argument("--post", required=True)
 
@@ -747,6 +767,9 @@ def main(argv=None):
         return
     if a.cmd == "unschedule":
         set_status(a.post, "draft")
+        return
+    if a.cmd == "trash":
+        trash(a.post)
         return
     if a.cmd == "featured":
         if a.src:
