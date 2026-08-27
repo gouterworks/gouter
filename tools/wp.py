@@ -9,6 +9,8 @@
   render    公開ページを取得して、部品が出ているか見る
   timezone  サイトのタイムゾーンを変える
   slots     公開の枠と空きを見る
+  queue     予約と下書きを公開される順に並べて見る
+  unschedule 予約を取り消して下書きに戻す
   reserve   記事を次の空き枠に予約する
   demote    H2をH3に下げる（見出しが字数に対して多いとき）
   push      WordPressへ下書きとして反映する（新規/更新）
@@ -481,6 +483,23 @@ def site_timezone():
     return ZoneInfo(name)
 
 
+def queue():
+    """予約と下書きを、公開される順に並べて出す。読むだけ。"""
+    fut = api("GET", f"posts?status=future&categories={CATEGORY_COLUMN}"
+                     "&per_page=100&orderby=date&order=asc&context=edit")
+    print(f"予約 {len(fut)}件（公開される順）")
+    for p in fut:
+        gmt = datetime.fromisoformat(p["date_gmt"]).replace(tzinfo=timezone.utc)
+        jst = gmt.astimezone(POST_TZ).strftime("%m/%d %H:%M")
+        print(f"  {jst}  {p['id']}  {(p['title']['raw'] or '').strip()}")
+
+    dra = api("GET", f"posts?status=draft&categories={CATEGORY_COLUMN}"
+                     "&per_page=100&orderby=id&order=asc&context=edit")
+    print(f"\n下書き {len(dra)}件（枠に入っていない）")
+    for p in dra:
+        print(f"  {p['id']}  {(p['title']['raw'] or '').strip()}")
+
+
 def taken_slots():
     """すでに予約が入っている日時。読者の時間（JST）で返す。"""
     posts = api("GET", f"posts?status=future&categories={CATEGORY_COLUMN}"
@@ -679,6 +698,11 @@ def build_parser():
     s = sub.add_parser("slots", help="公開の枠と空きを見る")
     s.add_argument("--count", type=int, default=3)
 
+    sub.add_parser("queue", help="予約と下書きを公開される順に並べて見る")
+
+    s = sub.add_parser("unschedule", help="予約を取り消して下書きに戻す")
+    s.add_argument("--post", required=True)
+
     s = sub.add_parser("reserve", help="公開済み・下書きの記事を次の空き枠に予約する")
     s.add_argument("--post", required=True)
 
@@ -717,6 +741,12 @@ def main(argv=None):
         return
     if a.cmd == "publish":
         set_status(a.post, "publish")
+        return
+    if a.cmd == "queue":
+        queue()
+        return
+    if a.cmd == "unschedule":
+        set_status(a.post, "draft")
         return
     if a.cmd == "featured":
         if a.src:
