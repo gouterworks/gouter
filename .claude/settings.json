@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__github__get_job_logs",
+      "mcp__github__actions_list",
+      "mcp__github__pull_request_read",
+      "mcp__Canva__read-design",
+      "mcp__Canva__search-designs",
+      "mcp__Canva__get-export-formats",
+      "mcp__Canva__export-design",
+      "mcp__Google_Drive__search_files",
+      "mcp__Google_Drive__read_file_content",
+      "mcp__Claude_Code_Remote__list_triggers",
+      "mcp__Claude_Code_Remote__list_repos",
+      "mcp__Claude_Code_Remote__list_sessions"
+    ]
+  }
+}

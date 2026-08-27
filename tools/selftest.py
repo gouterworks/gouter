@@ -6,16 +6,18 @@
 """
 import importlib.util
 import subprocess
+import json
+import os
 import sys
 from pathlib import Path
 
 WP = Path(__file__).with_name("wp.py")
 SUBCOMMANDS = ["lint", "check", "audit", "publish", "show", "demote",
-               "featured", "push", "schedule", "pending", "slots", "reserve"]
+               "featured", "push", "schedule", "pending", "slots", "queue", "unschedule", "trash", "reserve", "render", "timezone"]
 FUNCTIONS = ["parse", "visible_chars", "headings", "sections", "lint", "api",
              "to_html", "check", "set_featured", "html_text", "audit", "show",
-             "demote", "set_status", "send", "main",
-             "site_timezone", "taken_slots", "next_free_slot", "slots"]
+             "demote", "set_status", "send", "find_by_title", "main",
+             "site_timezone", "trash", "queue", "taken_slots", "next_free_slot", "slots", "render", "timezone_set"]
 
 spec = importlib.util.spec_from_file_location("wp", WP)
 wp = importlib.util.module_from_spec(spec)
@@ -55,4 +57,19 @@ missing_globals = sorted({
 if missing_globals:
     sys.exit(f"import が足りない: {', '.join(missing_globals)}")
 
-print(f"点検OK 関数{len(FUNCTIONS)}個、サブコマンド{len(SUBCOMMANDS)}個")
+# 待ち行列の中身を、実行せずに引数だけ通してみる。
+# --kw の付け忘れのような取りこぼしは、runnerではなくここで止める
+QUEUE = os.path.join(os.path.dirname(__file__), "pending.json")
+queued = 0
+if os.path.exists(QUEUE):
+    parser = wp.build_parser()
+    for i, argv in enumerate(json.load(open(QUEUE, encoding="utf-8")), 1):
+        if not isinstance(argv, list) or not all(isinstance(x, str) for x in argv):
+            sys.exit(f"待ち行列の{i}番目が文字列の配列になっていない")
+        try:
+            parser.parse_args(argv)
+        except SystemExit:
+            sys.exit(f"待ち行列の{i}番目が引数を満たしていない: wp.py {' '.join(argv)}")
+        queued += 1
+
+print(f"点検OK 関数{len(FUNCTIONS)}個、サブコマンド{len(SUBCOMMANDS)}個、待ち行列{queued}件")

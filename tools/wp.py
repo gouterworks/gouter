@@ -6,7 +6,12 @@
   featured  画像をURLから取り込んで記事のアイキャッチにする
   audit     WordPress上の記事をルール照合する
   publish   下書きを公開する
+  render    公開ページを取得して、部品が出ているか見る
+  timezone  サイトのタイムゾーンを変える
   slots     公開の枠と空きを見る
+  queue     予約と下書きを公開される順に並べて見る
+  unschedule 予約を取り消して下書きに戻す
+  trash     下書きをゴミ箱へ移す（下書き以外は拒否する）
   reserve   記事を次の空き枠に予約する
   demote    H2をH3に下げる（見出しが字数に対して多いとき）
   push      WordPressへ下書きとして反映する（新規/更新）
@@ -34,18 +39,23 @@ import json
 import os
 import re
 import sys
+import unicodedata
 import urllib.error
 import urllib.request
 from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
 
 CATEGORY_COLUMN = 110
-# 公開する時間帯。朝・昼・夜。変えるならここ
+# 公開する時間帯。朝・昼・夜。変えるならここ。
+# 変えたら .github/workflows/wpcron.yml の時刻も合わせること
+# （予約投稿を時刻どおりに動かすため、枠の直後にwp-cronを叩いている）
 SLOTS = [(7, 0), (12, 0), (19, 0)]
 # 枠は読者の時間で決める。サイトの設定はUTCのままなので、
 # 予約は date_gmt（UTC）で渡して取り違えを防ぐ
 POST_TZ = ZoneInfo("Asia/Tokyo")
-MIN_CHARS, MAX_CHARS = 3500, 5500
+MIN_CHARS, MAX_CHARS = 2500, 5500
+# 見出し1本あたりの最低字数。中身の薄い見出しを増やさないための下限
+MIN_CHARS_PER_H2 = 400
 TITLE_MAX = 32
 
 
@@ -161,11 +171,12 @@ def lint(path):
             r.error(f"最初のH2「{h2[0]}」にKWが入っていない（WRITING-STYLE §4）")
         if "まとめ" not in h2[-1]:
             r.error(f"最後のH2が「{h2[-1]}」。まとめで終える")
-        limit = chars // 1000 + 1
+        limit = max(1, chars // MIN_CHARS_PER_H2)
         if len(h2) > limit:
-            r.error(f"H2が{len(h2)}本。{chars}字なら{limit}本まで")
+            r.error(f"H2が{len(h2)}本。{chars}字だと1本あたり{chars // len(h2)}字にしかならない"
+                    f"（1本あたり{MIN_CHARS_PER_H2}字以上、この分量なら{limit}本まで）")
         else:
-            print(f"  H2 {len(h2)}本（上限{limit}本）")
+            print(f"  H2 {len(h2)}本（1本あたり平均{chars // len(h2)}字）")
         for name, n in sections(body):
             if n > 1200:
                 r.warn(f"H2「{name}」が{n}字。H3で割ることを検討する")
@@ -187,6 +198,18 @@ def lint(path):
     for alt, _ in re.findall(r"!\[([^\]]*)\]\(([^)]*)\)", body):
         if not alt.strip():
             r.error("altが空の画像がある")
+
+    # 日本語でも英数字でもない文字の混入。
+    # 生成の途中で他言語の断片が紛れ込んだことがあるので、機械で見つける
+    strays = set()
+    for ch in body:
+        if not unicodedata.category(ch).startswith("L") or ch.isascii():
+            continue
+        name = unicodedata.name(ch, "")
+        if not any(k in name for k in ("CJK", "HIRAGANA", "KATAKANA", "IDEOGRAPHIC", "LATIN")):
+            strays.add(ch)
+    if strays:
+        r.error(f"日本語でも英数字でもない文字が混ざっている: {''.join(sorted(strays))}")
 
     return r.show(path)
 
@@ -393,11 +416,11 @@ def audit(post_id, kw):
             r.error(f"最初のH2「{h2[0]}」にKWが入っていない")
         if "まとめ" not in h2[-1]:
             r.error(f"最後のH2が「{h2[-1]}」。まとめで終える")
-        limit = chars // 1000 + 1
+        limit = max(1, chars // MIN_CHARS_PER_H2)
         if len(h2) > limit:
-            r.error(f"H2が{len(h2)}本。{chars}字なら{limit}本まで")
+            r.error(f"H2が{len(h2)}本。{chars}字だと1本あたり{chars // len(h2)}字にしかならない")
         else:
-            print(f"  H2 {len(h2)}本（上限{limit}本）")
+            print(f"  H2 {len(h2)}本（1本あたり平均{chars // len(h2)}字）")
         for i, name in enumerate(h2, 1):
             print(f"    H2-{i} {name}")
 
@@ -447,14 +470,51 @@ def demote(post_id, needle):
 
 
 def site_timezone():
-    """サイトのタイムゾーン。予約の時刻はサイトのローカル時間で入る。"""
-    st = api("GET", "settings")
-    name = st.get("timezone_string")
-    if name:
-        return ZoneInfo(name)
-    # timezone_string が空で、UTCからのずれだけ設定されている場合
-    offset = float(st.get("gmt_offset") or 0)
-    return timezone(timedelta(hours=offset))
+    """サイトのタイムゾーン。
+
+    注意: RESTでの項目名は timezone_string ではなく timezone。
+    間違えると常に空が返り、UTC扱いに落ちる。
+    """
+    name = api("GET", "settings").get("timezone")
+    if not name:
+        return timezone.utc
+    if name.startswith(("+", "-")) or name.replace(".", "").isdigit():
+        # 「UTC+9」のような手動指定
+        return timezone(timedelta(hours=float(name)))
+    return ZoneInfo(name)
+
+
+def trash(post_id):
+    """記事をゴミ箱へ移す。下書き以外は受け付けない。
+
+    IDを1つ間違えるだけで、公開予定の記事や公開済みの記事が消える。
+    消す前に状態を読んで、下書きでなければ止める。
+    """
+    post = api("GET", f"posts/{post_id}?context=edit")
+    title = (post["title"]["raw"] or "").strip() or "（無題）"
+    if post["status"] != "draft":
+        raise SystemExit(
+            f"記事{post_id}は下書きではない（{post['status']}）。"
+            f"「{title}」。ゴミ箱に入れない")
+    api("DELETE", f"posts/{post_id}")          # force を付けない＝ゴミ箱行き
+    print(f"ゴミ箱へ {post_id}: {title}")
+
+
+def queue():
+    """予約と下書きを、公開される順に並べて出す。読むだけ。"""
+    fut = api("GET", f"posts?status=future&categories={CATEGORY_COLUMN}"
+                     "&per_page=100&orderby=date&order=asc&context=edit")
+    print(f"予約 {len(fut)}件（公開される順）")
+    for p in fut:
+        gmt = datetime.fromisoformat(p["date_gmt"]).replace(tzinfo=timezone.utc)
+        jst = gmt.astimezone(POST_TZ).strftime("%m/%d %H:%M")
+        print(f"  {jst}  {p['id']}  {(p['title']['raw'] or '').strip()}")
+
+    dra = api("GET", f"posts?status=draft&categories={CATEGORY_COLUMN}"
+                     "&per_page=100&orderby=id&order=asc&context=edit")
+    print(f"\n下書き {len(dra)}件（枠に入っていない）")
+    for p in dra:
+        print(f"  {p['id']}  {(p['title']['raw'] or '').strip()}")
 
 
 def taken_slots():
@@ -508,9 +568,67 @@ def slots(count):
         print(f"  空き {jst}（日本時間） = {gmt}Z")
 
 
+def render(post_id, classes):
+    """公開ページを実際に取得して、指定した class の中身が出ているか見る。
+
+    テンプレートに足した部品が本当に描画されているかは、
+    REST では分からない。HTMLを取って確かめる。
+    """
+    post = api("GET", f"posts/{post_id}?context=edit")
+    url = post["link"]
+    print(f"記事{post_id} {url}")
+    with urllib.request.urlopen(url) as res:
+        html = res.read().decode("utf-8", "replace")
+    print(f"  取得 {len(html):,}文字")
+
+    for cls in classes:
+        m = re.search(rf'<div class="[^"]*\b{re.escape(cls)}\b[^"]*">(.*?)</div>', html, re.S)
+        if not m:
+            # 中に div が入れ子になっている場合は上の正規表現では取り切れない。
+            # 開始タグだけでも在ることを確かめる
+            if re.search(rf'class="[^"]*\b{re.escape(cls)}\b', html):
+                print(f"  {cls}: 枠はある（中身の取り出しは入れ子のため省略）")
+            else:
+                print(f"  {cls}: 枠が無い")
+            continue
+        inner = m.group(1).strip()
+        if inner:
+            snippet = re.sub(r"\s+", " ", inner)[:160]
+            print(f"  {cls}: 中身あり {len(inner)}文字 → {snippet}")
+        else:
+            print(f"  {cls}: 枠はあるが中身が空")
+
+
+def timezone_set(name):
+    """サイトのタイムゾーンを変える。"""
+    before = api("GET", "settings").get("timezone")
+    print(f"変更前 {before!r}")
+    api("POST", "settings", {"timezone": name})
+    after = api("GET", "settings").get("timezone")
+    print(f"変更後 {after!r}")
+    if after != name:
+        raise SystemExit(f"変わらなかった。{name} を期待したが {after!r}")
+
+
 def set_status(post_id, status):
     post = api("POST", f"posts/{post_id}", {"status": status})
     print(f"状態を{post['status']}に変更 記事{post['id']}: {post['link']}")
+
+
+def find_by_title(title):
+    """同じタイトルの記事がすでにあるか探す。
+
+    post_id を控えそこねたまま push すると、同じ記事が二重に作られる。
+    作る前に必ず探す。
+    """
+    import urllib.parse
+    q = urllib.parse.quote(title)
+    posts = api("GET", f"posts?search={q}&status=publish,future,draft,pending,private"
+                       "&per_page=20&context=edit")
+    for p in posts:
+        if (p["title"]["raw"] or "").strip() == title.strip():
+            return p
+    return None
 
 
 def send(path, status, date=None):
@@ -525,6 +643,12 @@ def send(path, status, date=None):
     if date:
         payload["date_gmt"] = date
     post_id = meta.get("post_id")
+    if not post_id:
+        # 二重に作らないよう、同じタイトルの記事を先に探す
+        found = find_by_title(meta.get("title", ""))
+        if found:
+            post_id = str(found["id"])
+            print(f"同じタイトルの記事が既にある（{post_id}、{found['status']}）。新規に作らず更新する")
     if post_id:
         res = api("POST", f"posts/{post_id}", payload)
         print(f"更新 {res['id']}: {res['link']}")
@@ -537,7 +661,8 @@ def send(path, status, date=None):
 
 # ---------------------------------------------------------------- 入口
 
-def main(argv=None):
+def build_parser():
+    """引数の受け口を組み立てる。待ち行列の検査でも使うので、mainから分けてある。"""
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = p.add_subparsers(dest="cmd", required=True)
 
@@ -546,9 +671,17 @@ def main(argv=None):
 
     sub.add_parser("check", help="接続と認証を確かめる")
 
+    s = sub.add_parser("timezone", help="サイトのタイムゾーンを変える")
+    s.add_argument("--set", dest="tz", required=True, help="例 Asia/Tokyo")
+
     s = sub.add_parser("audit", help="WordPress上の記事をルール照合する")
     s.add_argument("--post", required=True)
     s.add_argument("--kw", required=True)
+
+    s = sub.add_parser("render", help="公開ページを取得して、部品が出ているか見る")
+    s.add_argument("--post", required=True)
+    s.add_argument("--find", action="append", dest="classes", required=True,
+                   help="探すclass名。複数指定できる")
 
     s = sub.add_parser("show", help="記事の中身をそのまま出す")
     s.add_argument("--post", required=True)
@@ -582,10 +715,22 @@ def main(argv=None):
     s = sub.add_parser("slots", help="公開の枠と空きを見る")
     s.add_argument("--count", type=int, default=3)
 
+    sub.add_parser("queue", help="予約と下書きを公開される順に並べて見る")
+
+    s = sub.add_parser("unschedule", help="予約を取り消して下書きに戻す")
+    s.add_argument("--post", required=True)
+
+    s = sub.add_parser("trash", help="下書きをゴミ箱へ移す（下書き以外は拒否する）")
+    s.add_argument("--post", required=True)
+
     s = sub.add_parser("reserve", help="公開済み・下書きの記事を次の空き枠に予約する")
     s.add_argument("--post", required=True)
 
-    a = p.parse_args(argv)
+    return p
+
+
+def main(argv=None):
+    a = build_parser().parse_args(argv)
     if a.cmd == "pending":
         for argv in json.load(open(a.file, encoding="utf-8")):
             print(f"$ wp.py {' '.join(argv)}")
@@ -600,8 +745,14 @@ def main(argv=None):
     if a.cmd == "check":
         check()
         return
+    if a.cmd == "timezone":
+        timezone_set(a.tz)
+        return
     if a.cmd == "audit":
         sys.exit(audit(a.post, a.kw))
+    if a.cmd == "render":
+        render(a.post, a.classes)
+        return
     if a.cmd == "show":
         show(a.post)
         return
@@ -610,6 +761,15 @@ def main(argv=None):
         return
     if a.cmd == "publish":
         set_status(a.post, "publish")
+        return
+    if a.cmd == "queue":
+        queue()
+        return
+    if a.cmd == "unschedule":
+        set_status(a.post, "draft")
+        return
+    if a.cmd == "trash":
+        trash(a.post)
         return
     if a.cmd == "featured":
         if a.src:

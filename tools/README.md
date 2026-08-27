@@ -22,8 +22,21 @@ python3 tools/wp.py demote --post 9332 --heading "..."        H2をH3に下げ�
 
 日本時間の **07:00 / 12:00 / 19:00**。`SLOTS` で変えられる。
 
-サイト設定のタイムゾーンがUTCのままなので、枠は日本時間で決めて `date_gmt`（UTC）で渡している。
-サイト設定を直すと既存記事の表示日時が動くため、触っていない。
+サイト設定のタイムゾーンは `Asia/Tokyo`。枠は日本時間で決めて `date_gmt`（UTC）で渡すので、
+サイト設定がどうであっても意図した時刻に公開される。
+
+RESTで設定を読み書きするときの項目名は **`timezone`**（`timezone_string` ではない）。
+間違えると常に空が返り、UTC扱いに落ちる。
+
+### push する前に自分で止める
+
+`tools/hooks/pre-push` を `.git/hooks/pre-push` に置くと、規定を満たさない原稿があるとき
+push が止まる。検査はランナー側でも走るが、そこで落ちると**失敗のメールが飛ぶ**。
+手元で止めれば通知は出ない。
+
+```
+cp tools/hooks/pre-push .git/hooks/pre-push && chmod +x .git/hooks/pre-push
+```
 
 ### 待ち行列
 

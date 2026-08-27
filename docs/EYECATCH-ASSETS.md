@@ -8,6 +8,29 @@
 | 9327用 | Goûterコラムアイキャッチ 2026-08 | `DAHTTu8e0Lg` |
 | 9332用 | Goûterコラムアイキャッチ 9332 LINEクーポン | `DAHTUzFUkSI` |
 | 9335用 | Goûterコラムアイキャッチ 9335 AIリライト | `DAHTVGP5Mkc` |
+| 9338用 | Goûterコラムアイキャッチ 04 原価率 | `DAHTWxJhu8o` |
+| 9344用 | Goûterコラムアイキャッチ 05 問い合わせフォーム | `DAHTX_xlHd0` |
+| 9347用 | Goûterコラムアイキャッチ 06 アルバイト教育 | `DAHTYqmU5i8` |
+| 9351用 | Goûterコラムアイキャッチ 07 GA4の設定 | `DAHTYsivG8E` |
+| 9352用 | Goûterコラムアイキャッチ 08 売れるPOP | `DAHTY6qMgEI` |
+| 9353用 | Goûterコラムアイキャッチ 09 Googleマップの写真 | `DAHTY0ZBGyQ` |
+| 9363用 | Goûterコラムアイキャッチ 10 小規模事業者のDX | `DAHTcCTqX7s` |
+| 9367用 | Goûterコラムアイキャッチ 11 記事のリライト基準 | `DAHTcMXmdy0` |
+| 9368用 | Goûterコラムアイキャッチ 12 LINE公式の友だち | `DAHTcBxzOJM` |
+| 9375用 | Goûterコラムアイキャッチ 13 客単価を上げる方法 | `DAHTcHeW_1U` |
+| 9376用 | Goûterコラムアイキャッチ 14 運営者情報ページ | `DAHTcK50o_o` |
+| 9377用 | Goûterコラムアイキャッチ 15 検索クエリの見方 | `DAHTcHWqaQc` |
+| 9378用 | Goûterコラムアイキャッチ 16 業務委託契約書 | `DAHTcJ3g3Qs` |
+| 9379用 | Goûterコラムアイキャッチ 17 お客様の声の集め方 | `DAHTcIMpTE8` |
+| 9397用 | Goûterコラムアイキャッチ 18 販促カレンダー | `DAHTdbBzIIA` |
+| 9398用 | Goûterコラムアイキャッチ 19 無料ツールで集客 | `DAHTdQDfyfs` |
+| 9399用 | Goûterコラムアイキャッチ 20 創業期のブランディング | `DAHTdQZLlJU` |
+| 9400用 | Goûterコラムアイキャッチ 21 サイトの表示速度 | `DAHTdWpLdEY` |
+| 9401用 | Goûterコラムアイキャッチ 22 ツールの定着 | `DAHTdfiVPv0` |
+| 9402用 | Goûterコラムアイキャッチ 23 音声配信の始め方 | `DAHTdXLwo3Q` |
+| 9403用 | Goûterコラムアイキャッチ 24 社内資料の整理 | `DAHTdWS5cXI` |
+| 9404用 | Goûterコラムアイキャッチ 25 文章の一人称 | `DAHTdQ0vy28` |
+| 9405用 | Goûterコラムアイキャッチ 26 ターゲットを絞る | `DAHTdUIMQvI` |
 
 新しい記事のぶんは、**正しいフォントが入っているページを `copy-design` で複製**して作る。
 まっさらなページを足すとフォントが変わり、後から直せない。
@@ -32,6 +55,12 @@ Canvaのコネクタには**フォント種別を変える操作が無い**（`f
 
 背景写真の上に白抜き文字。読めるように暗いオーバーレイを敷く。
 
+**オーバーレイの濃さは背景で変える。** 既定は不透明度0.4。ただし白い被写体が広く写る写真
+（付箋のボードなど）では白文字が沈むので、**0.6まで濃くする**。9363で実際に0.4では読みにくかった。
+
+**下段は9文字まで。** 枠の幅が847pxで文字が90pxなので、10文字を超えると折り返して
+2行目が枠の外に出る。上段は1172pxあるので11文字程度まで入る。
+
 ## 素材プール
 
 ### 母艦から抜いた18点は、そのままでは使えない
@@ -51,6 +80,30 @@ Canvaのコネクタには**フォント種別を変える操作が無い**（`f
 | 19 | カフェでスマホとノートPCを使う人 | Pexels 3874627 / asset `MAHTU7McDrg` | **9327**（メディア9330） |
 | 20 | 店頭のカウンターでスマホを使う人 | Pexels 6925800 / asset `MAHTU5ImziU` | **9332** |
 | 21 | 赤ペンで原稿に手を入れる | Pexels 8052171 / asset `MAHTVHC28q8` | **9335** |
+| 22 | 材料をはかりに量る | Pexels 5964491 / asset `MAHTXuXjeco` | **9338** |
+| 23 | 用紙に記入する手元 | Pexels 7821682 / asset `MAHTXz_3vzk` | **9344** |
+| 24 | 厨房で働くスタッフ | asset `MAHTYlwPB4U` | **9347** |
+| 25 | ノートPCに表示されたグラフ | Pexels 3861957 / asset `MAHTYrkKvMI` | **9351** |
+| 26 | スマートフォンで建物を撮る手元 | Pexels 11455932 / asset `MAHTYoiKWPg` | **9353** |
+| 27 | 店頭のオープンサイン | Pexels 19418844 / asset `MAHTYw1avb0` | **9352** |
+| 28 | 付箋がたくさん貼られたボード | Pexels 3782235 / asset `MAHTcFAZSBs` | **9363** |
+| 29 | 書類を手にノートPCを見る | Pexels 5387265 / asset `MAHTcJDJePU` | **9367** |
+| 30 | 店頭でQRコードを読み取る | Pexels 12935064 / asset `MAHTcIBWsxA` | **9368** |
+| 31 | ガラスケースに並ぶ焼き菓子 | Pexels 3639538 / asset `MAHTcJIZHNo` | **9375** |
+| 32 | 書類を前に握手する二人 | Pexels 7979604 / asset `MAHTcNHCgMY` | **9376** |
+| 33 | 虫めがねでグラフを見る | Pexels 7947669 / asset `MAHTcGWnql8` | **9377** |
+| 34 | 契約書に署名する手元 | Pexels 8470836 / asset `MAHTcHT2Pm4` | **9378** |
+| 35 | カフェのカウンターで話す客と店員 | Pexels 4921263 / asset `MAHTcDdiN-A` | **9379** |
+| 36 | 年間の予定表とペン | Pexels 1558691 / asset `MAHTdYJ0B4k` | **9397** |
+| 37 | 机の上のスマホとノートと文具 | Pexels 97987 / asset `MAHTdfY8Brc` | **9398** |
+| 38 | 紙にスケッチする手元 | Pexels 1478477 / asset `MAHTdXaI0S8` | **9399** |
+| 39 | 機械式ストップウォッチ | Pexels 19730401 / asset `MAHTdet8I5c` | **9400** |
+| 40 | ノートPCの画面を指さして話す二人 | Pexels 2182981 / asset `MAHTdRcmhAU` | **9401** |
+| 41 | ノートPCにつないだマイク | Pexels 6953871 / asset `MAHTdfr_TNY` | **9402** |
+| 42 | 整理された書類ファイルの棚 | Pexels 1370294 / asset `MAHTdQ0UtWk` | **9403** |
+| 43 | ノートに書く手元とメガネ | Pexels 110473 / asset `MAHTdX_7eq0` | **9404** |
+| 44 | ダーツの的に刺さった矢 | Pexels 1424745 / asset `MAHTdQhMhsY` | **9405** |
+| — | 万年筆で紙に書く手元 | Pexels 6185656 / asset `MAHTdUGNEPc` | **未使用**（英字レタリングが写り込み、文字と喧嘩したため差し替え） |
 
 ### 母艦から抽出した18点（要精査）
 
