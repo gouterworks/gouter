@@ -22,6 +22,15 @@
 | 9377用 | Goûterコラムアイキャッチ 15 検索クエリの見方 | `DAHTcHWqaQc` |
 | 9378用 | Goûterコラムアイキャッチ 16 業務委託契約書 | `DAHTcJ3g3Qs` |
 | 9379用 | Goûterコラムアイキャッチ 17 お客様の声の集め方 | `DAHTcIMpTE8` |
+| 9397用 | Goûterコラムアイキャッチ 18 販促カレンダー | `DAHTdbBzIIA` |
+| 9398用 | Goûterコラムアイキャッチ 19 無料ツールで集客 | `DAHTdQDfyfs` |
+| 9399用 | Goûterコラムアイキャッチ 20 創業期のブランディング | `DAHTdQZLlJU` |
+| 9400用 | Goûterコラムアイキャッチ 21 サイトの表示速度 | `DAHTdWpLdEY` |
+| 9401用 | Goûterコラムアイキャッチ 22 ツールの定着 | `DAHTdfiVPv0` |
+| 9402用 | Goûterコラムアイキャッチ 23 音声配信の始め方 | `DAHTdXLwo3Q` |
+| 9403用 | Goûterコラムアイキャッチ 24 社内資料の整理 | `DAHTdWS5cXI` |
+| 9404用 | Goûterコラムアイキャッチ 25 文章の一人称 | `DAHTdQ0vy28` |
+| 9405用 | Goûterコラムアイキャッチ 26 ターゲットを絞る | `DAHTdUIMQvI` |
 
 新しい記事のぶんは、**正しいフォントが入っているページを `copy-design` で複製**して作る。
 まっさらなページを足すとフォントが変わり、後から直せない。
@@ -85,6 +94,16 @@ Canvaのコネクタには**フォント種別を変える操作が無い**（`f
 | 33 | 虫めがねでグラフを見る | Pexels 7947669 / asset `MAHTcGWnql8` | **9377** |
 | 34 | 契約書に署名する手元 | Pexels 8470836 / asset `MAHTcHT2Pm4` | **9378** |
 | 35 | カフェのカウンターで話す客と店員 | Pexels 4921263 / asset `MAHTcDdiN-A` | **9379** |
+| 36 | 年間の予定表とペン | Pexels 1558691 / asset `MAHTdYJ0B4k` | **9397** |
+| 37 | 机の上のスマホとノートと文具 | Pexels 97987 / asset `MAHTdfY8Brc` | **9398** |
+| 38 | 紙にスケッチする手元 | Pexels 1478477 / asset `MAHTdXaI0S8` | **9399** |
+| 39 | 機械式ストップウォッチ | Pexels 19730401 / asset `MAHTdet8I5c` | **9400** |
+| 40 | ノートPCの画面を指さして話す二人 | Pexels 2182981 / asset `MAHTdRcmhAU` | **9401** |
+| 41 | ノートPCにつないだマイク | Pexels 6953871 / asset `MAHTdfr_TNY` | **9402** |
+| 42 | 整理された書類ファイルの棚 | Pexels 1370294 / asset `MAHTdQ0UtWk` | **9403** |
+| 43 | ノートに書く手元とメガネ | Pexels 110473 / asset `MAHTdX_7eq0` | **9404** |
+| 44 | ダーツの的に刺さった矢 | Pexels 1424745 / asset `MAHTdQhMhsY` | **9405** |
+| — | 万年筆で紙に書く手元 | Pexels 6185656 / asset `MAHTdUGNEPc` | **未使用**（英字レタリングが写り込み、文字と喧嘩したため差し替え） |
 
 ### 母艦から抽出した18点（要精査）
 
