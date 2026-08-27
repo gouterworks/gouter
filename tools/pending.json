@@ -1,10 +1,14 @@
 [
   [
     "push",
-    "docs/articles/22-tool-teichaku.md"
+    "docs/articles/24-shanai-shiryo.md"
   ],
   [
     "push",
-    "docs/articles/23-onsei-haishin.md"
+    "docs/articles/25-ichininsho.md"
+  ],
+  [
+    "push",
+    "docs/articles/26-target.md"
   ]
 ]
