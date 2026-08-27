@@ -10,6 +10,7 @@
   timezone  サイトのタイムゾーンを変える
   slots     公開の枠と空きを見る
   queue     予約と下書きを公開される順に並べて見る
+  overdue   公開時刻を過ぎたのに出ていない予約を拾う（--apply で公開）
   unschedule 予約を取り消して下書きに戻す
   trash     下書きをゴミ箱へ移す（下書き以外は拒否する）
   reserve   記事を次の空き枠に予約する
@@ -484,6 +485,40 @@ def site_timezone():
     return ZoneInfo(name)
 
 
+def overdue(apply=False):
+    """公開時刻を過ぎたのに future のまま残っている記事を拾う。
+
+    WordPressの予約投稿は、記事ごとに仕込まれた予定（publish_future_post）で動く。
+    この予定が失われると、wp-cron が動いていても、その記事だけ永久に出ない。
+    実際に9347が19時間半止まっていた。**wp-cron を叩くだけでは拾えない。**
+
+    apply=False なら見るだけ。True なら publish に変える。
+    """
+    now = datetime.now(timezone.utc)
+    posts = api("GET", f"posts?status=future&categories={CATEGORY_COLUMN}"
+                       "&per_page=100&orderby=date&order=asc&context=edit")
+    late = []
+    for p in posts:
+        gmt = datetime.fromisoformat(p["date_gmt"]).replace(tzinfo=timezone.utc)
+        if gmt < now:
+            late.append((p, gmt, now - gmt))
+
+    if not late:
+        print("遅れている予約は無い")
+        return
+
+    for p, gmt, delay in late:
+        jst = gmt.astimezone(POST_TZ).strftime("%m/%d %H:%M")
+        hours = delay.total_seconds() / 3600
+        title = (p["title"]["raw"] or "").strip()
+        print(f"遅れ {hours:.1f}時間  予定{jst}  {p['id']}  {title}")
+        if apply:
+            set_status(p["id"], "publish")
+
+    if not apply:
+        print(f"\n{len(late)}件。公開するなら overdue --apply")
+
+
 def trash(post_id):
     """記事をゴミ箱へ移す。下書き以外は受け付けない。
 
@@ -717,6 +752,9 @@ def build_parser():
 
     sub.add_parser("queue", help="予約と下書きを公開される順に並べて見る")
 
+    s = sub.add_parser("overdue", help="公開時刻を過ぎたのに出ていない予約を拾う")
+    s.add_argument("--apply", action="store_true", help="見るだけでなく公開する")
+
     s = sub.add_parser("unschedule", help="予約を取り消して下書きに戻す")
     s.add_argument("--post", required=True)
 
@@ -764,6 +802,9 @@ def main(argv=None):
         return
     if a.cmd == "queue":
         queue()
+        return
+    if a.cmd == "overdue":
+        overdue(a.apply)
         return
     if a.cmd == "unschedule":
         set_status(a.post, "draft")

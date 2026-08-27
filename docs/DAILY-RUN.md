@@ -120,3 +120,15 @@ python3 tools/wp.py lint docs/articles/04-xxx.md
 - **下書き**が別に出る。ここに同じタイトルが2つ並んでいたら重複。`trash --post` でゴミ箱へ
 
 `slots` は枠の空きしか見ない。**下書きの溜まりは queue でないと見えない。**
+
+## 予約が出ていないとき
+
+`queue` の予約の先頭が、今日より前の日付になっていたら止まっている。
+
+```
+python3 tools/wp.py overdue          # 遅れているものを見る
+python3 tools/wp.py overdue --apply  # 公開する
+```
+
+`wpcron.yml` が毎回これを走らせるので、通常は手で打つ必要はない。
+**GitHubの定期実行が落ちた日は拾えない**ので、そのときだけ手で回す。
