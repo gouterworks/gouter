@@ -1,0 +1,17 @@
+/**
+Theme Name: Goûter (STREETIST)
+Theme URI: https://gouter.works/
+Description: コミュニケーションデザイン事務所 Goûter 公式サイト。STREETIST の子テーマ。
+Author: Goûter
+Template: streetist
+Version: 0.10
+Text Domain: gouter-st
+*/
+
+/* ここにはまだ何も書かない。
+ *
+ * 先に「素の STREETIST が子テーマ経由でそのまま出る」ことを確かめる。
+ * 見た目を足すのはその後。旧テーマ(gouter/style.css)の .gt- を持ってくるが、
+ * 親テーマを打ち消す指定は一切持ってこない。docs/THEME-MIGRATION.md の
+ * 「守るルール」を参照。
+ */
