@@ -660,3 +660,25 @@ Text Domain: gouter
 @media (max-width: 767px) {
   .gt-adfinish { margin: 28px 0 4px; }
 }
+
+/* 404の検索窓。行き止まりにしないための最小限 */
+.gt-404search { margin-top: 24px; max-width: 520px; }
+.gt-404search__label {
+  display: block; font-size: 13px; letter-spacing: .04em;
+  opacity: .7; margin-bottom: 8px;
+}
+.gt-404search__row { display: flex; gap: 8px; }
+.gt-404search__row input[type="search"] {
+  flex: 1 1 auto; min-width: 0;
+  padding: 12px 14px; font-size: 16px;   /* 16px未満はスマホで拡大されるので下げない */
+  border: 1px solid rgba(0,0,0,.2); border-radius: 6px; background: #fff;
+}
+.gt-404search__row button {
+  flex: 0 0 auto; padding: 12px 20px; font-size: 15px; cursor: pointer;
+  border: 0; border-radius: 6px; background: #1b2230; color: #fff;
+}
+.gt-404search__row button:hover { opacity: .85; }
+@media (max-width: 480px) {
+  .gt-404search__row { flex-wrap: wrap; }
+  .gt-404search__row button { width: 100%; }
+}
