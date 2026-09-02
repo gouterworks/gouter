@@ -1,0 +1,24 @@
+name: Deploy theme (STREETIST版)
+
+# 手動でしか動かさない。
+# push で動く deploy.yml と違い、これは themes/gouter-st に置くだけなので
+# 公開サイトの見た目は変わらない。切り替えは管理画面の「有効化」で行う。
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: 22
+          # strip_components でリポジトリ側の gouter-st/ を1段はがす。
+          # これが無いと themes/gouter-st/gouter-st/ に入ってしまう
+          source: "gouter-st/**"
+          strip_components: 1
+          target: "/home/liberarch/www/gouter/wp-content/themes/gouter-st"
