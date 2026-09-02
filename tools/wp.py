@@ -485,6 +485,51 @@ def site_timezone():
     return ZoneInfo(name)
 
 
+def all_ids(kind):
+    """投稿・固定ページ・メディアのIDを、状態つきでまとめて取る。"""
+    out, page = {}, 1
+    while True:
+        try:
+            rows = api("GET", f"{kind}?per_page=100&page={page}&status=any"
+                              "&_fields=id,status,title,link&context=edit")
+        except SystemExit:
+            break
+        if not rows:
+            break
+        for r in rows:
+            title = (r.get("title") or {}).get("raw") or (r.get("title") or {}).get("rendered") or ""
+            out[r["id"]] = (kind, r.get("status", "?"), title.strip(), r.get("link", ""))
+        if len(rows) < 100:
+            break
+        page += 1
+    return out
+
+
+def ids(wanted):
+    """指定したIDがWordPressに存在するかを調べる。読むだけ。
+
+    404になっているURLの正体を知るために使う。消えたのか、下書きに
+    戻っているのか、そもそも別の種類だったのかで、直し方が変わる。
+    """
+    known = {}
+    for kind in ("posts", "pages", "media"):
+        found = all_ids(kind)
+        print(f"{kind}: {len(found)}件")
+        known.update(found)
+
+    print()
+    missing = []
+    for i in wanted:
+        i = int(i)
+        if i in known:
+            kind, st, title, link = known[i]
+            print(f"{i}\t{kind}\t{st}\t{title[:50]}")
+        else:
+            missing.append(i)
+    print(f"\n存在しない: {len(missing)}件")
+    print("  " + " ".join(str(i) for i in missing))
+
+
 def overdue(apply=False):
     """公開時刻を過ぎたのに future のまま残っている記事を拾う。
 
@@ -752,6 +797,9 @@ def build_parser():
 
     sub.add_parser("queue", help="予約と下書きを公開される順に並べて見る")
 
+    s = sub.add_parser("ids", help="指定したIDがWordPressに存在するか調べる（読むだけ）")
+    s.add_argument("ids", nargs="+")
+
     s = sub.add_parser("overdue", help="公開時刻を過ぎたのに出ていない予約を拾う")
     s.add_argument("--apply", action="store_true", help="見るだけでなく公開する")
 
@@ -802,6 +850,9 @@ def main(argv=None):
         return
     if a.cmd == "queue":
         queue()
+        return
+    if a.cmd == "ids":
+        ids(a.ids)
         return
     if a.cmd == "overdue":
         overdue(a.apply)
