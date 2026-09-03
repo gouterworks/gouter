@@ -736,6 +736,11 @@ def send(path, status, date=None):
         res = api("POST", "posts", payload)
         print(f"作成 {res['id']}: {res['link']}")
         print(f"フロントマターに post_id: {res['id']} を書き足すこと")
+
+    # アイキャッチの付け忘れは、公開されるまで気づかない。押した時点で言う。
+    # （27番を、アイキャッチ無しのまま反映してしまった）
+    if not res.get("featured_media"):
+        print(f"！ アイキャッチが未設定。featured --post {res['id']} …で設定すること")
     return res
 
 
