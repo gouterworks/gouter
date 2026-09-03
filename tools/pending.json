@@ -1,2 +1,14 @@
 [
+  [
+    "push",
+    "docs/articles/28-kyougou-chousa.md"
+  ],
+  [
+    "reserve",
+    "--post",
+    "9440"
+  ],
+  [
+    "queue"
+  ]
 ]
