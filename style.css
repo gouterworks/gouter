@@ -682,3 +682,24 @@ Text Domain: gouter
   .gt-404search__row { flex-wrap: wrap; }
   .gt-404search__row button { width: 100%; }
 }
+
+/* ============================================================
+   記事の表（2026-09-04）
+   Markdownの表がHTMLに変換されていなかったのを直したときに足した。
+   3列以上はスマホで1セルが4行に折れて読めなくなるので、
+   セルに最小幅を持たせて、収まらないときは表だけ横にスクロールさせる。
+   2列は最小幅の合計が画面に収まるので、スクロールにならない。
+   ============================================================ */
+.gt-table { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.gt-table table { width: 100%; border-collapse: collapse; }
+.gt-table th,
+.gt-table td {
+  padding: 10px 12px; border: 1px solid rgba(0,0,0,.12);
+  vertical-align: top; text-align: left;
+}
+.gt-table th { background: rgba(0,0,0,.04); font-weight: 700; }
+@media (max-width: 600px) {
+  /* 8.5em × 2列 なら収まる。3列以上になると溢れてスクロールする */
+  .gt-table th,
+  .gt-table td { min-width: 8.5em; }
+}
