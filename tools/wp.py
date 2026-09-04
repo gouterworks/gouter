@@ -40,6 +40,7 @@ import json
 import os
 import re
 import sys
+import time
 import unicodedata
 import urllib.error
 import urllib.request
@@ -236,11 +237,26 @@ def api(method, endpoint, payload=None):
         data=json.dumps(payload).encode() if payload else None,
         headers={"Authorization": f"Basic {token}", "Content-Type": "application/json"},
     )
-    try:
-        with urllib.request.urlopen(req) as res:
-            return json.loads(res.read())
-    except urllib.error.HTTPError as e:
-        raise SystemExit(f"WordPress {e.code}: {e.read().decode()[:400]}")
+    # サーバー側の一時的な失敗（502など）で待ち行列が止まると、
+    # 途中まで反映された状態で残る。5xxだけは間を空けて数回やり直す。
+    for attempt in range(4):
+        try:
+            with urllib.request.urlopen(req) as res:
+                return json.loads(res.read())
+        except urllib.error.HTTPError as e:
+            if e.code >= 500 and attempt < 3:
+                wait = 2 ** attempt
+                print(f"！ WordPress {e.code}。{wait}秒待って {attempt + 2}回目を試す（{path}）")
+                time.sleep(wait)
+                continue
+            raise SystemExit(f"WordPress {e.code}: {e.read().decode()[:400]}")
+        except urllib.error.URLError as e:
+            if attempt < 3:
+                wait = 2 ** attempt
+                print(f"！ 接続できない（{e.reason}）。{wait}秒待って {attempt + 2}回目を試す")
+                time.sleep(wait)
+                continue
+            raise SystemExit(f"WordPressに接続できない: {e.reason}")
 
 
 def to_html(body):
@@ -592,13 +608,15 @@ def queue():
     for p in fut:
         gmt = datetime.fromisoformat(p["date_gmt"]).replace(tzinfo=timezone.utc)
         jst = gmt.astimezone(POST_TZ).strftime("%m/%d %H:%M")
-        print(f"  {jst}  {p['id']}  {(p['title']['raw'] or '').strip()}")
+        mark = "" if p.get("featured_media") else "  ← アイキャッチ無し"
+        print(f"  {jst}  {p['id']}  {(p['title']['raw'] or '').strip()}{mark}")
 
     dra = api("GET", f"posts?status=draft&categories={CATEGORY_COLUMN}"
                      "&per_page=100&orderby=id&order=asc&context=edit")
     print(f"\n下書き {len(dra)}件（枠に入っていない）")
     for p in dra:
-        print(f"  {p['id']}  {(p['title']['raw'] or '').strip()}")
+        mark = "" if p.get("featured_media") else "  ← アイキャッチ無し"
+        print(f"  {p['id']}  {(p['title']['raw'] or '').strip()}{mark}")
 
 
 def taken_slots():
