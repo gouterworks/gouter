@@ -1,5 +1,2 @@
 [
- ["featured", "--post", "9453", "--url", "https://export-download.canva.com/BD8m4/DAHUMbBD8m4/-1/0/0001-5228068052742598368.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQYCGKMUH5AO7UJ26%2F20260903%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260903T095928Z&X-Amz-Expires=64306&X-Amz-Signature=fe2a34236da215da02f4542e41d39f12a720bc9c1cc4595f47f1d605df370431&X-Amz-SignedHeaders=host%3Bx-amz-expected-bucket-owner&response-expires=Fri%2C%2004%20Sep%202026%2003%3A51%3A14%20GMT", "--alt", "建物の前に並ぶ郵便受け", "--name", "9453-31-chirashi-hannouritsu-2.png"],
- ["featured", "--post", "9462", "--url", "https://export-download.canva.com/KlZ0c/DAHUMeKlZ0c/-1/0/0001-6842608517094291986.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQYCGKMUH5AO7UJ26%2F20260903%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260903T055919Z&X-Amz-Expires=75828&X-Amz-Signature=dd5e0a322428b4b3d89958e4bb42591284eec6ca43834c9ff8704473f09f3f91&X-Amz-SignedHeaders=host%3Bx-amz-expected-bucket-owner&response-expires=Fri%2C%2004%20Sep%202026%2003%3A03%3A07%20GMT", "--alt", "洋服店の入り口", "--name", "9462-37-gbp-toukou-2.png"],
- ["queue"]
 ]
