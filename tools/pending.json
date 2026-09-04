@@ -1,4 +1,4 @@
 [
- ["render", "--post", "9402", "--find", "gt-table", "--find", "wp-block-table"],
- ["render", "--post", "9338", "--find", "gt-table"]
+ ["push", "docs/articles/23-onsei-haishin.md"],
+ ["queue"]
 ]
