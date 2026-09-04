@@ -31,6 +31,33 @@
 | 9403用 | Goûterコラムアイキャッチ 24 社内資料の整理 | `DAHTdWS5cXI` |
 | 9404用 | Goûterコラムアイキャッチ 25 文章の一人称 | `DAHTdQ0vy28` |
 | 9405用 | Goûterコラムアイキャッチ 26 ターゲットを絞る | `DAHTdUIMQvI` |
+| 9440用 | Goûterコラムアイキャッチ 27 LINE公式のブロック | `DAHUKJPdJ9s` |
+| 9444用 | Goûterコラムアイキャッチ 28 競合調査のやり方 | `DAHUKfBxvQI` |
+| 9447用 | Goûterコラムアイキャッチ 29 問い合わせが増えない | `DAHUKbx9FWE` |
+| 9448用 | Goûterコラムアイキャッチ 30 LINE公式で予約を受ける | `DAHUKWq_FPw` |
+| 9453用 | Goûterコラムアイキャッチ 31 チラシの反応率 | `DAHUMbBD8m4` |
+| 9454用 | Goûterコラムアイキャッチ 32 見積書と値引き | `DAHUMY2oXno` |
+| 9455用 | Goûterコラムアイキャッチ 33 LINEのステップ配信 | `DAHUMYGfauM` |
+| 9457用 | Goûterコラムアイキャッチ 34 キャッチコピー | `DAHUMX1IT34` |
+| 9459用 | Goûterコラムアイキャッチ 35 ビジネス書の読み方 | `DAHUMf-ppfw` |
+| 9460用 | Goûterコラムアイキャッチ 36 リッチメニュー | `DAHUMcGfxtE` |
+| 9462用 | Goûterコラムアイキャッチ 37 Googleビジネスプロフィールの投稿 | `DAHUMeKlZ0c` |
+| 9464用 | Goûterコラムアイキャッチ 38 値上げの伝え方 | `DAHUMSTAbOg` |
+| 9466用 | Goûterコラムアイキャッチ 39 友だち追加の特典 | `DAHUMV9_g7U` |
+| 9468用 | Goûterコラムアイキャッチ 40 名刺の裏 | `DAHUMe1kUlA` |
+| 9470用 | Goûterコラムアイキャッチ 41 打ち合わせの議事録 | `DAHUMTsOQ_8` |
+| 9472用 | Goûterコラムアイキャッチ 42 LINE公式の自動応答 | `DAHUMSdFyks` |
+| 9474用 | Goûterコラムアイキャッチ 43 商品説明文 | `DAHUMbk99fo` |
+| 9476用 | Goûterコラムアイキャッチ 44 早起きが続かない | `DAHUMaWojBg` |
+| 9478用 | Goûterコラムアイキャッチ 45 屋号の決め方 | `DAHUMWfohTc` |
+| 9480用 | Goûterコラムアイキャッチ 46 LINEとメールの使い分け | `DAHUMb5q4zU` |
+| 9481用 | Goûterコラムアイキャッチ 47 商品写真をスマホで撮る | `DAHUMRCEF2U` |
+| 9483用 | Goûterコラムアイキャッチ 48 直帰率 | `DAHUMVUymdk` |
+| 9485用 | Goûterコラムアイキャッチ 49 LINE公式でアンケート | `DAHUMQ8j9bU` |
+| 9487用 | Goûterコラムアイキャッチ 50 紹介が生まれる仕組み | `DAHUMSBOuLY` |
+| 9489用 | Goûterコラムアイキャッチ 51 請求書の支払期日 | `DAHUMT7MX1w` |
+| 9491用 | Goûterコラムアイキャッチ 52 学んだことを行動に | `DAHUMUjDGTQ` |
+| 9493用 | Goûterコラムアイキャッチ 53 セミナーの集客 | `DAHUMYV7Kjw` |
 
 新しい記事のぶんは、**正しいフォントが入っているページを `copy-design` で複製**して作る。
 まっさらなページを足すとフォントが変わり、後から直せない。
@@ -103,7 +130,36 @@ Canvaのコネクタには**フォント種別を変える操作が無い**（`f
 | 42 | 整理された書類ファイルの棚 | Pexels 1370294 / asset `MAHTdQ0UtWk` | **9403** |
 | 43 | ノートに書く手元とメガネ | Pexels 110473 / asset `MAHTdX_7eq0` | **9404** |
 | 44 | ダーツの的に刺さった矢 | Pexels 1424745 / asset `MAHTdQhMhsY` | **9405** |
+| 45 | スマホの通知画面を持つ手 | Pexels 2818118 / asset `MAHUKOBRLzM` | **9440** |
+| 46 | 双眼鏡で遠くを見る | Pexels 8975226 / asset `MAHUKeSQn98` | **9444** |
+| 47 | ノートPCとモニターの作業机 | Pexels 450035 / asset `MAHUKQyunRU` | **9447** |
+| 48 | 飲食店の空いたカウンター | Pexels 12935047 / asset `MAHUKaYeiH0` | **9448** |
+| 49 | 建物の前に並ぶ郵便受け | Pexels 18785997 / asset `MAHUMeuBRfc` | **9453** |
+| 50 | 木の机の上の電卓とペン | Pexels 6368847 / asset `MAHUMcz926s` | **9454** |
+| 51 | 画面が空のスマートフォンを持つ手 | Pexels 8217517 / asset `MAHUMSSM5Z0` | **9455** |
+| 52 | ガラスの壁に貼られた付箋 | Pexels 6592368 / asset `MAHUMdU7oJk` | **9457** |
+| 53 | 木の机に積まれた本 | Pexels 6963779 / asset `MAHUMQ0hcFM` | **9459** |
+| 54 | 机の上に置かれたスマートフォン | Pexels 17077380 / asset `MAHUMXVN23U` | **9460** |
+| 55 | 洋服店の入り口 | Pexels 5531549 / asset `MAHUMa0t7vQ` | **9462** |
+| 56 | ひもの付いた白い値札 | Pexels 1111319 / asset `MAHUMXMunmw` | **9464** |
+| 57 | 茶色の紙袋を持つ人 | Pexels 7563569 / asset `MAHUMb4X_pM` | **9466** |
+| 58 | 木の机の上の白い名刺 | Pexels 4465147 / asset `MAHUMZHk7Ww` | **9468** |
+| 59 | ノートと鉛筆とコーヒー | Pexels 20502052 / asset `MAHUMfMcn00` | **9470** |
+| 60 | チャット画面を表示したスマートフォン | Pexels 30530422 / asset `MAHUMRGu1Tg` | **9472** |
+| 61 | 白い台の上の段ボール箱 | Pexels 9594423 / asset `MAHUMRC2yKw` | **9474** |
+| 62 | サイドテーブルの目覚まし時計 | Pexels 6940346 / asset `MAHUMbPT7Fs` | **9476** |
+| 63 | 木の壁に貼られた白紙 | Pexels 6373684 / asset `MAHUMXX-b4Y` | **9478** |
+| 64 | ノートパソコンで文字を打つ手元 | Pexels 261662 / asset `MAHUMXQ9uz8` | **9480** |
+| 65 | 料理をスマートフォンで撮る | Pexels 693267 / asset `MAHUMTXcVbs` | **9481** |
+| 66 | グラフを表示したノートパソコン | Pexels 3912976 / asset `MAHUMbc1txY` | **9483** |
+| 67 | 集計表とペン | Pexels 590022 / asset `MAHUMei0ybY` | **9485** |
+| 68 | カフェで話す二人 | Pexels 7964140 / asset `MAHUMcF-hHU` | **9487** |
+| 69 | 紙の上の電卓と紙幣 | Pexels 6694916 / asset `MAHUMVDlSWw` | **9489** |
+| 70 | ガラス板にマーカーで書く | Pexels 7173040 / asset `MAHUMQLhap8` | **9491** |
+| 71 | 椅子が並ぶ空の部屋 | Pexels 11907613 / asset `MAHUMbx-Y-Q` | **9493** |
 | — | 万年筆で紙に書く手元 | Pexels 6185656 / asset `MAHTdUGNEPc` | **未使用**（英字レタリングが写り込み、文字と喧嘩したため差し替え） |
+| — | スマートフォンを両手で操作する | Pexels 16841808 / asset `MAHUMUnjnLM` | **未使用**（他社メッセージアプリの画面が写り込み差し替え） |
+| — | スマートフォンのアプリのアイコン | Pexels 267350 / asset `MAHUMUJn0N8` | **未使用**（他社アプリのロゴが並び、LINEの記事に使えず差し替え） |
 
 ### 母艦から抽出した18点（要精査）
 
@@ -144,3 +200,6 @@ Pexelsなどの無料ライセンス素材を `upload-asset-from-url` でCanva�
 - **母艦は無編集**。読み取り後にトランザクションを破棄する
 - タイトルとアイキャッチの文言は対にする。片方を直したらもう片方も直す
 - **過去記事で使った写真を新規記事に使わない**
+- **他社サービスの名前やロゴが写っている写真を使わない。** LINEの記事に別の
+  メッセージアプリの画面が出ていると、何の話か分からなくなる。2026-09-04に3枚
+  差し替えた（Telegram／DeepSeek／SNSのアイコン一覧）。書き出した絵を必ず目で見る
