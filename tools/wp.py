@@ -195,6 +195,24 @@ def lint(path):
         if len(block) > 400:
             r.warn(f"段落が{len(block)}字。3〜4行のブロックに割る（「{block[:20]}…」）")
 
+    # 表。区切り行（|---|---|）が無いと変換されず、パイプ記号が本文にそのまま出る。
+    # 実際に9402で出ていた。機械で弾く
+    src_lines = body.splitlines()
+    j = 0
+    while j < len(src_lines):
+        if src_lines[j].strip().startswith("|"):
+            if j + 1 < len(src_lines) and TABLE_RULE.match(src_lines[j + 1].strip()):
+                n_cols = len(cells(src_lines[j]))
+                j += 2
+                while j < len(src_lines) and src_lines[j].strip().startswith("|"):
+                    j += 1
+                if n_cols >= 3:
+                    r.warn(f"表が{n_cols}列。スマホでは横に収まらない。2列に分けるか箇条書きにする")
+                continue
+            r.error(f"{j + 1}行目の表に区切り行（|---|---|）が無い。"
+                    "このままだとパイプ記号が本文に出る")
+        j += 1
+
     # 内部リンク
     links = re.findall(r"\[[^\]]*\]\((https?://[^)]+|/[^)]*)\)", body)
     if not any("gouter.works" in u or u.startswith("/") for u in links):
@@ -259,6 +277,14 @@ def api(method, endpoint, payload=None):
             raise SystemExit(f"WordPressに接続できない: {e.reason}")
 
 
+TABLE_RULE = re.compile(r"^\|[\s:|-]+\|$")
+
+
+def cells(line):
+    """表の1行をセルに割る。前後のパイプを外してから割る。"""
+    return [c.strip() for c in line.strip().strip("|").split("|")]
+
+
 def to_html(body):
     """Markdownを、既存記事と同じブロック記法のHTMLにする。
 
@@ -296,8 +322,33 @@ def to_html(body):
             out.append(f"<!-- /wp:list -->\n")
             lst = None
 
-    for line in body.splitlines():
-        line = line.rstrip()
+    lines = body.splitlines()
+    i = 0
+    while i < len(lines):
+        line = lines[i].rstrip()
+
+        # 表。ヘッダ行の次が区切り行（|---|---|）なら表とみなす。
+        # ここが無いと、パイプ記号が本文にそのまま出る（9402などで実際に出ていた）
+        if line.startswith("|") and i + 1 < len(lines) and TABLE_RULE.match(lines[i + 1].strip()):
+            flush()
+            flush_quote()
+            close_list()
+            head = cells(line)
+            i += 2
+            rows = []
+            while i < len(lines) and lines[i].strip().startswith("|"):
+                rows.append(cells(lines[i]))
+                i += 1
+            out.append("<!-- wp:table -->")
+            out.append('<figure class="wp-block-table gt-table"><table>')
+            out.append("<thead><tr>" + "".join(f"<th>{inline(c)}</th>" for c in head) + "</tr></thead>")
+            out.append("<tbody>")
+            for row in rows:
+                out.append("<tr>" + "".join(f"<td>{inline(c)}</td>" for c in row) + "</tr>")
+            out.append("</tbody>")
+            out.append("</table></figure>")
+            out.append("<!-- /wp:table -->\n")
+            continue
 
         m = re.match(r"^(#{2,4})\s+(.+)$", line)
         if m:
@@ -309,6 +360,7 @@ def to_html(body):
             out.append(f"<!-- wp:heading{attr} -->")
             out.append(f'<h{level} class="{H_CLASS}">{inline(m.group(2))}</h{level}>')
             out.append("<!-- /wp:heading -->\n")
+            i += 1
             continue
 
         m = re.match(r"^>\s?(.*)$", line)
@@ -316,6 +368,7 @@ def to_html(body):
             flush()
             close_list()
             quote.append(inline(m.group(1)))
+            i += 1
             continue
         flush_quote()
 
@@ -332,6 +385,7 @@ def to_html(body):
             out.append("<!-- wp:list-item -->")
             out.append(f"<li>{inline(m.group(2))}</li>")
             out.append("<!-- /wp:list-item -->")
+            i += 1
             continue
 
         close_list()
@@ -339,6 +393,7 @@ def to_html(body):
             flush()
         else:
             buf.append(inline(line))
+        i += 1
 
     flush()
     flush_quote()
@@ -752,6 +807,12 @@ def send(path, status, date=None):
             post_id = str(found["id"])
             print(f"同じタイトルの記事が既にある（{post_id}、{found['status']}）。新規に作らず更新する")
     if post_id:
+        # すでに公開・予約されている記事を push で更新すると、
+        # status=draft が効いて公開が取り下げられる。引き下げは決してしない
+        cur = api("GET", f"posts/{post_id}?context=edit")["status"]
+        if status == "draft" and cur in ("publish", "future", "private"):
+            payload["status"] = cur
+            print(f"記事{post_id}は{cur}。下書きに戻さず、そのままの状態で本文だけ更新する")
         res = api("POST", f"posts/{post_id}", payload)
         print(f"更新 {res['id']}: {res['link']}")
     else:
