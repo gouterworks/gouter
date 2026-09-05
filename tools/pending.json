@@ -1,2 +1,6 @@
 [
+ ["push", "docs/articles/09-gmap-photo.md"],
+ ["push", "docs/articles/13-kyakutanka.md"],
+ ["render", "--post", "9353", "--find", "gt-table"],
+ ["render", "--post", "9375", "--find", "gt-table"]
 ]
