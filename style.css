@@ -703,3 +703,18 @@ Text Domain: gouter
   .gt-table th,
   .gt-table td { min-width: 8.5em; }
 }
+
+/* 横に溢れているときだけ、端に影を出して「続きがある」と分かるようにする。
+   スマホで6列の表が「原価」で切れて見え、右に3列あることが伝わらなかった。
+   background-attachment: local の白い覆いが、端まで送ると影に重なって消える。
+   溢れていない表では最初から影が隠れるので、2列の表には何も出ない。 */
+.gt-table {
+  background:
+    linear-gradient(to right, #fff 30%, rgba(255,255,255,0)),
+    linear-gradient(to right, rgba(255,255,255,0), #fff 70%) 100% 0,
+    radial-gradient(farthest-side at 0 50%, rgba(0,0,0,.16), rgba(0,0,0,0)),
+    radial-gradient(farthest-side at 100% 50%, rgba(0,0,0,.16), rgba(0,0,0,0)) 100% 0;
+  background-repeat: no-repeat;
+  background-size: 40px 100%, 40px 100%, 14px 100%, 14px 100%;
+  background-attachment: local, local, scroll, scroll;
+}
