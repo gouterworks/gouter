@@ -45,6 +45,7 @@ import unicodedata
 import urllib.error
 import urllib.request
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
 from zoneinfo import ZoneInfo
 
 CATEGORY_COLUMN = 110
@@ -63,6 +64,10 @@ MIN_CHARS, MAX_CHARS = 2500, 5500
 # 見出し1本あたりの最低字数。中身の薄い見出しを増やさないための下限
 MIN_CHARS_PER_H2 = 400
 TITLE_MAX = 32
+# カルーセル1枚に載る字数。スマホで読める大きさに収まる上限（docs/INSTAGRAM.md）
+IG_COVER_MAX = 20
+IG_SLIDE_MAX = 80
+IG_MIN_SLIDES, IG_MAX_SLIDES = 2, 10   # Instagramの仕様。2枚未満・10枚超は投稿できない
 
 
 # ---------------------------------------------------------------- 原稿を読む
@@ -212,6 +217,11 @@ def lint(path):
             r.error(f"{j + 1}行目の表に区切り行（|---|---|）が無い。"
                     "このままだとパイプ記号が本文に出る")
         j += 1
+
+    # インスタに出すかどうか。判定は書いた直後にやる。
+    # 後から選ぼうとすると、そのとき全部を読み直すことになる（docs/INSTAGRAM.md）
+    if not meta.get("ig"):
+        r.warn("フロントマターに ig が無い（yes か no:理由。カルーセルにするかの判定）")
 
     # 内部リンク
     links = re.findall(r"\[[^\]]*\]\((https?://[^)]+|/[^)]*)\)", body)
@@ -827,6 +837,146 @@ def send(path, status, date=None):
     return res
 
 
+# ------------------------------------------------------- インスタのカルーセル
+
+def title_halves(title):
+    """タイトルを前半／後半に割る。区切りは ！ か ？（WRITING-STYLE §3）。
+
+    前半がそのままカルーセルの表紙になる。マニュアルで「前半16字＋後半16字」と
+    決めてあるので、割るだけで表紙の文言が出る。
+    """
+    m = re.search(r"[！？]", title)
+    if not m:
+        return title, ""
+    return title[:m.start()], title[m.end():]
+
+
+def lead(body):
+    """最初のH2より前の本文。PREP法のPがここにある。"""
+    return re.split(r"^##\s+", body, flags=re.M)[0]
+
+
+def key_sentence(text, last=False):
+    """その節でいちばん強い一文を拾う。
+
+    記事は要点を太字にする書き方をしているので、太字を拾えば要点が取れる。
+    各節はPREP法で結論が先に来るので先頭の太字を取る。ただしリードだけは
+    問題提起→結論の順に書くので、last=True で最後の太字を取る。
+    太字が無ければ最初の段落の1文目を使う。
+    """
+    bolds = []
+    for b in re.findall(r"\*\*(.+?)\*\*", text, flags=re.S):
+        b = re.sub(r"\s+", "", b.strip())
+        if len(b) < 12:                          # 「順番」のような強調語を除く
+            continue
+        if b.startswith("「") and b.endswith("」"):   # 会話の引用は要点ではない
+            continue
+        bolds.append(b)
+    if bolds:
+        return bolds[-1] if last else bolds[0]
+    for block in re.split(r"\n{2,}", text):
+        block = block.strip()
+        if not block or block.startswith(("#", "|", ">", "-", "*", "1.")):
+            continue
+        return re.sub(r"\s+", "", re.split(r"(?<=。)", block)[0])
+    return ""
+
+
+def carousel(meta, body):
+    """記事から、カルーセルの1枚ずつを組み立てる。
+
+    材料は全部フロントマターと本文にある。タイトル前半が表紙、H2が各枚、
+    primary が一次情報の1枚。割るのは機械にできる（docs/INSTAGRAM.md）。
+    """
+    slides = []
+    front, _ = title_halves(meta.get("title", ""))
+    slides.append(("表紙", front, IG_COVER_MAX))
+    slides.append(("結論", key_sentence(lead(body), last=True), IG_SLIDE_MAX))
+
+    parts = re.split(r"^##\s+(.+)$", body, flags=re.M)[1:]
+    for i in range(0, len(parts), 2):
+        name, text = parts[i], parts[i + 1]
+        if "まとめ" in name:      # まとめはカルーセルでは使わない。導線が最後に来る
+            continue
+        slides.append((name, key_sentence(text), IG_SLIDE_MAX))
+
+    # primary は「何を一次情報として入れたか」の書き手向けのメモで、読者に見せる文ではない。
+    # 材料として出して、文言は手で書く
+    slides.append(("一次情報（手で書く）", "", IG_SLIDE_MAX))
+    slides.append(("導線", "同じことで困っていたら、DMで聞いてください。", IG_SLIDE_MAX))
+    return slides
+
+
+def ig(path, as_json=False):
+    """記事1本から、カルーセルの割り付けを出す。"""
+    meta, body = parse(path)
+    slides = carousel(meta, body)
+
+    if as_json:
+        print(json.dumps({
+            "path": path,
+            "post_id": meta.get("post_id", ""),
+            "title": meta.get("title", ""),
+            "slides": [{"label": lab, "text": t} for lab, t, _ in slides],
+        }, ensure_ascii=False, indent=2))
+        return 0
+
+    r = Report()
+    print(f"{path}")
+
+    flag = meta.get("ig", "")
+    if not flag:
+        r.warn("フロントマターに ig が無い（yes か no:理由 を書く。docs/INSTAGRAM.md）")
+    elif flag.startswith("no"):
+        print(f"  ig: {flag} ── カルーセルにしない回")
+    else:
+        print(f"  ig: {flag}")
+
+    if not meta.get("primary"):
+        r.error("primary が空。一次情報の1枚が作れない")
+
+    print()
+    for n, (label, text, limit) in enumerate(slides, 1):
+        print(f"  {n}枚目 {label} ── {text}")
+        if label.startswith("一次情報"):
+            print(f"         材料: {meta.get('primary', '')}")
+            continue
+        if not text:
+            r.error(f"{n}枚目（{label}）の文言が取れなかった。手で書く")
+        elif len(text) > limit:
+            r.warn(f"{n}枚目が{len(text)}字。1枚は{limit}字までに削る")
+    print()
+
+    if len(slides) < IG_MIN_SLIDES:
+        r.error(f"{len(slides)}枚。Instagramは{IG_MIN_SLIDES}枚未満を投稿できない")
+    if len(slides) > IG_MAX_SLIDES:
+        r.error(f"{len(slides)}枚。Instagramは{IG_MAX_SLIDES}枚まで。H2を減らすか前後編に割る")
+
+    return r.show(path)
+
+
+def ig_pending(directory):
+    """ig: yes で、まだ投稿していない（ig_url が空の）記事を並べる。
+
+    「どれを出すか」を毎回60本読み直して決めることになるのを避ける。
+    判定は書いた直後にフロントマターへ書き、ここで拾う。
+    """
+    rows = []
+    for f in sorted(Path(directory).glob("*.md")):
+        meta, _ = parse(f)
+        if not meta.get("title"):        # README など、原稿でないもの
+            continue
+        flag = meta.get("ig", "")
+        if flag.startswith("yes") and not meta.get("ig_url"):
+            rows.append((f.name, meta.get("title", ""), meta.get("post_id", "")))
+    if not rows:
+        print(f"{directory}: 出せる回が無い（ig: yes で ig_url が空のものが無い）")
+        return
+    print(f"{directory}: カルーセル待ち {len(rows)}本\n")
+    for name, title, post_id in rows:
+        print(f"  {name}  {title}  (記事{post_id or '—'})")
+
+
 # ---------------------------------------------------------------- 入口
 
 def build_parser():
@@ -900,6 +1050,12 @@ def build_parser():
     s = sub.add_parser("reserve", help="公開済み・下書きの記事を次の空き枠に予約する")
     s.add_argument("--post", required=True)
 
+    s = sub.add_parser("ig", help="記事からカルーセルの割り付けを出す")
+    s.add_argument("files", nargs="*")
+    s.add_argument("--pending", metavar="DIR", nargs="?", const="docs/articles",
+                   help="ig: yes でまだ投稿していない記事を並べる")
+    s.add_argument("--json", action="store_true", help="自動投稿に渡す形で出す")
+
     return p
 
 
@@ -961,6 +1117,17 @@ def main(argv=None):
         else:
             sys.exit("--from か、--post --url --alt の3つを指定する")
         return
+    if a.cmd == "ig":
+        if a.pending:
+            ig_pending(a.pending)
+            return
+        if not a.files:
+            sys.exit("記事のファイルか --pending を指定する")
+        code = 0
+        for f in a.files:
+            code |= ig(f, a.json)
+            print()
+        sys.exit(code)
     if a.cmd == "lint":
         code = 0
         for f in a.files:

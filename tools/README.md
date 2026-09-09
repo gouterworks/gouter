@@ -16,7 +16,27 @@ python3 tools/wp.py reserve --post 9332                      既存記事を次�
 python3 tools/wp.py publish --post 9332                      いますぐ公開
 python3 tools/wp.py show --post 9332                         中身をそのまま出す
 python3 tools/wp.py demote --post 9332 --heading "..."        H2をH3に下げる
+python3 tools/wp.py ig    docs/articles/02-line-coupon.md    カルーセルの割り付け
+python3 tools/wp.py ig --pending                             カルーセル待ちの記事
 ```
+
+### インスタのカルーセル
+
+`ig` は記事から**カルーセルの1枚ずつを割り出す**。材料は全部原稿の中にある。
+
+| 枚 | どこから取るか |
+|---|---|
+| 表紙 | タイトルの前半（`！` `？` の前） |
+| 結論 | リードの**最後**の太字（リードだけは問題提起→結論の順に書くため） |
+| 各枚 | H2ごとに、その節の**最初**の太字（各節はPREP法で結論が先） |
+| 一次情報 | **手で書く。** `primary` は書き手向けのメモで、読者に見せる文ではない |
+| 導線 | 固定文（DMへ） |
+
+出すかどうかはフロントマターの `ig` で決める。`yes` か `no: 理由`。
+**書いた直後に書く。** 後から選ぶと、そのとき全部を読み直すことになる。
+投稿したら `ig_url` にURLを書き足す。`--pending` が拾わなくなる。
+
+`--json` は自動投稿に渡す形で出す。決めごとは `docs/INSTAGRAM.md`。
 
 ### 公開の枠
 
