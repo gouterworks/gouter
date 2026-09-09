@@ -11,6 +11,7 @@ Goûter（グーテ）のコーポレートサイト。WordPressの自作テー�
 - アイキャッチの素材 → `docs/EYECATCH-ASSETS.md`
 - 積み残し → `docs/HANDOFF.md`
 - 人がいない状態で回す手順 → `docs/DAILY-RUN.md`
+- インスタグラムの運用 → `docs/INSTAGRAM.md`
 - WordPressへの反映とルール検査 → `tools/wp.py`
 
 ### 運用の要点
