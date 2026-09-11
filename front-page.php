@@ -397,7 +397,7 @@ add_action( 'wp_head', function () {
             'name'  => 'ツキヌケ編集部',
             'desc'  => 'ツキヌケの本部です。フランチャイズ、福岡・北九州・熊本の編集部、ランチ会イベントの華サロン、美食倶楽部 G/g まで、この中にあります。',
             'links' => array(
-                array( 'label' => 'ツキヌケ編集部', 'url' => 'https://www.tsukinuke.com', 'ext' => true ),
+                array( 'label' => 'ツキヌケ編集部', 'url' => 'https://tsukinuke.com', 'ext' => true ),
             ),
         ),
         array(
