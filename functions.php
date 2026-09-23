@@ -526,3 +526,57 @@ function gouter_article_layout_css()
 		$l['body_w']
 	);
 }
+
+/**
+ * 書き手の名前を外に出さない。
+ *
+ * WordPressは初期状態で /wp-json/wp/v2/users を誰にでも返す。
+ * gouter.works では表示名・URL用の名前（ログイン名の元になる）・
+ * プロフィール文が、ログインしていない人にも全部見えていた。
+ * 記事に個人名を出さない方針と食い違っているし、
+ * ログイン名が割れると乗っ取りの足がかりにもなる。
+ *
+ * ログイン済みで一覧を見る権限がある人には今までどおり返す。
+ * 管理画面が使う分は残るので、編集作業には影響しない。
+ */
+add_filter('rest_authentication_errors', 'gouter_block_user_listing', 20);
+function gouter_block_user_listing($result)
+{
+	// すでに誰かが弾いているならそのまま
+	if (!empty($result)) {
+		return $result;
+	}
+	if (current_user_can('list_users')) {
+		return $result;
+	}
+
+	$route = isset($GLOBALS['wp']->query_vars['rest_route'])
+		? $GLOBALS['wp']->query_vars['rest_route']
+		: '';
+	if (strpos($route, '/wp/v2/users') === 0) {
+		return new WP_Error(
+			'gouter_rest_user_listing_disabled',
+			'利用者の一覧は公開していません。',
+			array('status' => 401)
+		);
+	}
+
+	return $result;
+}
+
+/**
+ * 書き手ごとのアーカイブ（/author/◯◯）を開けないようにする。
+ *
+ * このサイトは書き手で記事を探す作りになっていない。
+ * 開けるままだと、URLにURL用の名前がそのまま出る。
+ * 一覧はカテゴリとタグで足りるので、トップへ送る。
+ */
+add_action('template_redirect', 'gouter_close_author_archive');
+function gouter_close_author_archive()
+{
+	if (!is_author()) {
+		return;
+	}
+	wp_safe_redirect(home_url('/'), 301);
+	exit;
+}
