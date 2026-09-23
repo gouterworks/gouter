@@ -52,7 +52,10 @@ for r in range(5, 5 + DAYS):
     ex = (r == 5)
     s1.cell(row=r, column=1, value=(例[0] if ex else None)).font = BLUE if ex else BLUE
     s1.cell(row=r, column=1).number_format = "yyyy/mm/dd"
-    s1.cell(row=r, column=2, value=f'=IF($A{r}="","",TEXT($A{r},"aaa"))').font = BLACK
+    # TEXT(日付,"aaa") は環境の言語で英語（Thu）になる。
+    # WEEKDAY+CHOOSE なら、どの環境でも日本語の曜日が出る
+    s1.cell(row=r, column=2,
+            value=f'=IF($A{r}="","",CHOOSE(WEEKDAY($A{r}),"日","月","火","水","木","金","土"))').font = BLACK
     s1.cell(row=r, column=3, value=(例[2] if ex else None)).font = BLUE
     s1.cell(row=r, column=3).number_format = YEN
     s1.cell(row=r, column=4, value=(例[3] if ex else None)).font = BLUE
