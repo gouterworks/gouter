@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """売上管理表テンプレートを作る。記事9236の設計（4シート・SUM/SUMIF/AVERAGE）に合わせる。"""
+import datetime
 from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from openpyxl.chart import BarChart, LineChart, Reference
@@ -46,7 +47,7 @@ for i, (name, w) in enumerate(cols1, start=1):
 
 s1["I4"].comment = Comment("月次集計シートが SUMIF で使う列。触らないでください。", "テンプレート")
 
-例 = ["2026/10/01", None, 128000, 42, None, "ランチ", "現金", "雨。来客少なめ", None]
+例 = [datetime.date(2026, 10, 1), None, 128000, 42, None, "ランチ", "現金", "雨。来客少なめ", None]
 for r in range(5, 5 + DAYS):
     ex = (r == 5)
     s1.cell(row=r, column=1, value=(例[0] if ex else None)).font = BLUE if ex else BLUE
@@ -95,7 +96,7 @@ s2["A1"] = "売上管理表｜月次集計"; s2["A1"].font = TITLE
 s2["A2"] = "青い字のセルに入力してください。ほかは日次入力シートから自動で集計されます。"
 s2["A2"].font = NOTE
 s2["A4"] = "集計を始める月"; s2["A4"].font = Font(name=F, size=10, bold=True)
-s2["B4"] = "2026/10/01"
+s2["B4"] = datetime.date(2026, 10, 1)
 s2["B4"].font = BLUE; s2["B4"].number_format = "yyyy/mm"; s2["B4"].fill = FILLI; s2["B4"].border = BOX
 s2["C4"] = "←ここを変えると下の24か月がまとめて動きます"; s2["C4"].font = NOTE
 
