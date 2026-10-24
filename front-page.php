@@ -390,7 +390,7 @@ add_action( 'wp_head', function () {
             <p class="gt-en">BUSINESS</p>
             <h2 id="business-h" class="gt-h2">この考え方で、<br />こういうことをしています。</h2>
           </div>
-          <p class="gt-lead">コミュニケーションデザインを軸に、事業を増やしてきました。全部、Goûter がやっています。</p>
+          <p class="gt-lead">扱う範囲は広いです。どれも「或るべき姿」を考えるところから組み立てる。その発想とプランニングが、いちばんの強みです。</p>
         </div>
 
         <ul class="gt-biz">
