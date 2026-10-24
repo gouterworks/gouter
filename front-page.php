@@ -381,36 +381,6 @@ add_action( 'wp_head', function () {
                 array( 'label' => '事業内容をくわしく見る', 'url' => home_url( '/service' ), 'ext' => false ),
             ),
         ),
-        array(
-            'no'    => '02',
-            'en'    => 'POCKET BUNKO',
-            'name'  => 'ポケット文庫',
-            // 説明文は本人の言葉待ち。空のままでも名前とリンクだけで成立する
-            'desc'  => '',
-            'links' => array(
-                array( 'label' => 'ポケット文庫', 'url' => 'https://www.pocket-bunko.com', 'ext' => true ),
-            ),
-        ),
-        array(
-            'no'    => '03',
-            'en'    => 'TSUKINUKE',
-            'name'  => 'ツキヌケ編集部',
-            'desc'  => 'ツキヌケの本部です。フランチャイズ、福岡・北九州・熊本の編集部、ランチ会イベントの華サロン、美食倶楽部 G/g まで、この中にあります。',
-            'links' => array(
-                array( 'label' => 'ツキヌケ編集部', 'url' => 'https://www.tsukinuke.com', 'ext' => true ),
-            ),
-        ),
-        array(
-            'no'    => '04',
-            'en'    => 'BIZHACK DIGNE / DIGNEMENT / CCL',
-            'name'  => 'BizHack Digne ／ Dignement ／ CCL',
-            'desc'  => 'ビジネスの話を届ける音声配信「BizHack Digne」。ワークショップとセミナーの「Dignement」。その上位プランになるグループコンサル「CCL」。',
-            'links' => array(
-                array( 'label' => 'BizHack Digne（音声配信）', 'url' => 'https://www.biz-digne.com', 'ext' => true ),
-                array( 'label' => 'Dignement', 'url' => 'https://www.dignement.com', 'ext' => true ),
-                array( 'label' => 'CCL', 'url' => 'https://www.dignement.com/ccl', 'ext' => true ),
-            ),
-        ),
     );
     ?>
     <section id="business" class="gt-pale" aria-labelledby="business-h">
