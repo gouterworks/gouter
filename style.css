@@ -258,8 +258,9 @@ Text Domain: gouter
 .gt-form .wpcf7-form > p { margin-bottom: 22px; }
 
 /* ===== 事業一覧 =====
-   ポケット文庫・ツキヌケ・Digne などは別サイトなので、
-   ここは名前とリンクだけの薄い一覧にして、送り出すことに徹する */
+   別サイトで動いているものは、名前とリンクだけの薄い一覧にして送り出すことに徹する。
+   いまは1件だけ。外した事業の扱いは front-page.php の $gt_biz のコメントに書いてある。
+   .gt-biz__no は使っていないが、事業を戻すときに要るので残してある */
 .gt-biz { margin-top: var(--blk); border-top: 1px solid var(--line2); }
 .gt-biz > li { display: flex; flex-wrap: wrap; gap: 0 clamp(14px,3vw,40px); padding: clamp(28px,3.4vw,44px) 0; border-bottom: 1px solid var(--line2); }
 .gt-biz__no { min-width: 2em; padding-top: 5px; font-family: var(--gothic); font-weight: 700; font-size: 12px; letter-spacing: .1em; color: var(--faint); }
