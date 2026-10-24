@@ -373,7 +373,6 @@ add_action( 'wp_head', function () {
      */
     $gt_biz = array(
         array(
-            'no'    => '01',
             'en'    => 'COMMUNICATION DESIGN',
             'name'  => 'コミュニケーションデザイン',
             'desc'  => '事業の「或るべき姿」を一緒に考えて、ホームページ、SNS、広報、広告、商品、仕組みづくりまでカタチにします。Goûter の本業です。',
@@ -397,7 +396,6 @@ add_action( 'wp_head', function () {
         <ul class="gt-biz">
           <?php foreach ( $gt_biz as $gt_b ) : ?>
             <li>
-              <p class="gt-biz__no"><?php echo esc_html( $gt_b['no'] ); ?></p>
               <div class="gt-biz__body">
                 <p class="gt-biz__en"><?php echo esc_html( $gt_b['en'] ); ?></p>
                 <h3><?php echo esc_html( $gt_b['name'] ); ?></h3>
