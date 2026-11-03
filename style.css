@@ -422,13 +422,17 @@ Text Domain: gouter
 .gt-flow > li > p:last-child { margin-top: 14px; font-size: 15px; line-height: 2.05; color: var(--sub); }
 
 /* ===== モバイルの固定CTA =====
-   スマホはページが長く、申込みまでの距離があるため下部に常時出す */
+   スマホはページが長く、申込みまでの距離があるため下部に出す。
+   ただしファーストビューの「まず相談してみる」と2つ並ぶのを避けるため、
+   ヒーローのボタンが画面から消えてから出し、問い合わせ欄が見えたら引っ込める（front-page.php の script） */
 .gt-sticky { display: none; }
 @media (max-width: 767px) {
   .gt-sticky { display: block; position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
     padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
     background: rgba(255,255,255,.94); backdrop-filter: blur(8px); border-top: 1px solid var(--line); }
   .gt-sticky .gt-btn { display: block; text-align: center; width: 100%; padding: 16px 20px; }
+  .gt-sticky.is-hidden { transform: translateY(110%); visibility: hidden; }
+  .gt-sticky { transition: transform .25s ease, visibility .25s; }
   .gt-footer { padding-bottom: 96px; }
 }
 

@@ -537,9 +537,26 @@ add_action( 'wp_head', function () {
 
   </main>
 
-  <div class="gt-sticky" aria-hidden="false">
+  <div class="gt-sticky">
     <a class="gt-btn" href="#contact">まず相談してみる</a>
   </div>
+  <script>
+  // ヒーローのボタンか問い合わせ欄が見えている間は、固定ボタンを隠す（同じボタンが2つ並ばないように）
+  (function () {
+    var bar = document.querySelector('.gt-sticky');
+    var targets = [document.querySelector('.gt-hero .gt-cta'), document.getElementById('contact')].filter(Boolean);
+    if (!bar || !targets.length || !('IntersectionObserver' in window)) return;
+    var seen = new Map();
+    bar.classList.add('is-hidden');
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { seen.set(e.target, e.isIntersecting); });
+      var anyVisible = false;
+      seen.forEach(function (v) { if (v) { anyVisible = true; } });
+      bar.classList.toggle('is-hidden', anyVisible);
+    });
+    targets.forEach(function (t) { io.observe(t); });
+  })();
+  </script>
 
   <?php require get_stylesheet_directory() . '/parts/footer.php'; ?>
 
