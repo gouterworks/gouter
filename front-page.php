@@ -202,7 +202,7 @@ add_action( 'wp_head', function () {
             <div class="gt-thumb"><?php gouter_image( 'service-4.jpg', 'WEBソリューションのイメージ', 'gt-ratio-169' ); ?></div>
             <p class="gt-svc__en">04 — WEB SOLUTION</p>
             <h3>WEBソリューション</h3>
-            <p>ポータルサイト運営 / オーダーメイドシステムの構築 / ECサイトの構築（フルスクラッチ・既存サービスのカスタマイズ）/ WordPressカスタマイズ・専用プラグイン制作</p>
+            <p>ポータルサイト運営（ツキヌケ）/ オーダーメイドシステムの構築 / ECサイトの構築（フルスクラッチ・既存サービスのカスタマイズ）/ WordPressカスタマイズ・専用プラグイン制作</p>
           </div>
         </div>
         <div class="gt-service__foot">
@@ -395,7 +395,7 @@ add_action( 'wp_head', function () {
             'no'    => '03',
             'en'    => 'TSUKINUKE',
             'name'  => 'ツキヌケ編集部',
-            'desc'  => '地域情報サイト「ツキヌケ」の本部です。各地の編集部をフランチャイズで支えながら、福岡・北九州・熊本の編集部を自分たちで運営しています。',
+            'desc'  => 'WEBソリューション事業として運営している、地域情報サイト「ツキヌケ」の本部です。各地の編集部をフランチャイズで支えながら、福岡・北九州・熊本の編集部を自分たちで運営しています。',
             'links' => array(
                 array( 'label' => 'ツキヌケ編集部', 'url' => 'https://tsukinuke.com', 'ext' => true ),
             ),
