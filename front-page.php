@@ -365,8 +365,8 @@ add_action( 'wp_head', function () {
     /**
      * Goûter がやっている事業。
      *
-     * ポケット文庫・ツキヌケ・BizHack Digne・Dignement は UTAGE で動いている別サイトなので、
-     * ここでは中身を持たず、外に送り出すだけにする。
+     * ポケット文庫・ツキヌケは別サイトなので、ここでは中身を持たず、外に送り出すだけにする。
+     * BizHack Digne・Dignement・CCL は 2026-11 にサーバー解約・終了したので外した。
      * リンク切れを防ぐため、URL を変えるときはこの配列だけ直せばよい。
      *
      * 'desc' は空にできる。文言が決まっていない事業は、名前とリンクだけで出る。
@@ -385,30 +385,19 @@ add_action( 'wp_head', function () {
             'no'    => '02',
             'en'    => 'POCKET BUNKO',
             'name'  => 'ポケット文庫',
-            // 説明文は本人の言葉待ち。空のままでも名前とリンクだけで成立する
-            'desc'  => '',
+            'desc'  => '毎月一冊届く、文庫本のサブスクです。店主がぜんぶ読んで選んだ文庫・新書を、届くまでタイトルは秘密のまま、ポストにお届けします。',
             'links' => array(
-                array( 'label' => 'ポケット文庫', 'url' => 'https://www.pocket-bunko.com', 'ext' => true ),
+                // www 付きは UTAGE 側に向いていて 404 になる。新サイトは www なし
+                array( 'label' => 'ポケット文庫', 'url' => 'https://pocket-bunko.com', 'ext' => true ),
             ),
         ),
         array(
             'no'    => '03',
             'en'    => 'TSUKINUKE',
             'name'  => 'ツキヌケ編集部',
-            'desc'  => 'ツキヌケの本部です。フランチャイズ、福岡・北九州・熊本の編集部、ランチ会イベントの華サロン、美食倶楽部 G/g まで、この中にあります。',
+            'desc'  => '地域情報サイト「ツキヌケ」の本部です。各地の編集部をフランチャイズで支えながら、福岡・北九州・熊本の編集部を自分たちで運営しています。',
             'links' => array(
                 array( 'label' => 'ツキヌケ編集部', 'url' => 'https://tsukinuke.com', 'ext' => true ),
-            ),
-        ),
-        array(
-            'no'    => '04',
-            'en'    => 'BIZHACK DIGNE / DIGNEMENT / CCL',
-            'name'  => 'BizHack Digne ／ Dignement ／ CCL',
-            'desc'  => 'ビジネスの話を届ける音声配信「BizHack Digne」。ワークショップとセミナーの「Dignement」。その上位プランになるグループコンサル「CCL」。',
-            'links' => array(
-                array( 'label' => 'BizHack Digne（音声配信）', 'url' => 'https://www.biz-digne.com', 'ext' => true ),
-                array( 'label' => 'Dignement', 'url' => 'https://www.dignement.com', 'ext' => true ),
-                array( 'label' => 'CCL', 'url' => 'https://www.dignement.com/ccl', 'ext' => true ),
             ),
         ),
     );
